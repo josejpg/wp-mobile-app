@@ -1,4 +1,4 @@
-package com.example.weddingplanning;
+package com.iessanvincente.weddingplanning;
 
 import org.junit.Test;
 

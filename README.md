@@ -1,2 +1,2 @@
-# wp-mobile-app
-Android. TFG. 2º DAM Semipresencial - IES San Vicente.
+# wp-desktop-app
+C#. TFG. 2º DAM Semipresencial - IES San Vicente.

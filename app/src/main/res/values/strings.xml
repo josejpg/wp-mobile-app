@@ -1,5 +1,25 @@
 <resources>
     <string name="app_name">Wedding Planning</string>
+
+    <!-- Forms -->
+    <string name="name">Nombre</string>
+    <string name="lastName">Apellidos</string>
+    <string name="address">Direccion</string>
+    <string name="town">Población</string>
+    <string name="province">Provincia</string>
+    <string name="postalCode">C.P.</string>
+    <string name="phone">Teléfono</string>
+    <string name="mobile">Móvil</string>
+    <string name="email">Email</string>
+    <string name="pws">Contraseña</string>
+    <string name="rePws">Repetir contraseña</string>
+
+    <!-- Buttons -->
+    <string name="btnLogin">Iniciar sesión</string>
+    <string name="btnRegister">Registrar</string>
+    <string name="btnCreateAccount">¿Aún no tienes cuenta? Crea una nueva</string>
+    <string name="btnGoLogin">¿Ya tienes cuenta? inicia sesión</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
