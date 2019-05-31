@@ -32,9 +32,22 @@ public class ClientService {
 		ClientesEntity clientesEntity = new ClientesEntity();
 		clientesEntity.setEmail( email );
 		clientesEntity.setPassword( Encryptation.encryptMD5( password ) );
-		Retrofit retrofit = APIClient.getRetrofitClient( "" );
+		Retrofit retrofit = APIClient.getRetrofitClient();
 		ClientAPI clientsAPI = retrofit.create( ClientAPI.class );
 		Call<ResponseBody> call = clientsAPI.getLogin( clientesEntity );
+		call.enqueue( callback );
+	}
+	/**
+	 * Login client with token
+	 *
+	 * @param userToken
+	 * @param callback
+	 */
+	public void loginByToken( String userToken, Callback<ResponseBody> callback ) {
+		Log.d( TAG, "Login" );
+		Retrofit retrofit = APIClient.getRetrofitClient();
+		ClientAPI clientsAPI = retrofit.create( ClientAPI.class );
+		Call<ResponseBody> call = clientsAPI.getLoginByToken( userToken );
 		call.enqueue( callback );
 	}
 
@@ -46,7 +59,7 @@ public class ClientService {
 	public void registerClient( ClientesEntity clientData, Callback<ResponseBody> callback ) {
 		Log.d( TAG, "Register client" );
 		clientData.setPassword( Encryptation.encryptMD5( clientData.getPassword() ) );
-		Retrofit retrofit = APIClient.getRetrofitClient( "" );
+		Retrofit retrofit = APIClient.getRetrofitClient();
 		ClientAPI clientsAPI = retrofit.create( ClientAPI.class );
 		Call<ResponseBody> call = clientsAPI.registerClient( clientData );
 		call.enqueue( callback );

@@ -2,7 +2,6 @@ package com.iessanvincente.weddingplanning.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.iessanvincente.weddingplanning.BuildConfig;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,23 +21,9 @@ public class APIClient {
 	 *
 	 * @return Retrofit
 	 */
-	public static Retrofit getRetrofitClient( String userToken ) {
-		httpClient.interceptors().add( ( chain ) -> {
-			Request originalRequest = chain.request();
-			Request.Builder builder = originalRequest.newBuilder().
-					method( originalRequest.method(), originalRequest.body() );
-			if ( !userToken.isEmpty() ) {
-				builder.header( "Authorization", userToken );
-			}
-			okhttp3.Response response = chain.proceed( builder.build() );
-			Request newRequest = builder.build();
-			return response;
-		} );
-
-		if ( BuildConfig.DEBUG ) {
-			logging.setLevel( HttpLoggingInterceptor.Level.BODY );
-			httpClient.addInterceptor( logging );
-		}
+	public static Retrofit getRetrofitClient() {
+		logging.setLevel( HttpLoggingInterceptor.Level.HEADERS );
+		httpClient.addInterceptor( logging );
 
 		if ( retrofit == null ) {
 			Gson gson = new GsonBuilder()
