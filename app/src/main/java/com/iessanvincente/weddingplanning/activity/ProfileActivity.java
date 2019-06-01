@@ -20,15 +20,8 @@ import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.helper.MappingHelper;
-import com.iessanvincente.weddingplanning.response.ResponseClient;
-import com.iessanvincente.weddingplanning.service.ClientService;
-
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.iessanvincente.weddingplanning.interfaces.ClientesEntityCallbackInterface;
+import com.iessanvincente.weddingplanning.utils.APICalls;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -57,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
 	private SharedPreferences settings;
 	private String userToken;
 	private ClientDto clientDto = new ClientDto();
+	private APICalls apiCalls = new APICalls();
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
@@ -88,9 +82,14 @@ public class ProfileActivity extends AppCompatActivity {
 		// Save the intent intlo a private variable
 		actualIntent = getIntent();
 
+		// Set context for api calls
+		apiCalls.setContext( getApplicationContext() );
+
+		// Set token for api calls
+		apiCalls.setUserToken( userToken );
+
 		// Get data client
 		clientDto = (ClientDto) actualIntent.getSerializableExtra( "client" );
-		System.out.println( clientDto );
 
 		// Set on click action for button
 		_showPasswordButton.setOnClickListener( v -> {
@@ -113,6 +112,17 @@ public class ProfileActivity extends AppCompatActivity {
 		// Get data client
 		getInfoClient();
 
+	}
+
+	@Override
+	public boolean onSupportNavigateUp(){
+		Log.d( TAG, "Go to MainActivity" );
+		Intent intent = new Intent( getApplicationContext(), MainActivity.class );
+		intent.putExtra( "client", actualIntent.getSerializableExtra( "client" ) );
+		startActivity( intent );
+		overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
+		finish();
+		return true;
 	}
 
 	/**
@@ -168,74 +178,21 @@ public class ProfileActivity extends AppCompatActivity {
 			clientesEntity.setPassword( _passwordText.getText().toString() );
 		}
 
-		ClientService service = new ClientService();
-		Callback<ResponseBody> callback = new Callback<ResponseBody>() {
-			/**
-			 * If API response OK this method check data.
-			 * @param call
-			 * @param response
-			 */
+		apiCalls.setUpdateClient( clientesEntity, new ClientesEntityCallbackInterface() {
 			@Override
-			public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
-
-				Gson gson = new Gson();
-				ResponseClient responseClient = null;
-
-				// If isn't body in response call to onLoginFailed
-				// else get body and check it
-				if ( response.body() != null ) {
-					try {
-						// Parse boty in ResponseClient model
-						responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
-
-						// If the response isn't successful call to onLoginFailed
-						if ( response.isSuccessful() ) {
-							// If response getOk is true call to onLoginSuccess
-							// else call to onLoginFailed
-							if ( responseClient.getOk() ) {
-								progressDialog.dismiss();
-								onSuccessUpdate( clientesEntity );
-							} else {
-								Log.d( TAG, "Error on register" );
-								progressDialog.dismiss();
-								onFailedUpdate( responseClient.getError() );
-							}
-						} else {
-							Log.d( TAG, "Error with code " + response.code() );
-							progressDialog.dismiss();
-							onFailedUpdate( responseClient.getError() );
-						}
-					} catch (IOException e) {
-						Log.d( TAG, e.getMessage() );
-						progressDialog.dismiss();
-						onFailedUpdate( getResources().getString( R.string.progressDialog_updating_profile ) );
-						e.printStackTrace();
-					}
-				} else {
-					Log.d( TAG, "Null body" );
-					progressDialog.dismiss();
-					onFailedUpdate( getResources().getString( R.string.progressDialog_updating_profile ) );
-				}
-			}
-
-			/**
-			 *  IF API call failed this method call to onLoginFailed and stop the progress dialog.
-			 * @param call
-			 * @param t
-			 */
-			@Override
-			public void onFailure( Call call, Throwable t ) {
-				Log.d( TAG + " onFailure", t.getMessage() );
+			public void onSuccess( ClientesEntity clientesEntity ) {
+				Log.d( TAG, "onSuccess setUpdateClient" );
 				progressDialog.dismiss();
-				onFailedUpdate( getResources().getString( R.string.progressDialog_updating_profile ) );
+				onSuccessUpdate( clientesEntity );
 			}
-		};
-		// Call to method in service
-		service.updateClient(
-				userToken,
-				clientesEntity,
-				callback
-		);
+
+			@Override
+			public void onError( String message ) {
+				Log.d( TAG + " onFailure setUpdateClient", message );
+				progressDialog.dismiss();
+				onFailedUpdate( message );
+			}
+		} );
 	}
 
 	private void onSuccessUpdate( ClientesEntity clientesEntity) {

@@ -15,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
+import com.iessanvincente.weddingplanning.interfaces.ResponseClientCallbackInterface;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
 import com.iessanvincente.weddingplanning.service.ClientService;
+import com.iessanvincente.weddingplanning.utils.APICalls;
 
 import java.io.IOException;
 
@@ -52,6 +54,7 @@ public class SignupActivity extends AppCompatActivity {
 
 	private SharedPreferences settings;
 	private SharedPreferences.Editor editor;
+	private APICalls apiCalls = new APICalls();
 
 	/**
 	 *
@@ -64,6 +67,8 @@ public class SignupActivity extends AppCompatActivity {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_signup );
 		ButterKnife.bind( this );
+
+		apiCalls.setContext( getApplicationContext() );
 
 		// Signup button on click call to
 		_signupButton.setOnClickListener( v -> signup() );
@@ -107,69 +112,23 @@ public class SignupActivity extends AppCompatActivity {
 		clientesEntity.setMovil( _mobileText.getText().toString() );
 		clientesEntity.setPassword( _passwordText.getText().toString() );
 
-		ClientService service = new ClientService();
-		Callback<ResponseBody> callback = new Callback<ResponseBody>() {
-			/**
-			 * If API response OK this method check data.
-			 * @param call
-			 * @param response
-			 */
-			@Override
-			public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
-
-				Gson gson = new Gson();
-				ResponseClient responseClient = null;
-
-				// If isn't body in response call to onSignupFailed
-				// else get body and check it
-				if ( response.body() != null ) {
-					try {
-						// Parse boty in ResponseClient model
-						responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
-
-						// If the response isn't successful call to onSignupFailed
-						if ( response.isSuccessful() ) {
-							// If response getOk is true call to onSignupSuccess
-							// else call to onSignupFailed
-							if ( responseClient.getOk() ) {
-								Log.d( TAG, "Login OK" );
-								progressDialog.dismiss();
-								onSignupSuccess( responseClient );
-							} else {
-								Log.d( TAG, "Error on register" );
-								progressDialog.dismiss();
-								onSignupFailed( responseClient.getError() );
-							}
-						} else {
-							Log.d( TAG, "Error with code " + response.code() );
-							progressDialog.dismiss();
-							onSignupFailed( responseClient.getError() );
-						}
-					} catch (IOException e) {
-						Log.d( TAG, e.getMessage() );
-						progressDialog.dismiss();
-						onSignupFailed( getResources().getString( R.string.toast_client_signup_failed ) );
-						e.printStackTrace();
-					}
-				} else {
-					Log.d( TAG, "Null body" );
-					Log.d( TAG, response.toString() );
-					progressDialog.dismiss();
-					onSignupFailed( getResources().getString( R.string.toast_client_signup_failed ) );
-				}
-			}
-
-			@Override
-			public void onFailure( Call call, Throwable t ) {
-				Log.d( TAG + " onFailure", t.getMessage() );
-				progressDialog.dismiss();
-				onSignupFailed( getResources().getString( R.string.toast_client_signup_failed ) );
-			}
-		};
-		// Call to method in service
-		service.registerClient(
+		apiCalls.setNewClient(
 				clientesEntity,
-				callback
+				new ResponseClientCallbackInterface() {
+					@Override
+					public void onSuccess( ResponseClient responseClient ) {
+						Log.d( TAG, "onSuccess" );
+						progressDialog.dismiss();
+						onSignupSuccess( responseClient );
+					}
+
+					@Override
+					public void onError( String message ) {
+						Log.d( TAG + " onError", message );
+						progressDialog.dismiss();
+						onSignupFailed( message );
+					}
+				}
 		);
 	}
 

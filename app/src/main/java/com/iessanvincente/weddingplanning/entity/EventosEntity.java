@@ -1,6 +1,6 @@
 package com.iessanvincente.weddingplanning.entity;
 
-import java.util.List;
+import java.util.Set;
 
 public class EventosEntity {
     private long id;
@@ -8,8 +8,8 @@ public class EventosEntity {
     private String descripcion;
     private Integer fecha;
     private Boolean activo;
-    private List<ProveedoesrEntity> proveedores;
-    private List<ClientesEntity> clientes;
+    private Set<ProveedoresEntity> proveedores;
+    private Set<ClientesEntity> clientes;
 
     /**
      * Get the ID
@@ -104,9 +104,9 @@ public class EventosEntity {
     /**
      * Get the list of provider associates to the event
      *
-     * @return List<ProveedoesrEntity>
+     * @return Set<ProveedoresEntity>
      */
-    public List<ProveedoesrEntity> getProveedores() {
+    public Set<ProveedoresEntity> getProveedores() {
         return proveedores;
     }
 
@@ -115,16 +115,16 @@ public class EventosEntity {
      *
      * @param proveedores list
      */
-    public void setProveedores(List<ProveedoesrEntity> proveedores) {
+    public void setProveedores(Set<ProveedoresEntity> proveedores) {
         this.proveedores = proveedores;
     }
 
     /**
      * Get the list of clients associates to the event
      *
-     * @return List<ClientesEntity>
+     * @return Set<ClientesEntity>
      */
-    public List<ClientesEntity> getClientes() {
+    public Set<ClientesEntity> getClientes() {
         return clientes;
     }
 
@@ -133,7 +133,7 @@ public class EventosEntity {
      *
      * @param clientes list
      */
-    public void setClientes(List<ClientesEntity> clientes) {
+    public void setClientes(Set<ClientesEntity> clientes) {
         this.clientes = clientes;
     }
 

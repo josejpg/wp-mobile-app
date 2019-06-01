@@ -1,252 +1,292 @@
 package com.iessanvincente.weddingplanning.domain;
 
-import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-public class ProviderDto {
-    private long id;
-    private String name;
-    private String cif;
-    private String address;
-    private String town;
-    private String province;
-    private String postalCode;
-    private String email;
-    private String password;
-    private String phone;
-    private String mobile;
-    private List<ServiceDto> services;
+import java.io.Serializable;
+import java.util.Set;
 
-    /**
-     * Get the ID
-     *
-     * @return Long
-     */
-    public long getId() {
-        return id;
-    }
+public class ProviderDto implements Serializable {
 
-    /**
-     * Set the ID
-     *
-     * @param id provider ID
-     */
-    public void setId( long id ) {
-        this.id = id;
-    }
+	@SerializedName( "id" )
+	@Expose
+	private long id;
 
-    /**
-     * Get the provider name
-     *
-     * @return String
-     */
-    public String getName() {
-        return name;
-    }
+	@SerializedName( "email" )
+	@Expose
+	private String email;
 
-    /**
-     * Set a new name to the provider
-     *
-     * @param name provider name
-     */
-    public void setName( String name ) {
-        this.name = name;
-    }
+	@SerializedName( "nombre" )
+	@Expose
+	private String name;
 
-    /**
-     * Get the CIF
-     *
-     * @return String
-     */
-    public String getCif() {
-        return cif;
-    }
+	@SerializedName( "cif" )
+	@Expose
+	private String cif;
 
-    /**
-     * Set a new CIF to the provider
-     *
-     * @param cif provider CIF
-     */
-    public void setCif( String cif ) {
-        this.cif = cif;
-    }
+	@SerializedName( "telefono" )
+	@Expose
+	private String phone;
 
-    /**
-     * Get the provider address
-     *
-     * @return String
-     */
-    public String getAddress() {
-        return address;
-    }
+	@SerializedName( "movil" )
+	@Expose
+	private String mobile;
 
-    /**
-     * Set a new address to a provider
-     *
-     * @param address provider address
-     */
-    public void setAddress( String address ) {
-        this.address = address;
-    }
+	@SerializedName( "direccion" )
+	@Expose
+	private String address;
 
-    /**
-     * Get the provider town
-     *
-     * @return String
-     */
-    public String getTown() {
-        return town;
-    }
+	@SerializedName( "poblacion" )
+	@Expose
+	private String town;
 
-    /**
-     * Se a new town to the provider
-     *
-     * @param town provider town
-     */
-    public void setTown( String town ) {
-        this.town = town;
-    }
+	@SerializedName( "provincia" )
+	@Expose
+	private String province;
 
-    /**
-     * Get the provider province
-     *
-     * @return String
-     */
-    public String getProvince() {
-        return province;
-    }
+	@SerializedName( "cp" )
+	@Expose
+	private String postalCode;
 
-    /**
-     * Set a new province to the provider
-     *
-     * @param province province town
-     */
-    public void setProvince( String province ) {
-        this.province = province;
-    }
+	@SerializedName( "services" )
+	@Expose
+	private Set<ServiceDto> services;
 
-    /**
-     * Get the provider postal code
-     *
-     * @return String
-     */
-    public String getPostalCode() {
-        return postalCode;
-    }
+	@SerializedName( "events" )
+	@Expose
+	private Set<EventDto> events;
 
-    /**
-     * Set a new postal code
-     *
-     * @param postalCode provider postal code
-     */
-    public void setPostalCode( String postalCode ) {
-        this.postalCode = postalCode;
-    }
+	/**
+	 * Get the ID
+	 *
+	 * @return Long
+	 */
+	public long getId( ) {
+		return id;
+	}
 
-    /**
-     * Get the provider email
-     *
-     * @return String
-     */
-    public String getEmail() {
-        return email;
-    }
+	/**
+	 * Set the ID
+	 *
+	 * @param id provider ID
+	 */
+	public void setId( long id ) {
+		this.id = id;
+	}
 
-    /**
-     * Set a new email to the provider
-     *
-     * @param email provider email
-     */
-    public void setEmail( String email ) {
-        this.email = email;
-    }
+	/**
+	 * Get the provider name
+	 *
+	 * @return String
+	 */
+	public String getName( ) {
+		return name;
+	}
 
-    /**
-     * Get the provider password
-     *
-     * @return String
-     */
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * Set a new name to the provider
+	 *
+	 * @param name provider name
+	 */
+	public void setName( String name ) {
+		this.name = name;
+	}
 
-    /**
-     * Set a new password to the provider
-     *
-     * @param password provider password
-     */
-    public void setPassword( String password ) {
-        this.password = password;
-    }
+	/**
+	 * Get the CIF
+	 *
+	 * @return String
+	 */
+	public String getCif( ) {
+		return cif;
+	}
 
-    /**
-     * Get the provider phone
-     *
-     * @return String
-     */
-    public String getPhone() {
-        return phone;
-    }
+	/**
+	 * Set a new CIF to the provider
+	 *
+	 * @param cif provider CIF
+	 */
+	public void setCif( String cif ) {
+		this.cif = cif;
+	}
 
-    /**
-     * Set a new phone to the provider
-     *
-     * @param phone phone number
-     */
-    public void setPhone( String phone ) {
-        this.phone = phone;
-    }
+	/**
+	 * Get the provider address
+	 *
+	 * @return String
+	 */
+	public String getAddress( ) {
+		return address;
+	}
 
-    /**
-     * Get the provider mobile phone
-     *
-     * @return String
-     */
-    public String getMobile() {
-        return mobile;
-    }
+	/**
+	 * Set a new address to a provider
+	 *
+	 * @param address provider address
+	 */
+	public void setAddress( String address ) {
+		this.address = address;
+	}
 
-    /**
-     * Set a new mobile to the provider
-     *
-     * @param mobile mobile number
-     */
-    public void setMobile( String mobile ) {
-        this.mobile = mobile;
-    }
+	/**
+	 * Get the provider town
+	 *
+	 * @return String
+	 */
+	public String getTown( ) {
+		return town;
+	}
 
-    /**
-     * Get the list of services associates to the provider
-     *
-     * @return List<ServiceDto>
-     */
-    public List<ServiceDto> getServices() {
-        return services;
-    }
+	/**
+	 * Se a new town to the provider
+	 *
+	 * @param town provider town
+	 */
+	public void setTown( String town ) {
+		this.town = town;
+	}
 
-    /**
-     * Set a list of services associates to the provider
-     *
-     * @param services list
-     */
-    public void setServices(List<ServiceDto> services) {
-        this.services = services;
-    }
+	/**
+	 * Get the provider province
+	 *
+	 * @return String
+	 */
+	public String getProvince( ) {
+		return province;
+	}
 
-    @Override
-    public String toString() {
-        return "ProviderDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", cif='" + cif + '\'' +
-                ", address='" + address + '\'' +
-                ", town='" + town + '\'' +
-                ", province='" + province + '\'' +
-                ", postalCode='" + postalCode + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", phone='" + phone + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", services=" + services +
-                '}';
-    }
+	/**
+	 * Set a new province to the provider
+	 *
+	 * @param province province town
+	 */
+	public void setProvince( String province ) {
+		this.province = province;
+	}
+
+	/**
+	 * Get the provider postal code
+	 *
+	 * @return String
+	 */
+	public String getPostalCode( ) {
+		return postalCode;
+	}
+
+	/**
+	 * Set a new postal code
+	 *
+	 * @param postalCode provider postal code
+	 */
+	public void setPostalCode( String postalCode ) {
+		this.postalCode = postalCode;
+	}
+
+	/**
+	 * Get the provider email
+	 *
+	 * @return String
+	 */
+	public String getEmail( ) {
+		return email;
+	}
+
+	/**
+	 * Set a new email to the provider
+	 *
+	 * @param email provider email
+	 */
+	public void setEmail( String email ) {
+		this.email = email;
+	}
+
+	/**
+	 * Get the provider phone
+	 *
+	 * @return String
+	 */
+	public String getPhone( ) {
+		return phone;
+	}
+
+	/**
+	 * Set a new phone to the provider
+	 *
+	 * @param phone phone number
+	 */
+	public void setPhone( String phone ) {
+		this.phone = phone;
+	}
+
+	/**
+	 * Get the provider mobile phone
+	 *
+	 * @return String
+	 */
+	public String getMobile( ) {
+		return mobile;
+	}
+
+	/**
+	 * Set a new mobile to the provider
+	 *
+	 * @param mobile mobile number
+	 */
+	public void setMobile( String mobile ) {
+		this.mobile = mobile;
+	}
+
+	/**
+	 * Get the list of services associates to the provider
+	 *
+	 * @return List<ServiceDto>
+	 */
+	public Set<ServiceDto> getServices( ) {
+		return services;
+	}
+
+	/**
+	 * Set a list of services associates to the provider
+	 *
+	 * @param services list
+	 */
+	public void setServices( Set<ServiceDto> services ) {
+		this.services = services;
+	}
+
+	/**
+	 * Get the client events
+	 *
+	 * @return EventDto
+	 */
+	public Set<EventDto> getEvents( ) {
+		return events;
+	}
+
+	/**
+	 * Set events to client
+	 *
+	 * @param events client
+	 */
+	public void setEvents( Set<EventDto> events ) {
+		this.events = events;
+	}
+
+	@Override
+	public String toString( ) {
+		return "ProviderDto{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", cif='" + cif + '\'' +
+				", address='" + address + '\'' +
+				", town='" + town + '\'' +
+				", province='" + province + '\'' +
+				", postalCode='" + postalCode + '\'' +
+				", email='" + email + '\'' +
+				", phone='" + phone + '\'' +
+				", mobile='" + mobile + '\'' +
+				", services=" + services +
+				", events=" + events +
+				'}';
+	}
 }

@@ -13,19 +13,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
 import com.iessanvincente.weddingplanning.R;
+import com.iessanvincente.weddingplanning.interfaces.ResponseClientCallbackInterface;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
-import com.iessanvincente.weddingplanning.service.ClientService;
-
-import java.io.IOException;
+import com.iessanvincente.weddingplanning.utils.APICalls;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * @author Jose J. Pardines
@@ -47,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 	private SharedPreferences settings;
 	private SharedPreferences.Editor editor;
 	private String userToken = "";
+	private APICalls apiCalls = new APICalls();
 
 	/**
 	 * Get token from SharedPreferences and if ins't empty call to API with it to get client data
@@ -62,14 +57,22 @@ public class LoginActivity extends AppCompatActivity {
 		setContentView( R.layout.activity_login );
 		ButterKnife.bind( this );
 
+		// Set context for api calls
+		apiCalls.setContext( getApplicationContext() );
+
 		try {
 			settings = getSharedPreferences( "PREF_CLI", Context.MODE_PRIVATE );
 			userToken = settings.getString( "token", "" );
 		} catch (Exception e) {
 		}
 		if ( !userToken.isEmpty() ) {
+			// Set token for api calls
+			apiCalls.setUserToken( userToken );
+
 			onTokenSaved();
+
 		}
+
 
 		// login button on click call to login method
 		_loginButton.setOnClickListener( v -> login() );
@@ -109,73 +112,23 @@ public class LoginActivity extends AppCompatActivity {
 		String email = _emailText.getText().toString();
 		String password = _passwordText.getText().toString();
 
-		ClientService service = new ClientService();
-		Callback<ResponseBody> callback = new Callback<ResponseBody>() {
-			/**
-			 * If API response OK this method check data.
-			 * @param call
-			 * @param response
-			 */
-			@Override
-			public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
-
-				Gson gson = new Gson();
-				ResponseClient responseClient = null;
-
-				// If isn't body in response call to onLoginFailed
-				// else get body and check it
-				if ( response.body() != null ) {
-					try {
-						// Parse boty in ResponseClient model
-						responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
-
-						// If the response isn't successful call to onLoginFailed
-						if ( response.isSuccessful() ) {
-							// If response getOk is true call to onLoginSuccess
-							// else call to onLoginFailed
-							if ( responseClient.getOk() ) {
-								progressDialog.dismiss();
-								onLoginSuccess( responseClient );
-							} else {
-								Log.d( TAG, "Error on register" );
-								progressDialog.dismiss();
-								onLoginFailed( responseClient.getError() );
-							}
-						} else {
-							Log.d( TAG, "Error with code " + response.code() );
-							progressDialog.dismiss();
-							onLoginFailed( responseClient.getError() );
-						}
-					} catch (IOException e) {
-						Log.d( TAG, e.getMessage() );
-						progressDialog.dismiss();
-						onLoginFailed( getResources().getString( R.string.toast_client_login_failed ) );
-						e.printStackTrace();
-					}
-				} else {
-					Log.d( TAG, "Null body" );
-					progressDialog.dismiss();
-					onLoginFailed( getResources().getString( R.string.toast_client_login_failed ) );
-				}
-			}
-
-			/**
-			 *  IF API call failed this method call to onLoginFailed and stop the progress dialog.
-			 * @param call
-			 * @param t
-			 */
-			@Override
-			public void onFailure( Call call, Throwable t ) {
-				Log.d( TAG + " onFailure", t.getMessage() );
-				progressDialog.dismiss();
-				onLoginFailed( getResources().getString( R.string.toast_client_login_failed ) );
-			}
-		};
-		// Call to method in service
-		service.login(
+		apiCalls.getLoginClient(
 				email,
-				password,
-				callback
+				password, new ResponseClientCallbackInterface() {
+					@Override
+					public void onSuccess( ResponseClient responseClient ) {
+						Log.d( TAG, "onSuccess" );
+						progressDialog.dismiss();
+						onLoginSuccess( responseClient );
+					}
+
+					@Override
+					public void onError( String message ) {
+						Log.d( TAG + " onError", message );
+						progressDialog.dismiss();
+						onLoginFailed( message );
+					}
+				}
 		);
 	}
 
@@ -202,66 +155,25 @@ public class LoginActivity extends AppCompatActivity {
 			progressDialog.setMessage( getResources().getString( R.string.progressDialog_login ) );
 			progressDialog.show();
 
-			ClientService service = new ClientService();
-			Callback<ResponseBody> callback = new Callback<ResponseBody>() {
-				@Override
-				public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+			apiCalls.getLoginClientByToken(
+					new ResponseClientCallbackInterface() {
+						@Override
+						public void onSuccess( ResponseClient responseClient ) {
+							Log.d( TAG, "onSuccess by Token" );
+							progressDialog.dismiss();
+							onLoginSuccess( responseClient );
+						}
 
-					Gson gson = new Gson();
-					ResponseClient responseClient = null;
-					if ( response.body() != null ) {
-						try {
-							responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
-							if ( response.isSuccessful() ) {
-								if ( responseClient.getOk() ) {
-									progressDialog.dismiss();
-									onLoginSuccess( responseClient );
-								} else {
-									progressDialog.dismiss();
-									editor = settings.edit();
-									editor.remove( "token" );
-									editor.apply();
-									_loginButton.setEnabled( true );
-								}
-							} else {
-								progressDialog.dismiss();
-								editor = settings.edit();
-								editor.remove( "token" );
-								editor.apply();
-								_loginButton.setEnabled( true );
-							}
-						} catch (IOException e) {
-							Log.d( TAG, e.getMessage() );
+						@Override
+						public void onError( String message ) {
+							Log.d( TAG + " onError by Token", message );
 							progressDialog.dismiss();
 							editor = settings.edit();
 							editor.remove( "token" );
 							editor.apply();
 							_loginButton.setEnabled( true );
-							e.printStackTrace();
 						}
-					} else {
-						Log.d( TAG, "Null body" );
-						progressDialog.dismiss();
-						editor = settings.edit();
-						editor.remove( "token" );
-						editor.apply();
-						_loginButton.setEnabled( true );
 					}
-				}
-
-				@Override
-				public void onFailure( Call call, Throwable t ) {
-					Log.d( TAG + " onFailure", t.getMessage() );
-					progressDialog.dismiss();
-					editor = settings.edit();
-					editor.remove( "token" );
-					editor.apply();
-					_loginButton.setEnabled( true );
-				}
-			};
-			service.loginByToken(
-					userToken,
-					callback
 			);
 		}
 	}

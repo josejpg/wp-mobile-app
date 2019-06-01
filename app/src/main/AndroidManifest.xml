@@ -19,7 +19,7 @@
         <activity
             android:name=".activity.ProfileActivity"
             android:label="@string/activity_profile"
-            android:theme="@style/AppTheme.Light" >
+            android:theme="@style/AppTheme.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />

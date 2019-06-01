@@ -2,7 +2,7 @@ package com.iessanvincente.weddingplanning.entity;
 
 import java.util.List;
 
-public class ProveedoesrEntity {
+public class ProveedoresEntity {
     private long id;
     private String nombre;
     private String cif;
@@ -234,7 +234,7 @@ public class ProveedoesrEntity {
 
     @Override
     public String toString() {
-        return "ProveedoesrEntity{" +
+        return "ProveedoresEntity{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", cif='" + cif + '\'' +

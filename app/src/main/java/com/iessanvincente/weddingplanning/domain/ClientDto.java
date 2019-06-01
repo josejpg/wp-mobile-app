@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class ClientDto implements Serializable {
 	@SerializedName( "id" )
@@ -49,6 +50,10 @@ public class ClientDto implements Serializable {
 	@SerializedName( "cp" )
 	@Expose
 	private String postalCode;
+
+	@SerializedName( "events" )
+	@Expose
+	private Set<EventDto> events;
 
 	/**
 	 * Get the ID
@@ -246,6 +251,24 @@ public class ClientDto implements Serializable {
 	 */
 	public void setMobile( String mobile ) {
 		this.mobile = mobile;
+	}
+
+	/**
+	 * Get the client events
+	 *
+	 * @return EventDto
+	 */
+	public Set<EventDto> getEvents( ) {
+		return events;
+	}
+
+	/**
+	 * Set events to client
+	 *
+	 * @param events client
+	 */
+	public void setEvents( Set<EventDto> events ) {
+		this.events = events;
 	}
 
 	/**

@@ -8,7 +8,7 @@ public class MensajesEntity {
     private Integer fecha;
     private Boolean propietario;
     private EventosEntity evento;
-    private List<ProveedoesrEntity> proveedores;
+    private List<ProveedoresEntity> proveedores;
     private List<ClientesEntity> clientes;
 
     /**
@@ -104,9 +104,9 @@ public class MensajesEntity {
     /**
      * Get the list providers
      *
-     * @return List<ProveedoesrEntity>
+     * @return List<ProveedoresEntity>
      */
-    public List<ProveedoesrEntity> getProveedores() {
+    public List<ProveedoresEntity> getProveedores() {
         return proveedores;
     }
 
@@ -115,7 +115,7 @@ public class MensajesEntity {
      *
      * @param proveedores
      */
-    public void setProveedores(List<ProveedoesrEntity> proveedores) {
+    public void setProveedores(List<ProveedoresEntity> proveedores) {
         this.proveedores = proveedores;
     }
 
