@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
@@ -18,16 +19,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class MainActivity extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
+	private static final String TAG = "MainActivity";
 
+	private Intent actualIntent;
 	private SharedPreferences settings;
 	private SharedPreferences.Editor editor;
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
-		settings = getSharedPreferences( "PREF_CLI", Context.MODE_PRIVATE );
+
 		setContentView( R.layout.activity_main );
 		Toolbar toolbar = findViewById( R.id.toolbar );
 		setSupportActionBar( toolbar );
@@ -38,6 +44,12 @@ public class MainActivity extends AppCompatActivity
 		drawer.addDrawerListener( toggle );
 		toggle.syncState();
 		navigationView.setNavigationItemSelectedListener( this );
+
+		// Get SharedPreferences
+		settings = getSharedPreferences( "PREF_CLI", Context.MODE_PRIVATE );
+
+		// Save the intent intlo a private variable
+		actualIntent = getIntent();
 	}
 
 	@Override
@@ -57,18 +69,26 @@ public class MainActivity extends AppCompatActivity
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 
-		if ( id == R.id.nav_profile ) {
-			// Handle the camera action
+		if ( id == R.id.nav_profile ) { // Go to ProfileActivity
+			Log.d( TAG, "Go to ProfileActivity" );
+			Intent intent = new Intent( getApplicationContext(), ProfileActivity.class );
+			intent.putExtra( "client", actualIntent.getSerializableExtra( "client" ) );
+			startActivity(intent);
+			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
 		} else if ( id == R.id.nav_event ) {
 
 		} else if ( id == R.id.nav_message ) {
 
-		} else if ( id == R.id.nav_logout ) {
+		} else if ( id == R.id.nav_logout ) { // Remove token an data user and go to LoginActivity
+			Log.d( TAG, "Logout and go to LoginActivity" );
 			editor = settings.edit();
 			editor.remove( "token" );
+			editor.remove( "client" );
 			editor.apply();
-			Intent intent = new Intent( getApplicationContext(), MainActivity.class );
+			Intent intent = new Intent( getApplicationContext(), LoginActivity.class );
 			startActivity(intent);
+			finish();
+			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
 		}
 
 		DrawerLayout drawer = findViewById( R.id.drawer_layout );

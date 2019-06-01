@@ -64,4 +64,21 @@ public class ClientService {
 		Call<ResponseBody> call = clientsAPI.registerClient( clientData );
 		call.enqueue( callback );
 	}
+
+	/**
+	 * Register a new client
+	 * @param userToken
+	 * @param clientData
+	 * @param callback
+	 */
+	public void updateClient( String userToken, ClientesEntity clientData, Callback<ResponseBody> callback ) {
+		Log.d( TAG, "Register client" );
+		if( clientData.getPassword() != null ) {
+			clientData.setPassword( Encryptation.encryptMD5( clientData.getPassword() ) );
+		}
+		Retrofit retrofit = APIClient.getRetrofitClient();
+		ClientAPI clientsAPI = retrofit.create( ClientAPI.class );
+		Call<ResponseBody> call = clientsAPI.updateClient( userToken, Long.toString( clientData.getId() ), clientData );
+		call.enqueue( callback );
+	}
 }

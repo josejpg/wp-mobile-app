@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Wedding Planning</string>
     <string name="activity_login">Login</string>
-    <string name="activity_signup">Signup</string>
+    <string name="activity_signup">Registro</string>
+    <string name="activity_profile">Perfil</string>
 
     <!-- Forms -->
     <string name="name">Nombre</string>
@@ -13,12 +14,24 @@
     <string name="phone">Teléfono</string>
     <string name="mobile">Móvil</string>
     <string name="email">Email</string>
+    <string name="birthDate">F. Nacimiento</string>
+    <string name="email_required">Email*</string>
     <string name="pws">Contraseña</string>
+    <string name="pws_required">Contraseña*</string>
     <string name="rePws">Repetir contraseña</string>
+    <string name="rePws_required">Repetir contraseña*</string>
+
+    <!-- Forms Validation -->
+    <string name="validation_email">Introducir un email válido</string>
+    <string name="validation_password">Entre 4 y 10 caracteres alfanuméricos</string>
+    <string name="validation_password_match">Las contraseñas no coinciden</string>
 
     <!-- Buttons -->
     <string name="btnLogin">Iniciar sesión</string>
-    <string name="btnRegister">Registrar</string>
+    <string name="btnSignup">Registrar</string>
+    <string name="btnShowPassword">Cambiar contraseña</string>
+    <string name="btnHidePassword">No cambiar contraseñas</string>
+    <string name="btnSave">Guardar</string>
     <string name="btnCreateAccount">¿Aún no tienes cuenta? Crea una nueva</string>
     <string name="btnGoLogin">¿Ya tienes cuenta? inicia sesión</string>
 
@@ -33,4 +46,16 @@
     <string name="menu_event">Eventos</string>
     <string name="menu_message">Mensajes</string>
     <string name="menu_logout">Logout</string>
+
+    <!-- ProgressDialog -->
+    <string name="progressDialog_login">Iniciando sesión&#8230;</string>
+    <string name="progressDialog_signup">Creando cuenta&#8230;</string>
+    <string name="progressDialog_updating_profile">Actualizando perfil&#8230;</string>
+
+    <!-- Toast -->
+    <string name="toast_client_login_failed">Falló el inicio de sesión</string>
+    <string name="toast_client_signup_failed">"Falló al registrar cliente"</string>
+    <string name="toast_client_update_successful">Los datos se han actualizado correcamente</string>
+    <string name="toast_client_update_failed">No ha sido posible actualizar los datos</string>
+
 </resources>

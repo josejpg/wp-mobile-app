@@ -2,6 +2,7 @@ package com.iessanvincente.weddingplanning.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -12,14 +13,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
 import com.iessanvincente.weddingplanning.service.ClientService;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class SignupActivity extends AppCompatActivity {
 	private static final String TAG = "SignupActivity";
 
@@ -48,14 +50,25 @@ public class SignupActivity extends AppCompatActivity {
 	@BindView( R.id.link_login )
 	TextView _loginLink;
 
+	private SharedPreferences settings;
+	private SharedPreferences.Editor editor;
+
+	/**
+	 *
+	 * Set listener to buttons.
+	 *
+	 * @param savedInstanceState
+	 */
 	@Override
 	public void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_signup );
 		ButterKnife.bind( this );
 
+		// Signup button on click call to
 		_signupButton.setOnClickListener( v -> signup() );
 
+		// Login link on click go to LoginActivity
 		_loginLink.setOnClickListener( v -> {
 			// Finish the registration screen and return to the Login activity
 			Intent intent = new Intent( getApplicationContext(), LoginActivity.class );
@@ -65,21 +78,28 @@ public class SignupActivity extends AppCompatActivity {
 		} );
 	}
 
+	/**
+	 * Register a new client with data form
+	 */
 	public void signup( ) {
 		Log.d( TAG, "Signup" );
 
-		if ( !validate() ) {
-			onSignupFailed( "Falló al registrar cliente" );
+		// Call to validate data form, if is false call to onSignupFailed.
+		if ( !validateForm() ) {
+			onSignupFailed( getResources().getString( R.string.toast_client_signup_failed ) );
 			return;
 		}
 
+		// Disable signup button while is calling to API
 		_signupButton.setEnabled( false );
 
+		// Shows a progress dialog with a message
 		final ProgressDialog progressDialog = new ProgressDialog( SignupActivity.this,
 				R.style.AppTheme_Dark_Dialog );
 		progressDialog.setIndeterminate( true );
-		progressDialog.setMessage( "Creando cuenta..." );
+		progressDialog.setMessage( getResources().getString( R.string.progressDialog_signup ) );
 		progressDialog.show();
+
 		ClientesEntity clientesEntity = new ClientesEntity();
 		clientesEntity.setNombre( _nameText.getText().toString() );
 		clientesEntity.setApellidos( _lastNameText.getText().toString() );
@@ -89,17 +109,28 @@ public class SignupActivity extends AppCompatActivity {
 
 		ClientService service = new ClientService();
 		Callback<ResponseBody> callback = new Callback<ResponseBody>() {
+			/**
+			 * If API response OK this method check data.
+			 * @param call
+			 * @param response
+			 */
 			@Override
 			public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
 
 				Gson gson = new Gson();
-				Type clientType = new TypeToken<ResponseClient>() {
-				}.getType();
 				ResponseClient responseClient = null;
+
+				// If isn't body in response call to onSignupFailed
+				// else get body and check it
 				if ( response.body() != null ) {
 					try {
-						responseClient = gson.fromJson( response.body().string(), clientType );
+						// Parse boty in ResponseClient model
+						responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
+
+						// If the response isn't successful call to onSignupFailed
 						if ( response.isSuccessful() ) {
+							// If response getOk is true call to onSignupSuccess
+							// else call to onSignupFailed
 							if ( responseClient.getOk() ) {
 								Log.d( TAG, "Login OK" );
 								progressDialog.dismiss();
@@ -117,14 +148,14 @@ public class SignupActivity extends AppCompatActivity {
 					} catch (IOException e) {
 						Log.d( TAG, e.getMessage() );
 						progressDialog.dismiss();
-						onSignupFailed( "Falló al registrar cliente" );
+						onSignupFailed( getResources().getString( R.string.toast_client_signup_failed ) );
 						e.printStackTrace();
 					}
 				} else {
 					Log.d( TAG, "Null body" );
 					Log.d( TAG, response.toString() );
 					progressDialog.dismiss();
-					onSignupFailed( "Falló al registrar cliente" );
+					onSignupFailed( getResources().getString( R.string.toast_client_signup_failed ) );
 				}
 			}
 
@@ -132,68 +163,82 @@ public class SignupActivity extends AppCompatActivity {
 			public void onFailure( Call call, Throwable t ) {
 				Log.d( TAG + " onFailure", t.getMessage() );
 				progressDialog.dismiss();
-				onSignupFailed( "Falló al registrar cliente" );
+				onSignupFailed( getResources().getString( R.string.toast_client_signup_failed ) );
 			}
 		};
+		// Call to method in service
 		service.registerClient(
 				clientesEntity,
 				callback
 		);
 	}
 
-
+	/**
+	 * Set the token and user data into SharedPreferences
+	 * Start the MainActivity
+	 *
+	 * @param responseClient with all of data client
+	 */
 	public void onSignupSuccess( ResponseClient responseClient ) {
 		_signupButton.setEnabled( true );
+		// Set next activity with Client
+		// Save token in SharedPreferences
 		Intent intent = new Intent( getApplicationContext(), MainActivity.class );
 		intent.putExtra( "client", responseClient.getClient() );
-		intent.putExtra( "token", responseClient.getToken() );
+		settings = getSharedPreferences( "PREF_CLI", 0 );
+		editor = settings.edit();
+		editor.putString( "token", responseClient.getToken() );
+		editor.apply();
 		startActivityForResult( intent, RESULT_OK );
 		finish();
+		overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
 	}
 
+	/**
+	 * Show a message with error text
+	 *
+	 * @param message this string will be show on app
+	 */
 	public void onSignupFailed( String message ) {
 		Toast.makeText( getBaseContext(), message, Toast.LENGTH_LONG ).show();
 
 		_signupButton.setEnabled( true );
 	}
 
-	public boolean validate( ) {
-		boolean valid = true;
+	/**
+	 * Check if data form is OK.
+	 *
+	 * @return form status
+	 */
+	public boolean validateForm( ) {
+		boolean isOk = true;
 
 		String email = _emailText.getText().toString();
-		String mobile = _mobileText.getText().toString();
 		String password = _passwordText.getText().toString();
 		String reEnterPassword = _reEnterPasswordText.getText().toString();
 
 
 		if ( email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher( email ).matches() ) {
-			_emailText.setError( "Introducir una dirección válida de email" );
-			valid = false;
+			_emailText.setError( getResources().getString( R.string.validation_email ) );
+			isOk = false;
 		} else {
 			_emailText.setError( null );
 		}
 
-		if ( mobile.isEmpty() || mobile.length() != 9 ) {
-			_mobileText.setError( "Introducir un número válido" );
-			valid = false;
-		} else {
-			_mobileText.setError( null );
-		}
-
 		if ( password.isEmpty() || password.length() < 4 || password.length() > 10 ) {
-			_passwordText.setError( "Entre 4 y 10 caracteres alfanuméricos" );
-			valid = false;
+			_passwordText.setError( getResources().getString( R.string.validation_password ) );
+			isOk = false;
 		} else {
 			_passwordText.setError( null );
 		}
 
 		if ( reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !( reEnterPassword.equals( password ) ) ) {
-			_reEnterPasswordText.setError( "Las contraseñas no coinciden" );
-			valid = false;
+			_reEnterPasswordText.setError( getResources().getString( R.string.validation_password_match ) );
+			isOk = false;
 		} else {
 			_reEnterPasswordText.setError( null );
 		}
 
-		return valid;
+		return isOk;
 	}
 }

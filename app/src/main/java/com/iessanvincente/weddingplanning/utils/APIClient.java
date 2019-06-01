@@ -22,7 +22,7 @@ public class APIClient {
 	 * @return Retrofit
 	 */
 	public static Retrofit getRetrofitClient() {
-		logging.setLevel( HttpLoggingInterceptor.Level.HEADERS );
+		logging.setLevel( HttpLoggingInterceptor.Level.BODY );
 		httpClient.addInterceptor( logging );
 
 		if ( retrofit == null ) {

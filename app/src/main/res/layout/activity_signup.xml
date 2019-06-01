@@ -22,6 +22,36 @@
             android:scaleType="fitCenter"
             android:src="@drawable/logo" />
 
+        <!--  Email Label -->
+        <EditText android:id="@+id/input_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email_required"
+            android:autofillHints="" />
+
+        <!-- Password Label -->
+        <EditText android:id="@+id/input_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:inputType="textPassword"
+            android:hint="@string/pws_required"
+            android:autofillHints="" />
+
+        <!-- Password Re-enter Label -->
+        <EditText android:id="@+id/input_reEnterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:inputType="textPassword"
+            android:hint="@string/rePws_required"
+            android:autofillHints="" />
+
         <!-- Name Label -->
         <EditText android:id="@+id/input_name"
             android:layout_width="match_parent"
@@ -42,16 +72,6 @@
             android:hint="@string/lastName"
             android:autofillHints="" />
 
-        <!--  Email Label -->
-        <EditText android:id="@+id/input_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:inputType="textEmailAddress"
-            android:hint="@string/email"
-            android:autofillHints="" />
-
 
         <!-- mobile number -->
         <EditText android:id="@+id/input_mobile"
@@ -63,26 +83,6 @@
             android:hint="@string/mobile"
             android:autofillHints="" />
 
-        <!-- Password Label -->
-        <EditText android:id="@+id/input_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:inputType="textPassword"
-            android:hint="@string/pws"
-            android:autofillHints="" />
-
-        <!-- Password Re-enter Label -->
-        <EditText android:id="@+id/input_reEnterPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:inputType="textPassword"
-            android:hint="@string/rePws"
-            android:autofillHints="" />
-
         <!-- Signup Button -->
         <Button
             android:id="@+id/btn_signup"
@@ -91,7 +91,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="@string/btnRegister"/>
+            android:text="@string/btnSignup"/>
 
         <TextView android:id="@+id/link_login"
             android:layout_width="fill_parent"
