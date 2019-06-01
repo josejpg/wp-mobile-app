@@ -23,65 +23,95 @@
             android:src="@drawable/logo" />
 
         <!--  Email Label -->
-        <EditText android:id="@+id/input_email"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:inputType="textEmailAddress"
-            android:hint="@string/email_required"
-            android:autofillHints="" />
+            android:hint="@string/email_required">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password Label -->
-        <EditText android:id="@+id/input_password"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:inputType="textPassword"
-            android:hint="@string/pws_required"
-            android:autofillHints="" />
+            android:hint="@string/pws_required">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password Re-enter Label -->
-        <EditText android:id="@+id/input_reEnterPassword"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:inputType="textPassword"
-            android:hint="@string/rePws_required"
-            android:autofillHints="" />
+            android:hint="@string/rePws_required">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_reEnterPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Name Label -->
-        <EditText android:id="@+id/input_name"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:inputType="textPersonName"
-            android:hint="@string/name"
-            android:autofillHints="" />
+            android:hint="@string/name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Last Label -->
-        <EditText android:id="@+id/input_lastName"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:inputType="textPersonName"
-            android:hint="@string/lastName"
-            android:autofillHints="" />
+            android:hint="@string/lastName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_lastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <!-- mobile number -->
-        <EditText android:id="@+id/input_mobile"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:inputType="number"
-            android:hint="@string/mobile"
-            android:autofillHints="" />
+            android:hint="@string/mobile">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Signup Button -->
         <Button

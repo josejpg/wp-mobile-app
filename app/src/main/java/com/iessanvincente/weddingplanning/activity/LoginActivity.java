@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
 		// Shows a progress dialog with a message
 		final ProgressDialog progressDialog = new ProgressDialog( LoginActivity.this,
-				R.style.AppTheme_Dark_Dialog );
+				R.style.AppTheme_Light_Dialog );
 		progressDialog.setIndeterminate( true );
 		progressDialog.setMessage( getResources().getString( R.string.progressDialog_login ) );
 		progressDialog.show();
@@ -197,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
 			_loginButton.setEnabled( false );
 
 			final ProgressDialog progressDialog = new ProgressDialog( LoginActivity.this,
-					R.style.AppTheme_Dark_Dialog );
+					R.style.AppTheme_Light_Dialog );
 			progressDialog.setIndeterminate( true );
 			progressDialog.setMessage( getResources().getString( R.string.progressDialog_login ) );
 			progressDialog.show();

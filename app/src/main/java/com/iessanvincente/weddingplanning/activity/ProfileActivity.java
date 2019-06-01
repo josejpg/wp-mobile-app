@@ -150,7 +150,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 		// Shows a progress dialog with a message
 		final ProgressDialog progressDialog = new ProgressDialog( ProfileActivity.this,
-				R.style.AppTheme_Dark_Dialog );
+				R.style.AppTheme_Light_Dialog );
 		progressDialog.setIndeterminate( true );
 		progressDialog.setMessage( getResources().getString( R.string.progressDialog_login ) );
 		progressDialog.show();
