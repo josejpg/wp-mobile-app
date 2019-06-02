@@ -171,7 +171,7 @@ public class MappingHelper {
 			}
 		}
 
-		eventosEntity.setClientes( clientesEntitySet );
+		eventosEntity.setProveedores( proveedoresEntitySet );
 
 		return eventosEntity;
 	}

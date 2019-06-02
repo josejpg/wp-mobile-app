@@ -12,23 +12,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.helper.MappingHelper;
 import com.iessanvincente.weddingplanning.interfaces.ResponseClientCallbackInterface;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
-import com.iessanvincente.weddingplanning.service.ClientService;
 import com.iessanvincente.weddingplanning.utils.APICalls;
-
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * @author Jose J. Pardines
@@ -60,7 +52,6 @@ public class SignupActivity extends AppCompatActivity {
 	private APICalls apiCalls = new APICalls();
 
 	/**
-	 *
 	 * Set listener to buttons.
 	 *
 	 * @param savedInstanceState manage state of the instance
@@ -109,7 +100,7 @@ public class SignupActivity extends AppCompatActivity {
 		progressDialog.show();
 
 		ClientesEntity clientesEntity = new ClientesEntity();
-		clientesEntity.setNombre( _nameText.getText().toString() );
+		clientesEntity.setDni( _dniText.getText().toString() );
 		clientesEntity.setNombre( _nameText.getText().toString() );
 		clientesEntity.setApellidos( _lastNameText.getText().toString() );
 		clientesEntity.setEmail( _emailText.getText().toString() );
@@ -203,7 +194,8 @@ public class SignupActivity extends AppCompatActivity {
 			_passwordText.setError( null );
 		}
 
-		if ( reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !( reEnterPassword.equals( password ) ) ) {
+		if ( !( reEnterPassword.equals( password ) ) ) {
+			_passwordText.setError( getResources().getString( R.string.validation_password_match ) );
 			_reEnterPasswordText.setError( getResources().getString( R.string.validation_password_match ) );
 			isOk = false;
 		} else {
