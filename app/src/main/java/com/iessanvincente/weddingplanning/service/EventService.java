@@ -3,6 +3,8 @@ package com.iessanvincente.weddingplanning.service;
 
 import android.util.Log;
 
+import com.iessanvincente.weddingplanning.entity.ClientesEntity;
+import com.iessanvincente.weddingplanning.entity.EventosEntity;
 import com.iessanvincente.weddingplanning.interfaces.EventAPI;
 import com.iessanvincente.weddingplanning.utils.APIClient;
 
@@ -41,6 +43,21 @@ public class EventService {
 		Retrofit retrofit = APIClient.getRetrofitClient();
 		EventAPI eventAPI = retrofit.create( EventAPI.class );
 		Call<ResponseBody> call = eventAPI.getEventById( userToken, Long.toString( eventID ) );
+		call.enqueue( callback );
+	}
+
+	/**
+	 * Update data event
+	 *
+	 * @param userToken auth token
+	 * @param eventosEntity event id
+	 * @param callback manage API response
+	 */
+	public void updateEvent( String userToken, EventosEntity eventosEntity, Callback<ResponseBody> callback ) {
+		Log.d( TAG, "updateEvent" );
+		Retrofit retrofit = APIClient.getRetrofitClient();
+		EventAPI eventAPI = retrofit.create( EventAPI.class );
+		Call<ResponseBody> call = eventAPI.updateEvent( userToken, Long.toString( eventosEntity.getId() ), eventosEntity );
 		call.enqueue( callback );
 	}
 

@@ -28,7 +28,9 @@ import com.iessanvincente.weddingplanning.utils.EventsRecyclerView;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -195,12 +197,22 @@ public class MainActivity extends AppCompatActivity
 	 * @param eventDtoSet to push into recyclerView
 	 */
 	private void setConfigRecyclerViewEvents( RecyclerView recyclerView, Set<EventDto> eventDtoSet ){
+		List<EventDto> eventDtoList = new ArrayList<>( eventDtoSet );
 		LinearLayoutManager layoutManager
 				= new LinearLayoutManager( MainActivity.this, RecyclerView.VERTICAL, false );
 		layoutManager.setOrientation( RecyclerView.VERTICAL );
 		recyclerView.setLayoutManager( layoutManager );
 		recyclerView.addItemDecoration( new DividerItemDecoration( getApplicationContext(), DividerItemDecoration.VERTICAL ) );
 		EventsRecyclerView adapter = new EventsRecyclerView( getApplicationContext(), eventDtoSet );
+		adapter.setClickListener( ( view, position ) -> {
+			Log.d( TAG, "Go to EventsInfoActivity" );
+			Intent intent = new Intent( getApplicationContext(), EventInfoActivity.class );
+			intent.putExtra( "client", clientDto );
+			intent.putExtra( "event", eventDtoList.get( position ) );
+			startActivity( intent );
+			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
+			finish();
+		} );
 		recyclerView.setAdapter( adapter );
 	}
 }

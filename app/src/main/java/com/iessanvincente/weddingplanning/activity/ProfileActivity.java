@@ -118,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity {
 	public boolean onSupportNavigateUp( ) {
 		Log.d( TAG, "Go to MainActivity" );
 		Intent intent = new Intent( getApplicationContext(), MainActivity.class );
-		intent.putExtra( "client", actualIntent.getSerializableExtra( "client" ) );
+		intent.putExtra( "client", clientDto );
 		startActivity( intent );
 		overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
 		finish();
@@ -163,7 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
 		final ProgressDialog progressDialog = new ProgressDialog( ProfileActivity.this,
 				R.style.AppTheme_Light_Dialog );
 		progressDialog.setIndeterminate( true );
-		progressDialog.setMessage( getResources().getString( R.string.progressDialog_login ) );
+		progressDialog.setMessage( getResources().getString( R.string.progressDialog_updating_profile ) );
 		progressDialog.show();
 
 		ClientesEntity clientesEntity = MappingHelper.getClientesEntityFromClientDto( clientDto );

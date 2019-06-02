@@ -34,7 +34,7 @@
                 android:id="@+id/input_dni"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--  Email Label -->

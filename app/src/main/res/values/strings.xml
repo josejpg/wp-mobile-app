@@ -3,6 +3,8 @@
     <string name="activity_login">Login</string>
     <string name="activity_signup">Registro</string>
     <string name="activity_profile">Perfil</string>
+    <string name="activity_events">Eventos</string>
+    <string name="activity_event_info">Evento</string>
 
     <!-- Forms -->
     <string name="dni">DNI</string>
@@ -18,6 +20,12 @@
     <string name="birthDate">F. Nacimiento</string>
     <string name="pws">Contraseña</string>
     <string name="rePws">Repetir contraseña</string>
+    <string name="event">Evento</string>
+    <string name="description">Descripción</string>
+    <string name="date">Fecha</string>
+    <string name="active">Activo</string>
+    <string name="providers">Proveedores</string>
+    <string name="clients">Clientes</string>
     <string name="dni_required">DNI*</string>
     <string name="email_required">Email*</string>
     <string name="pws_required">Contraseña*</string>
@@ -28,6 +36,9 @@
     <string name="validation_email">Introducir un email válido</string>
     <string name="validation_password">Entre 4 y 10 caracteres alfanuméricos</string>
     <string name="validation_password_match">Las contraseñas no coinciden</string>
+    <string name="validation_event">Introducir un nombre</string>
+    <string name="validation_description">Introducir una descripción</string>
+    <string name="validation_date">Introducir una fecha posterior a hoy</string>
 
     <!-- Buttons -->
     <string name="btnLogin">Iniciar sesión</string>
@@ -46,6 +57,10 @@
     <string name="list_prev_events">Anteriores eventos</string>
     <string name="list_no_events">Sin eventos</string>
 
+    <!-- Event info -->
+    <string name="list_clients_event">Clientes</string>
+    <string name="list_providers_event">Proveedores</string>
+
     <!-- Menu -->
     <string name="menu_profile">Perfil</string>
     <string name="menu_event">Eventos</string>
@@ -56,6 +71,7 @@
     <string name="progressDialog_login">Iniciando sesión&#8230;</string>
     <string name="progressDialog_signup">Creando cuenta&#8230;</string>
     <string name="progressDialog_updating_profile">Actualizando perfil&#8230;</string>
+    <string name="progressDialog_updating_event">Actualizando evento&#8230;</string>
 
     <!-- Toast -->
     <string name="toast_client_login_failed">Falló el inicio de sesión</string>
@@ -64,5 +80,7 @@
     <string name="toast_client_update_failed">No ha sido posible actualizar los datos</string>
     <string name="toast_provider_find_failed">No ha sido posible encontrar ese proveedor</string>
     <string name="toast_event_find_failed">No ha sido posible encontrar ese evento</string>
+    <string name="toast_event_update_successful">Los datos se han actualizado correcamente</string>
+    <string name="toast_event_update_failed">No ha sido posible actualizar los datos</string>
 
 </resources>

@@ -15,15 +15,16 @@
         <item name="actionBarTheme">@style/AppTheme.Light.ActionBar</item>
 
         <item name="android:background">@color/white</item>
+        <item name="android:textColorSecondary">@color/accent</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:colorButtonNormal">@color/primary_dark</item>
 
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/iron</item>
-        <item name="android:textColorHint">@color/white</item>
-
         <item name="colorButtonNormal">@color/primary_dark</item>
-        <item name="android:colorButtonNormal">@color/primary_dark</item>
     </style>
+
     <style name="AppTheme.Light.NoActionBar" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
@@ -31,14 +32,13 @@
         <item name="actionBarTheme">@style/AppTheme.Light.ActionBar</item>
 
         <item name="android:background">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:colorButtonNormal">@color/primary_dark</item>
 
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/iron</item>
-        <item name="android:textColorHint">@color/white</item>
-
         <item name="colorButtonNormal">@color/primary_dark</item>
-        <item name="android:colorButtonNormal">@color/primary_dark</item>
     </style>
 
     <style name="AppTheme.Light.ActionBar" parent="ThemeOverlay.MaterialComponents.ActionBar">
@@ -59,4 +59,10 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="checkBoxComponent" parent="AppTheme.Light">
+        <item name="colorAccent">@color/primary_dark</item>
+        <item name="android:textColorSecondary">@color/primary_dark</item>
+        <item name="colorControlNormal">@color/primary</item>
+        <item name="colorControlActivated">@color/primary_dark</item>
+    </style>
 </resources>

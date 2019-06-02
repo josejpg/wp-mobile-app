@@ -122,14 +122,18 @@ public class MappingHelper {
 		eventDto.setDate( eventosEntity.getFecha() );
 		eventDto.setActive( eventosEntity.getActivo() == 1 );
 
-		for ( ClientesEntity clientesEntity : eventosEntity.getClientes() ) {
-			clientDtoSet.add( getClientDtoFromClientesEntity( clientesEntity ) );
+		if ( eventosEntity.getClientes() != null && eventosEntity.getClientes().size() > 0 ) {
+			for ( ClientesEntity clientesEntity : eventosEntity.getClientes() ) {
+				clientDtoSet.add( getClientDtoFromClientesEntity( clientesEntity ) );
+			}
 		}
 
 		eventDto.setClients( clientDtoSet );
 
-		for ( ProveedoresEntity proveedoresEntity : eventosEntity.getProveedores() ) {
-			providerDtoSet.add( getProviderDtoFromProveedoresEntity( proveedoresEntity ) );
+		if ( eventosEntity.getProveedores() != null && eventosEntity.getProveedores().size() > 0 ) {
+			for ( ProveedoresEntity proveedoresEntity : eventosEntity.getProveedores() ) {
+				providerDtoSet.add( getProviderDtoFromProveedoresEntity( proveedoresEntity ) );
+			}
 		}
 
 		eventDto.setProviders( providerDtoSet );
@@ -144,6 +148,7 @@ public class MappingHelper {
 	 */
 	public static EventosEntity getEventosEntityFromEventDto( EventDto eventDto ) {
 		Log.println( Log.INFO, "Mapper", "getEventosEntityFromEventDto" );
+		System.out.println( eventDto );
 		Set<ClientesEntity> clientesEntitySet = new HashSet<>();
 		Set<ProveedoresEntity> proveedoresEntitySet = new HashSet<>();
 		EventosEntity eventosEntity = new EventosEntity();
@@ -153,14 +158,17 @@ public class MappingHelper {
 		eventosEntity.setFecha( eventDto.getDate() );
 		eventosEntity.setActivo( ( eventDto.getActive() ) ? 1 : 0 );
 
-		for ( ClientDto clientDto : eventDto.getClients() ) {
-			clientesEntitySet.add( getClientesEntityFromClientDto( clientDto ) );
+		if ( eventDto.getClients() != null && eventDto.getClients().size() > 0 ) {
+			for ( ClientDto clientDto : eventDto.getClients() ) {
+				clientesEntitySet.add( getClientesEntityFromClientDto( clientDto ) );
+			}
 		}
 
 		eventosEntity.setClientes( clientesEntitySet );
-
-		for ( ProviderDto providerDto : eventDto.getProviders() ) {
-			proveedoresEntitySet.add( getProveedoresEntityFromProviderDto( providerDto ) );
+		if ( eventDto.getProviders() != null && eventDto.getProviders().size() > 0 ) {
+			for ( ProviderDto providerDto : eventDto.getProviders() ) {
+				proveedoresEntitySet.add( getProveedoresEntityFromProviderDto( providerDto ) );
+			}
 		}
 
 		eventosEntity.setClientes( clientesEntitySet );
