@@ -1,17 +1,62 @@
 package com.iessanvincente.weddingplanning.entity;
 
-public class ClientesEntity {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class ClientesEntity implements Serializable {
+
+    @SerializedName( "id" )
+    @Expose
     private Long id;
+
+    @SerializedName( "dni" )
+    @Expose
+    private String dni;
+
+    @SerializedName( "email" )
+    @Expose
     private String email;
+
+    @SerializedName( "password" )
+    @Expose
     private String password;
+
+    @SerializedName( "nombre" )
+    @Expose
     private String nombre;
+
+    @SerializedName( "apellidos" )
+    @Expose
     private String apellidos;
+
+    @SerializedName( "fnac" )
+    @Expose
     private Long fnac;
+
+    @SerializedName( "telefono" )
+    @Expose
     private String telefono;
+
+    @SerializedName( "movil" )
+    @Expose
     private String movil;
+
+    @SerializedName( "direccion" )
+    @Expose
     private String direccion;
+
+    @SerializedName( "poblacion" )
+    @Expose
     private String poblacion;
+
+    @SerializedName( "provincia" )
+    @Expose
     private String provincia;
+
+    @SerializedName( "cp" )
+    @Expose
     private String cp;
 
     /**
@@ -19,7 +64,7 @@ public class ClientesEntity {
      *
      * @return Long
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -28,8 +73,26 @@ public class ClientesEntity {
      *
      * @param id client ID
      */
-    public void setId( long id ) {
+    public void setId( Long id ) {
         this.id = id;
+    }
+
+    /**
+     * Get the client dni
+     *
+     * @return String
+     */
+    public String getDni() {
+        return dni;
+    }
+
+    /**
+     * Set a new dni to the client
+     *
+     * @param dni client dni
+     */
+    public void setDni( String dni ) {
+        this.dni = dni;
     }
 
     /**
@@ -230,6 +293,7 @@ public class ClientesEntity {
     public String toString() {
         return "ClientesEntity{" +
                 "id=" + id +
+                ", dni='" + dni + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", nombre='" + nombre + '\'' +

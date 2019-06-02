@@ -1,7 +1,6 @@
 package com.iessanvincente.weddingplanning.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.iessanvincente.weddingplanning.R;
@@ -10,16 +9,21 @@ import com.iessanvincente.weddingplanning.domain.EventDto;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
 import com.iessanvincente.weddingplanning.helper.MappingHelper;
-import com.iessanvincente.weddingplanning.interfaces.ClientesEntityCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ClientsDtoCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseClientCallbackInterface;
+import com.iessanvincente.weddingplanning.interfaces.ResponseEventCallbackInterface;
+import com.iessanvincente.weddingplanning.interfaces.ResponseProviderCallbackInterface;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
 import com.iessanvincente.weddingplanning.response.ResponseEvent;
+import com.iessanvincente.weddingplanning.response.ResponseProvider;
 import com.iessanvincente.weddingplanning.service.ClientService;
 import com.iessanvincente.weddingplanning.service.EventService;
+import com.iessanvincente.weddingplanning.service.ProviderService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import okhttp3.ResponseBody;
@@ -29,6 +33,7 @@ import retrofit2.Response;
 
 public class APICalls {
 	private ClientService clientService = new ClientService();
+	private ProviderService providerService = new ProviderService();
 	private EventService eventService = new EventService();
 	private String userToken;
 	private Context context;
@@ -36,18 +41,19 @@ public class APICalls {
 	public void setContext( Context context ) {
 		this.context = context;
 	}
+
 	public void setUserToken( String userToken ) {
 		this.userToken = userToken;
 	}
 
 	/**
-	 * Geet login by email and password
+	 * Geet client login by email and password
 	 *
-	 * @param email
-	 * @param password
-	 * @param callback
+	 * @param email client email
+	 * @param password client password
+	 * @param callback manage API response
 	 */
-	public void getLoginClient( String email, String password, ResponseClientCallbackInterface callback ){
+	public void getLoginClient( String email, String password, ResponseClientCallbackInterface callback ) {
 
 		// Call to method in service
 		clientService.login(
@@ -62,15 +68,13 @@ public class APICalls {
 					@Override
 					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
 
-						Gson gson = new Gson();
-						ResponseClient responseClient = null;
-
 						// If isn't body in response call to onError
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse boty in ResponseClient model
-								responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseClient responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
 
 								// If the response isn't successful call to onError
 								if ( response.isSuccessful() ) {
@@ -108,11 +112,11 @@ public class APICalls {
 	}
 
 	/**
-	 * Get login by token
+	 * Get client login by token
 	 *
-	 * @param callback
+	 * @param callback manage API response
 	 */
-	public void getLoginClientByToken( ResponseClientCallbackInterface callback ){
+	public void getLoginClientByToken( ResponseClientCallbackInterface callback ) {
 
 		// Call to method in service
 		clientService.loginByToken(
@@ -126,22 +130,19 @@ public class APICalls {
 					@Override
 					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
 
-						Gson gson = new Gson();
-						ResponseClient responseClient = null;
-
 						// If isn't body in response call to onError
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse boty in ResponseClient model
-								responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseClient responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
 
 								// If the response isn't successful call to onError
 								if ( response.isSuccessful() ) {
 									// If response getOk is true call to onSuccess
 									// else call to onError
 									if ( responseClient.getOk() ) {
-
 										callback.onSuccess( responseClient );
 									} else {
 										callback.onError( responseClient.getError() );
@@ -174,10 +175,10 @@ public class APICalls {
 	/**
 	 * Signup new client
 	 *
-	 * @param clientesEntity
-	 * @param callback
+	 * @param clientesEntity client data
+	 * @param callback manage API response
 	 */
-	public void setNewClient( ClientesEntity clientesEntity, ResponseClientCallbackInterface callback ){
+	public void setNewClient( ClientesEntity clientesEntity, ResponseClientCallbackInterface callback ) {
 
 		// Call to method in service
 		clientService.registerClient(
@@ -185,28 +186,25 @@ public class APICalls {
 				new Callback<ResponseBody>() {
 					/**
 					 * If API response OK this method check data.
-					 * @param call
-					 * @param response
+					 * @param call API call
+					 * @param response API response
 					 */
 					@Override
 					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
-
-						Gson gson = new Gson();
-						ResponseClient responseClient = null;
 
 						// If isn't body in response call to onError
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse boty in ResponseClient model
-								responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseClient responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
 
 								// If the response isn't successful call to onError
 								if ( response.isSuccessful() ) {
 									// If response getOk is true call to onSuccess
 									// else call to onError
 									if ( responseClient.getOk() ) {
-
 										callback.onSuccess( responseClient );
 									} else {
 										callback.onError( responseClient.getError() );
@@ -225,8 +223,8 @@ public class APICalls {
 
 					/**
 					 *  IF API call failed this method call to onError and stop the progress dialog.
-					 * @param call
-					 * @param t
+					 * @param call API call
+					 * @param t API error
 					 */
 					@Override
 					public void onFailure( Call call, Throwable t ) {
@@ -235,14 +233,14 @@ public class APICalls {
 				}
 		);
 	}
-	
+
 	/**
 	 * Update client
 	 *
-	 * @param clientesEntity
-	 * @param callback
+	 * @param clientesEntity client data
+	 * @param callback manage API response
 	 */
-	public void setUpdateClient( ClientesEntity clientesEntity, ClientesEntityCallbackInterface callback ){
+	public void setUpdateClient( ClientesEntity clientesEntity, ResponseClientCallbackInterface callback ) {
 
 		// Call to method in service
 		clientService.updateClient(
@@ -257,23 +255,20 @@ public class APICalls {
 					@Override
 					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
 
-						Gson gson = new Gson();
-						ResponseClient responseClient = null;
-
 						// If isn't body in response call to onError
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse boty in ResponseClient model
-								responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseClient responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
 
 								// If the response isn't successful call to onError
 								if ( response.isSuccessful() ) {
 									// If response getOk is true call to onSuccess
 									// else call to onError
 									if ( responseClient.getOk() ) {
-
-										callback.onSuccess( clientesEntity );
+										callback.onSuccess( responseClient );
 									} else {
 										callback.onError( responseClient.getError() );
 									}
@@ -302,17 +297,18 @@ public class APICalls {
 		);
 	}
 
+
 	/**
-	 * Get events by client
+	 * Get provider by ID
 	 *
-	 * @param clientDto
-	 * @param callback
+	 * @param callback manage API response
 	 */
-	public void getEvenetsByClient( ClientDto clientDto, ClientsDtoCallbackInterface callback ) {
+	public void getProviderById( String providerId, ResponseProviderCallbackInterface callback ) {
+
 		// Call to method in service
-		eventService.getEventsByClient(
+		providerService.findById(
 				userToken,
-				clientDto.getId(),
+				providerId,
 				new Callback<ResponseBody>() {
 					/**
 					 * If API response OK this method check data.
@@ -322,15 +318,137 @@ public class APICalls {
 					@Override
 					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
 
-						Gson gson = new Gson();
-						ResponseEvent responseEvent = null;
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseProvider responseProvider = gson.fromJson( response.body().string(), ResponseProvider.class );
+
+								// If the response isn't successful call to onError
+								if ( response.isSuccessful() ) {
+									// If response getOk is true call to onSuccess
+									// else call to onError
+									if ( responseProvider.getOk() ) {
+										callback.onSuccess( responseProvider );
+									} else {
+										callback.onError( responseProvider.getError() );
+									}
+								} else {
+									callback.onError( responseProvider.getError() );
+								}
+							} catch (IOException e) {
+								callback.onError( context.getResources().getString( R.string.toast_provider_find_failed ) );
+								e.printStackTrace();
+							}
+						} else {
+							callback.onError( context.getResources().getString( R.string.toast_provider_find_failed ) );
+						}
+					}
+
+					/**
+					 *  IF API call failed this method call to onError and stop the progress dialog.
+					 * @param call
+					 * @param t
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( context.getResources().getString( R.string.toast_provider_find_failed ) );
+					}
+				}
+		);
+	}
+
+	/**
+	 * Get event by ID
+	 *
+	 * @param callback manage API response
+	 */
+	public void getEventById( Long eventId, ResponseEventCallbackInterface callback ) {
+
+		// Call to method in service
+		eventService.getEventById(
+				userToken,
+				eventId,
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
 
 						// If isn't body in response call to onError
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse boty in ResponseClient model
-								responseEvent = gson.fromJson( response.body().string(), ResponseEvent.class );
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseEvent responseEvent = gson.fromJson( response.body().string(), ResponseEvent.class );
+
+								// If the response isn't successful call to onError
+								if ( response.isSuccessful() ) {
+									// If response getOk is true call to onSuccess
+									// else call to onError
+									if ( responseEvent.getOk() ) {
+										callback.onSuccess( responseEvent );
+									} else {
+										callback.onError( responseEvent.getError() );
+									}
+								} else {
+									callback.onError( responseEvent.getError() );
+								}
+							} catch (IOException e) {
+								callback.onError( context.getResources().getString( R.string.toast_event_find_failed ) );
+								e.printStackTrace();
+							}
+						} else {
+							callback.onError( context.getResources().getString( R.string.toast_event_find_failed ) );
+						}
+					}
+
+					/**
+					 *  IF API call failed this method call to onError and stop the progress dialog.
+					 * @param call API call
+					 * @param t API error
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( context.getResources().getString( R.string.toast_event_find_failed ) );
+					}
+				}
+		);
+	}
+
+	/**
+	 * Get events by client
+	 *
+	 * @param clientDto client data
+	 * @param callback manage API response
+	 */
+	public void getEvenetsByClient( ClientDto clientDto, ClientsDtoCallbackInterface callback ) {
+		// Call to method in service
+		eventService.getEventsByClient(
+				userToken,
+				clientDto.getId(),
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseEvent responseEvent = gson.fromJson( response.body().string(), ResponseEvent.class );
 
 								// If the response is successful
 								if ( response.isSuccessful() ) {
@@ -338,22 +456,45 @@ public class APICalls {
 									if ( responseEvent.getOk() ) {
 										Set<EventDto> events = new HashSet<>();
 										Set<EventosEntity> eventosEntitySet = responseEvent.getEvents();
-										for ( EventosEntity evento : eventosEntitySet ) {
-											events.add( MappingHelper.getEventDtoFromEventosEntity( evento ) );
+										List<EventosEntity> eventosEntityList = new ArrayList<>( eventosEntitySet );
+										if( eventosEntitySet.size() > 0 ) {
+											for ( EventosEntity evento : eventosEntitySet ) {
+												getEventById(
+														evento.getId(),
+														new ResponseEventCallbackInterface() {
+															@Override
+															public void onSuccess( ResponseEvent responseEventById ) {
+																events.add( MappingHelper.getEventDtoFromEventosEntity( responseEventById.getEvent() ) );
+																clientDto.setEvents( events );
+																if ( evento == eventosEntityList.get( eventosEntityList.size() - 1 ) ) {
+																	callback.onSuccess( clientDto );
+																}
+															}
+
+															@Override
+															public void onError( String message ) {
+
+															}
+														}
+												);
+											}
+										}else{
+											callback.onError( responseEvent.getError() );
 										}
-										clientDto.setEvents( events );
-										callback.onSuccess( clientDto );
+									}else{
+										callback.onError( responseEvent.getError() );
 									}
 								}
 							} catch (IOException e) {
+								callback.onError( e.getMessage() );
 							}
 						}
 					}
 
 					/**
 					 *  If API call failed.
-					 * @param call
-					 * @param t
+					 * @param call API call
+					 * @param t API error
 					 */
 					@Override
 					public void onFailure( Call call, Throwable t ) {
@@ -362,5 +503,4 @@ public class APICalls {
 				}
 		);
 	}
-
 }

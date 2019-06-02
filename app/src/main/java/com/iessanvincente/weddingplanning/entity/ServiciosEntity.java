@@ -1,8 +1,18 @@
 package com.iessanvincente.weddingplanning.entity;
 
-public class ServiciosEntity {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    private long id;
+import java.io.Serializable;
+
+public class ServiciosEntity implements Serializable {
+
+    @SerializedName( "id" )
+    @Expose
+    private Long id;
+
+    @SerializedName( "nombre" )
+    @Expose
     private String nombre;
 
     /**
@@ -10,7 +20,7 @@ public class ServiciosEntity {
      *
      * @return Long
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -19,7 +29,7 @@ public class ServiciosEntity {
      *
      * @param id event ID
      */
-    public void setId( long id ) {
+    public void setId( Long id ) {
         this.id = id;
     }
 

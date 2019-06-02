@@ -1,8 +1,18 @@
 package com.iessanvincente.weddingplanning.domain;
 
-public class ServiceDto {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    private long id;
+import java.io.Serializable;
+
+public class ServiceDto implements Serializable {
+
+    @SerializedName( "id" )
+    @Expose
+    private Long id;
+
+    @SerializedName( "service" )
+    @Expose
     private String service;
 
     /**
@@ -10,7 +20,7 @@ public class ServiceDto {
      *
      * @return Long
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -19,7 +29,7 @@ public class ServiceDto {
      *
      * @param id event ID
      */
-    public void setId( long id ) {
+    public void setId( Long id ) {
         this.id = id;
     }
 

@@ -3,8 +3,12 @@ package com.iessanvincente.weddingplanning.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,6 +26,7 @@ public class APIClient {
 	 * @return Retrofit
 	 */
 	public static Retrofit getRetrofitClient() {
+		// Set log interceptor
 		logging.setLevel( HttpLoggingInterceptor.Level.BODY );
 		httpClient.addInterceptor( logging );
 

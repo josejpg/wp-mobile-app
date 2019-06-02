@@ -2,8 +2,8 @@ package com.iessanvincente.weddingplanning.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
+import com.iessanvincente.weddingplanning.entity.ProveedoresEntity;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -21,13 +21,13 @@ public class ResponseEvent implements Serializable {
 	@Expose
 	String error;
 
-	@SerializedName( "token" )
-	@Expose
-	String token;
-
 	@SerializedName( "events" )
 	@Expose
 	Set<EventosEntity> events;
+
+	@SerializedName( "event" )
+	@Expose
+	EventosEntity event;
 
 	public Boolean getOk( ) {
 		return ok;
@@ -57,9 +57,18 @@ public class ResponseEvent implements Serializable {
 		return events;
 	}
 
-	public void setEvetns( Set<EventosEntity> events ) {
+	public void setEvents( Set<EventosEntity> events ) {
 		this.events = events;
 	}
+
+	public EventosEntity getEvent( ) {
+		return event;
+	}
+
+	public void setEvent( EventosEntity event ) {
+		this.event = event;
+	}
+
 
 	@Override
 	public String toString( ) {
@@ -67,8 +76,8 @@ public class ResponseEvent implements Serializable {
 				"ok=" + ok +
 				", ko=" + ko +
 				", error='" + error + '\'' +
-				", token='" + token + '\'' +
 				", events=" + events +
+				", event=" + event +
 				'}';
 	}
 }

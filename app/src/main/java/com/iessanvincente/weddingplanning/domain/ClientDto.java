@@ -7,47 +7,52 @@ import java.io.Serializable;
 import java.util.Set;
 
 public class ClientDto implements Serializable {
+
 	@SerializedName( "id" )
 	@Expose
 	private Long id;
+
+	@SerializedName( "dni" )
+	@Expose
+	private String dni;
 
 	@SerializedName( "email" )
 	@Expose
 	private String email;
 
-	@SerializedName( "nombre" )
+	@SerializedName( "name" )
 	@Expose
 	private String name;
 
-	@SerializedName( "apellidos" )
+	@SerializedName( "lastName" )
 	@Expose
 	private String lastName;
 
-	@SerializedName( "fnac" )
+	@SerializedName( "birthDate" )
 	@Expose
 	private Long birthDate;
 
-	@SerializedName( "telefono" )
+	@SerializedName( "phone" )
 	@Expose
 	private String phone;
 
-	@SerializedName( "movil" )
+	@SerializedName( "mobile" )
 	@Expose
 	private String mobile;
 
-	@SerializedName( "direccion" )
+	@SerializedName( "address" )
 	@Expose
 	private String address;
 
-	@SerializedName( "poblacion" )
+	@SerializedName( "town" )
 	@Expose
 	private String town;
 
-	@SerializedName( "provincia" )
+	@SerializedName( "province" )
 	@Expose
 	private String province;
 
-	@SerializedName( "cp" )
+	@SerializedName( "postalCode" )
 	@Expose
 	private String postalCode;
 
@@ -60,7 +65,7 @@ public class ClientDto implements Serializable {
 	 *
 	 * @return Long
 	 */
-	public long getId( ) {
+	public Long getId( ) {
 		return id;
 	}
 
@@ -69,8 +74,26 @@ public class ClientDto implements Serializable {
 	 *
 	 * @param id client ID
 	 */
-	public void setId( long id ) {
+	public void setId( Long id ) {
 		this.id = id;
+	}
+
+	/**
+	 * Get the client dni
+	 *
+	 * @return String
+	 */
+	public String getDni( ) {
+		return dni;
+	}
+
+	/**
+	 * Set a new dni to the client
+	 *
+	 * @param dni client name
+	 */
+	public void setDni( String dni ) {
+		this.dni = dni;
 	}
 
 	/**
@@ -288,6 +311,7 @@ public class ClientDto implements Serializable {
 	public String toString( ) {
 		return "ClientDto{" +
 				"id=" + id +
+				", dni='" + dni + '\'' +
 				", email='" + email + '\'' +
 				", name='" + name + '\'' +
 				", lastName='" + lastName + '\'' +
@@ -298,6 +322,7 @@ public class ClientDto implements Serializable {
 				", town='" + town + '\'' +
 				", province='" + province + '\'' +
 				", postalCode='" + postalCode + '\'' +
+				", events='" + events + '\'' +
 				'}';
 	}
 }

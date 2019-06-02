@@ -1,27 +1,67 @@
 package com.iessanvincente.weddingplanning.entity;
 
-import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-public class ProveedoresEntity {
-    private long id;
+import java.io.Serializable;
+import java.util.Set;
+
+public class ProveedoresEntity implements Serializable {
+
+    @SerializedName( "id" )
+    @Expose
+    private Long id;
+
+    @SerializedName( "nombre" )
+    @Expose
     private String nombre;
+
+    @SerializedName( "cif" )
+    @Expose
     private String cif;
+
+    @SerializedName( "direccion" )
+    @Expose
     private String direccion;
+
+    @SerializedName( "poblacion" )
+    @Expose
     private String poblacion;
+
+    @SerializedName( "provincia" )
+    @Expose
     private String provincia;
+
+    @SerializedName( "cp" )
+    @Expose
     private String cp;
+
+    @SerializedName( "email" )
+    @Expose
     private String email;
+
+    @SerializedName( "password" )
+    @Expose
     private String password;
+
+    @SerializedName( "telefono" )
+    @Expose
     private String telefono;
+
+    @SerializedName( "movil" )
+    @Expose
     private String movil;
-    private List<ServiciosEntity> servicios;
+
+    @SerializedName( "servicios" )
+    @Expose
+    private Set<ServiciosEntity> servicios;
 
     /**
      * Get the ID
      *
      * @return Long
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -30,7 +70,7 @@ public class ProveedoresEntity {
      *
      * @param id provider ID
      */
-    public void setId( long id ) {
+    public void setId( Long id ) {
         this.id = id;
     }
 
@@ -219,7 +259,7 @@ public class ProveedoresEntity {
      *
      * @return List<ServiciosEntity>
      */
-    public List<ServiciosEntity> getServicios() {
+    public Set<ServiciosEntity> getServicios() {
         return servicios;
     }
 
@@ -228,7 +268,7 @@ public class ProveedoresEntity {
      *
      * @param servicios list
      */
-    public void setServicios(List<ServiciosEntity> servicios) {
+    public void setServicios(Set<ServiciosEntity> servicios) {
         this.servicios = servicios;
     }
 

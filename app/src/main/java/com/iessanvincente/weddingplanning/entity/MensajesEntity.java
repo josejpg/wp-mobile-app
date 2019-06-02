@@ -1,22 +1,47 @@
 package com.iessanvincente.weddingplanning.entity;
 
-import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-public class MensajesEntity {
-    private long id;
+import java.io.Serializable;
+import java.util.Set;
+
+public class MensajesEntity implements Serializable {
+
+    @SerializedName( "id" )
+    @Expose
+    private Long id;
+
+    @SerializedName( "mensaje" )
+    @Expose
     private String mensaje;
+
+    @SerializedName( "fecha" )
+    @Expose
     private Integer fecha;
+
+    @SerializedName( "propietario" )
+    @Expose
     private Boolean propietario;
+
+    @SerializedName( "evento" )
+    @Expose
     private EventosEntity evento;
-    private List<ProveedoresEntity> proveedores;
-    private List<ClientesEntity> clientes;
+
+    @SerializedName( "proveedores" )
+    @Expose
+    private Set<ProveedoresEntity> proveedores;
+
+    @SerializedName( "clientes" )
+    @Expose
+    private Set<ClientesEntity> clientes;
 
     /**
      * Get the ID
      *
      * @return Long
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -25,7 +50,7 @@ public class MensajesEntity {
      *
      * @param id provider ID
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -106,16 +131,16 @@ public class MensajesEntity {
      *
      * @return List<ProveedoresEntity>
      */
-    public List<ProveedoresEntity> getProveedores() {
+    public Set<ProveedoresEntity> getProveedores() {
         return proveedores;
     }
 
     /**
      * Set the providers list
      *
-     * @param proveedores
+     * @param proveedores providers list
      */
-    public void setProveedores(List<ProveedoresEntity> proveedores) {
+    public void setProveedores(Set<ProveedoresEntity> proveedores) {
         this.proveedores = proveedores;
     }
 
@@ -124,16 +149,16 @@ public class MensajesEntity {
      *
      * @return List<ClientesEntity>
      */
-    public List<ClientesEntity> getClientes() {
+    public Set<ClientesEntity> getClientes() {
         return clientes;
     }
 
     /**
      * Set the clients list
      *
-     * @param clientes
+     * @param clientes clients list
      */
-    public void setClientes(List<ClientesEntity> clientes) {
+    public void setClientes(Set<ClientesEntity> clientes) {
         this.clientes = clientes;
     }
 

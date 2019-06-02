@@ -25,6 +25,7 @@ public class MappingHelper {
 		Log.println( Log.INFO, "Mapper", "getClientDtoFromClientesEntity" );
 		ClientDto clientDto = new ClientDto();
 		clientDto.setId( clientesEntity.getId() );
+		clientDto.setDni( clientesEntity.getDni() );
 		clientDto.setName( clientesEntity.getNombre() );
 		clientDto.setLastName( clientesEntity.getApellidos() );
 		clientDto.setEmail( clientesEntity.getEmail() );
@@ -48,6 +49,7 @@ public class MappingHelper {
 		Log.println( Log.INFO, "Mapper", "getClientesEntityFromClientDto" );
 		ClientesEntity clientesEntity = new ClientesEntity();
 		clientesEntity.setId( clientDto.getId() );
+		clientesEntity.setDni( clientDto.getDni() );
 		clientesEntity.setNombre( clientDto.getName() );
 		clientesEntity.setApellidos( clientDto.getName() );
 		clientesEntity.setEmail( clientDto.getEmail() );
@@ -60,6 +62,7 @@ public class MappingHelper {
 		clientesEntity.setFnac( clientDto.getBirthDate() );
 		return clientesEntity;
 	}
+
 	/**
 	 * Map from ProveedoresEntity to ProviderDto
 	 *
@@ -110,21 +113,22 @@ public class MappingHelper {
 	 */
 	public static EventDto getEventDtoFromEventosEntity( EventosEntity eventosEntity ) {
 		Log.println( Log.INFO, "Mapper", "getEventDtoFromEventosEntity" );
-		Set<ClientDto> clientDtoSet = new HashSet<>(  );
-		Set<ProviderDto> providerDtoSet = new HashSet<>(  );
+		Set<ClientDto> clientDtoSet = new HashSet<>();
+		Set<ProviderDto> providerDtoSet = new HashSet<>();
 		EventDto eventDto = new EventDto();
 		eventDto.setId( eventosEntity.getId() );
-		eventDto.setEvent( eventosEntity.getDescripcion() );
+		eventDto.setEvent( eventosEntity.getNombre() );
+		eventDto.setDescription( eventosEntity.getDescripcion() );
 		eventDto.setDate( eventosEntity.getFecha() );
-		eventDto.setActive( eventosEntity.getActivo() );
+		eventDto.setActive( eventosEntity.getActivo() == 1 );
 
-		for( ClientesEntity clientesEntity: eventosEntity.getClientes() ){
+		for ( ClientesEntity clientesEntity : eventosEntity.getClientes() ) {
 			clientDtoSet.add( getClientDtoFromClientesEntity( clientesEntity ) );
 		}
 
 		eventDto.setClients( clientDtoSet );
 
-		for( ProveedoresEntity proveedoresEntity: eventosEntity.getProveedores() ){
+		for ( ProveedoresEntity proveedoresEntity : eventosEntity.getProveedores() ) {
 			providerDtoSet.add( getProviderDtoFromProveedoresEntity( proveedoresEntity ) );
 		}
 
@@ -140,22 +144,22 @@ public class MappingHelper {
 	 */
 	public static EventosEntity getEventosEntityFromEventDto( EventDto eventDto ) {
 		Log.println( Log.INFO, "Mapper", "getEventosEntityFromEventDto" );
-		Set<ClientesEntity> clientesEntitySet = new HashSet<>(  );
-		Set<ProveedoresEntity> proveedoresEntitySet = new HashSet<>(  );
+		Set<ClientesEntity> clientesEntitySet = new HashSet<>();
+		Set<ProveedoresEntity> proveedoresEntitySet = new HashSet<>();
 		EventosEntity eventosEntity = new EventosEntity();
 		eventosEntity.setId( eventDto.getId() );
 		eventosEntity.setNombre( eventDto.getEvent() );
 		eventosEntity.setDescripcion( eventDto.getDescription() );
 		eventosEntity.setFecha( eventDto.getDate() );
-		eventosEntity.setActivo( eventDto.getActive() );
+		eventosEntity.setActivo( ( eventDto.getActive() ) ? 1 : 0 );
 
-		for( ClientDto clientDto: eventDto.getClients() ){
+		for ( ClientDto clientDto : eventDto.getClients() ) {
 			clientesEntitySet.add( getClientesEntityFromClientDto( clientDto ) );
 		}
 
 		eventosEntity.setClientes( clientesEntitySet );
 
-		for( ProviderDto providerDto: eventDto.getProviders() ){
+		for ( ProviderDto providerDto : eventDto.getProviders() ) {
 			proveedoresEntitySet.add( getProveedoresEntityFromProviderDto( providerDto ) );
 		}
 

@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,29 +19,49 @@ import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.helper.MappingHelper;
-import com.iessanvincente.weddingplanning.interfaces.ClientesEntityCallbackInterface;
+import com.iessanvincente.weddingplanning.interfaces.ResponseClientCallbackInterface;
+import com.iessanvincente.weddingplanning.response.ResponseClient;
 import com.iessanvincente.weddingplanning.utils.APICalls;
+import com.iessanvincente.weddingplanning.utils.Utils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ProfileActivity extends AppCompatActivity {
 
 	private static final String TAG = "ProfileActivity";
 
-	ScrollView _scrollViewProfile;
-	LinearLayout _linearForm;
+	@BindView( R.id.linear_password )
 	LinearLayout _linearPassword;
+	@BindView( R.id.input_dni )
+	EditText _dniText;
+	@BindView( R.id.input_email )
 	EditText _emailText;
+	@BindView( R.id.input_name )
 	EditText _nameText;
+	@BindView( R.id.input_lastName )
 	EditText _lastNameText;
+	@BindView( R.id.input_phone )
 	EditText _phoneText;
+	@BindView( R.id.input_mobile )
 	EditText _mobileText;
+	@BindView( R.id.input_address )
 	EditText _addressText;
+	@BindView( R.id.input_postalCode )
 	EditText _postalCodeText;
+	@BindView( R.id.input_town )
 	EditText _townText;
-	EditText _birthdateText;
+	@BindView( R.id.input_province )
 	EditText _provinceText;
+	@BindView( R.id.input_password )
 	EditText _passwordText;
+	@BindView( R.id.input_reEnterPassword )
 	EditText _rePasswordText;
+	@BindView( R.id.input_birthDate )
+	EditText _birthdateText;
+	@BindView( R.id.btn_show_password )
 	Button _showPasswordButton;
+	@BindView( R.id.btn_update )
 	Button _updateButton;
 
 	private Gson gson = new Gson();
@@ -56,24 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
 	protected void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_profile );
-
-		_scrollViewProfile = (ScrollView) this.findViewById( R.id.scrollView_profile );
-		_linearForm = (LinearLayout) _scrollViewProfile.findViewById(  R.id.linear_form );
-		_linearPassword = (LinearLayout) _scrollViewProfile.findViewById(  R.id.linear_password );
-		_emailText = (EditText) _linearForm.findViewById(  R.id.input_email );
-		_nameText = (EditText) _linearForm.findViewById(  R.id.input_name );
-		_lastNameText = (EditText) _linearForm.findViewById(  R.id.input_lastName );
-		_phoneText = (EditText) _linearForm.findViewById(  R.id.input_phone );
-		_mobileText = (EditText) _linearForm.findViewById(  R.id.input_mobile );
-		_addressText = (EditText) _linearForm.findViewById(  R.id.input_address );
-		_postalCodeText = (EditText) _linearForm.findViewById(  R.id.input_postalCode );
-		_townText = (EditText) _linearForm.findViewById(  R.id.input_town );
-		_provinceText = (EditText) _linearForm.findViewById(  R.id.input_province );
-		_birthdateText = (EditText) _linearForm.findViewById(  R.id.input_birthDate );
-		_passwordText = (EditText) _linearForm.findViewById(  R.id.input_password );
-		_rePasswordText = (EditText) _linearForm.findViewById(  R.id.input_reEnterPassword );
-		_showPasswordButton = (Button) _linearForm.findViewById(  R.id.btn_show_password );
-		_updateButton = (Button) _linearForm.findViewById(  R.id.btn_update );
+		ButterKnife.bind( this );
 
 		// Get SharedPreferences
 		settings = getSharedPreferences( "PREF_CLI", Context.MODE_PRIVATE );
@@ -105,9 +107,7 @@ public class ProfileActivity extends AppCompatActivity {
 		} );
 
 		// Set on click action for button
-		_updateButton.setOnClickListener( v -> {
-			updateClient();
-		} );
+		_updateButton.setOnClickListener( v ->  updateClient() );
 
 		// Get data client
 		getInfoClient();
@@ -115,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
 	}
 
 	@Override
-	public boolean onSupportNavigateUp(){
+	public boolean onSupportNavigateUp( ) {
 		Log.d( TAG, "Go to MainActivity" );
 		Intent intent = new Intent( getApplicationContext(), MainActivity.class );
 		intent.putExtra( "client", actualIntent.getSerializableExtra( "client" ) );
@@ -130,6 +130,7 @@ public class ProfileActivity extends AppCompatActivity {
 	 */
 	private void getInfoClient( ) {
 		try {
+			_dniText.setText( clientDto.getDni() );
 			_emailText.setText( clientDto.getEmail() );
 			_nameText.setText( clientDto.getName() );
 			_lastNameText.setText( clientDto.getLastName() );
@@ -139,8 +140,8 @@ public class ProfileActivity extends AppCompatActivity {
 			_postalCodeText.setText( clientDto.getPostalCode() );
 			_townText.setText( clientDto.getTown() );
 			_provinceText.setText( clientDto.getProvince() );
-			_birthdateText.setText( Long.toString( clientDto.getBirthDate() ) );
-		}catch ( Exception e ){
+			_birthdateText.setText( Utils.getDateAsString( clientDto.getBirthDate() ) );
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -166,6 +167,7 @@ public class ProfileActivity extends AppCompatActivity {
 		progressDialog.show();
 
 		ClientesEntity clientesEntity = MappingHelper.getClientesEntityFromClientDto( clientDto );
+		clientesEntity.setDni( _dniText.getText().toString() );
 		clientesEntity.setNombre( _nameText.getText().toString() );
 		clientesEntity.setApellidos( _lastNameText.getText().toString() );
 		clientesEntity.setTelefono( _phoneText.getText().toString() );
@@ -174,16 +176,17 @@ public class ProfileActivity extends AppCompatActivity {
 		clientesEntity.setCp( _postalCodeText.getText().toString() );
 		clientesEntity.setPoblacion( _townText.getText().toString() );
 		clientesEntity.setProvincia( _provinceText.getText().toString() );
+		clientesEntity.setFnac( Utils.getTimeFromDate( _birthdateText.getText().toString() ) );
 		if ( !_passwordText.getText().toString().isEmpty() ) {
 			clientesEntity.setPassword( _passwordText.getText().toString() );
 		}
 
-		apiCalls.setUpdateClient( clientesEntity, new ClientesEntityCallbackInterface() {
+		apiCalls.setUpdateClient( clientesEntity, new ResponseClientCallbackInterface() {
 			@Override
-			public void onSuccess( ClientesEntity clientesEntity ) {
+			public void onSuccess( ResponseClient responseClient ) {
 				Log.d( TAG, "onSuccess setUpdateClient" );
 				progressDialog.dismiss();
-				onSuccessUpdate( clientesEntity );
+				onSuccessUpdate( responseClient.getClient() );
 			}
 
 			@Override
@@ -195,7 +198,7 @@ public class ProfileActivity extends AppCompatActivity {
 		} );
 	}
 
-	private void onSuccessUpdate( ClientesEntity clientesEntity) {
+	private void onSuccessUpdate( ClientesEntity clientesEntity ) {
 		_updateButton.setEnabled( true );
 		_showPasswordButton.setEnabled( true );
 		clientDto = MappingHelper.getClientDtoFromClientesEntity( clientesEntity );

@@ -30,6 +30,22 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/logo" />
 
+            <!--  DNI Label -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/dni">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_dni"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:enabled="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
             <!--  Email Label -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

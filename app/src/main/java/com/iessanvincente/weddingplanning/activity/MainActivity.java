@@ -6,35 +6,33 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.domain.EventDto;
-import com.iessanvincente.weddingplanning.entity.EventosEntity;
-import com.iessanvincente.weddingplanning.helper.MappingHelper;
 import com.iessanvincente.weddingplanning.interfaces.ClientsDtoCallbackInterface;
-import com.iessanvincente.weddingplanning.response.ResponseClient;
-import com.iessanvincente.weddingplanning.response.ResponseEvent;
-import com.iessanvincente.weddingplanning.service.ClientService;
-import com.iessanvincente.weddingplanning.service.EventService;
 import com.iessanvincente.weddingplanning.utils.APICalls;
+import com.iessanvincente.weddingplanning.utils.EventsRecyclerView;
 
-import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.Set;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * @author Jose J. Pardines
@@ -50,6 +48,17 @@ public class MainActivity extends AppCompatActivity
 	private ClientDto clientDto;
 	private String userToken;
 
+	@BindView( R.id.listNextEvents )
+	RecyclerView recyclerViewNextEvents;
+	@BindView( R.id.listPrevEvents )
+	RecyclerView recyclerViewPrevEvents;
+	@BindView( R.id.titleNextEvents )
+	TextView titleNextEvents;
+	@BindView( R.id.titlePrevEvents )
+	TextView titlePrevEvents;
+	@BindView( R.id.titleNoEvents )
+	TextView titleNoEvents;
+
 	private void getClientInfo( ) {
 		clientDto = (ClientDto) actualIntent.getSerializableExtra( "client" );
 
@@ -58,11 +67,45 @@ public class MainActivity extends AppCompatActivity
 			public void onSuccess( ClientDto _clientDto ) {
 				Log.d( TAG, "onSuccess getEvenetsByClient" );
 				clientDto = _clientDto;
+				Set<EventDto> nextEvents = new HashSet<>();
+				Set<EventDto> prevEvents = new HashSet<>();
+				for ( EventDto eventDto : clientDto.getEvents() ) {
+					if ( LocalDateTime.ofEpochSecond( eventDto.getDate(), 0, ZoneOffset.UTC ).isAfter( LocalDateTime.now() ) ) {
+						nextEvents.add( eventDto );
+					} else if ( LocalDateTime.ofEpochSecond( eventDto.getDate(), 0, ZoneOffset.UTC ).isBefore( LocalDateTime.now() ) ) {
+						prevEvents.add( eventDto );
+					} else {
+						prevEvents.add( eventDto );
+					}
+				}
+
+				if( nextEvents.size() > 0 ) {
+					setConfigRecyclerViewEvents( recyclerViewNextEvents, nextEvents );
+				}else{
+					recyclerViewNextEvents.setVisibility( View.GONE );
+					titleNextEvents.setVisibility( View.GONE );
+				}
+
+				if( prevEvents.size() > 0 ) {
+					setConfigRecyclerViewEvents( recyclerViewPrevEvents, prevEvents );
+				}else{
+					recyclerViewPrevEvents.setVisibility( View.GONE );
+					titlePrevEvents.setVisibility( View.GONE );
+				}
+
+				if( nextEvents.size() == 0 && prevEvents.size() == 0 ){
+					titleNoEvents.setVisibility( View.VISIBLE );
+				}
 			}
 
 			@Override
 			public void onError( String message ) {
 				Log.d( TAG + " onFailure getEvenetsByClient", message );
+				recyclerViewNextEvents.setVisibility( View.GONE );
+				titleNextEvents.setVisibility( View.GONE );
+				recyclerViewPrevEvents.setVisibility( View.GONE );
+				titlePrevEvents.setVisibility( View.GONE );
+				titleNoEvents.setVisibility( View.VISIBLE );
 			}
 		} );
 	}
@@ -72,6 +115,7 @@ public class MainActivity extends AppCompatActivity
 		super.onCreate( savedInstanceState );
 
 		setContentView( R.layout.activity_main );
+		ButterKnife.bind( this );
 		Toolbar toolbar = findViewById( R.id.toolbar );
 		setSupportActionBar( toolbar );
 		DrawerLayout drawer = findViewById( R.id.drawer_layout );
@@ -82,12 +126,12 @@ public class MainActivity extends AppCompatActivity
 		toggle.syncState();
 		navigationView.setNavigationItemSelectedListener( this );
 
-		// Set token for calls
-		apiCalls.setUserToken( userToken );
-
 		// Get SharedPreferences
 		settings = getSharedPreferences( "PREF_CLI", Context.MODE_PRIVATE );
 		userToken = settings.getString( "token", "" );
+
+		// Set token for calls
+		apiCalls.setUserToken( userToken );
 
 		// Save the intent intlo a private variable
 		actualIntent = getIntent();
@@ -143,5 +187,20 @@ public class MainActivity extends AppCompatActivity
 		DrawerLayout drawer = findViewById( R.id.drawer_layout );
 		drawer.closeDrawer( GravityCompat.START );
 		return true;
+	}
+
+	/**
+	 * Set up the RecyclerView configuration
+	 * @param recyclerView to config
+	 * @param eventDtoSet to push into recyclerView
+	 */
+	private void setConfigRecyclerViewEvents( RecyclerView recyclerView, Set<EventDto> eventDtoSet ){
+		LinearLayoutManager layoutManager
+				= new LinearLayoutManager( MainActivity.this, RecyclerView.VERTICAL, false );
+		layoutManager.setOrientation( RecyclerView.VERTICAL );
+		recyclerView.setLayoutManager( layoutManager );
+		recyclerView.addItemDecoration( new DividerItemDecoration( getApplicationContext(), DividerItemDecoration.VERTICAL ) );
+		EventsRecyclerView adapter = new EventsRecyclerView( getApplicationContext(), eventDtoSet );
+		recyclerView.setAdapter( adapter );
 	}
 }

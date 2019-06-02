@@ -1,15 +1,39 @@
 package com.iessanvincente.weddingplanning.domain;
 
-import java.util.Date;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class MessageDto {
-    private long id;
+public class MessageDto implements Serializable {
+
+    @SerializedName( "event" )
+    @Expose
+    private Long id;
+
+    @SerializedName( "message" )
+    @Expose
     private String message;
-    private Date date;
+
+    @SerializedName( "date" )
+    @Expose
+    private Long date;
+
+    @SerializedName( "owner" )
+    @Expose
     private Boolean owner;
+
+    @SerializedName( "event" )
+    @Expose
     private EventDto event;
+
+    @SerializedName( "providers" )
+    @Expose
     private List<ProviderDto> providers;
+
+    @SerializedName( "clients" )
+    @Expose
     private List<ClientDto> clients;
 
     /**
@@ -17,7 +41,7 @@ public class MessageDto {
      *
      * @return Long
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -26,7 +50,7 @@ public class MessageDto {
      *
      * @param id provider ID
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,7 +77,7 @@ public class MessageDto {
      *
      * @return Date
      */
-    public Date getDate() {
+    public Long getDate() {
         return date;
     }
 
@@ -62,7 +86,7 @@ public class MessageDto {
      *
      * @param date from message
      */
-    public void setDate(Date date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

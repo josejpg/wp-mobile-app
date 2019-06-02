@@ -23,9 +23,9 @@ public class ClientService {
 	/**
 	 * Login client with email and password
 	 *
-	 * @param email
-	 * @param password
-	 * @param callback
+	 * @param email user email
+	 * @param password user password
+	 * @param callback manage API response
 	 */
 	public void login( String email, String password, Callback<ResponseBody> callback ) {
 		Log.d( TAG, "Login" );
@@ -40,8 +40,8 @@ public class ClientService {
 	/**
 	 * Login client with token
 	 *
-	 * @param userToken
-	 * @param callback
+	 * @param userToken auth token
+	 * @param callback manage API response
 	 */
 	public void loginByToken( String userToken, Callback<ResponseBody> callback ) {
 		Log.d( TAG, "Login" );
@@ -53,32 +53,32 @@ public class ClientService {
 
 	/**
 	 * Register a new client
-	 * @param clientData
-	 * @param callback
+	 * @param clientesEntity client data
+	 * @param callback manage API response
 	 */
-	public void registerClient( ClientesEntity clientData, Callback<ResponseBody> callback ) {
+	public void registerClient( ClientesEntity clientesEntity, Callback<ResponseBody> callback ) {
 		Log.d( TAG, "Register client" );
-		clientData.setPassword( Encryptation.encryptMD5( clientData.getPassword() ) );
+		clientesEntity.setPassword( Encryptation.encryptMD5( clientesEntity.getPassword() ) );
 		Retrofit retrofit = APIClient.getRetrofitClient();
 		ClientAPI clientsAPI = retrofit.create( ClientAPI.class );
-		Call<ResponseBody> call = clientsAPI.registerClient( clientData );
+		Call<ResponseBody> call = clientsAPI.registerClient( clientesEntity );
 		call.enqueue( callback );
 	}
 
 	/**
 	 * Register a new client
-	 * @param userToken
-	 * @param clientData
-	 * @param callback
+	 * @param userToken auth token
+	 * @param clientesEntity client data
+	 * @param callback manage API response
 	 */
-	public void updateClient( String userToken, ClientesEntity clientData, Callback<ResponseBody> callback ) {
-		Log.d( TAG, "Register client" );
-		if( clientData.getPassword() != null ) {
-			clientData.setPassword( Encryptation.encryptMD5( clientData.getPassword() ) );
+	public void updateClient( String userToken, ClientesEntity clientesEntity, Callback<ResponseBody> callback ) {
+		Log.d( TAG, "Update client" );
+		if( clientesEntity.getPassword() != null ) {
+			clientesEntity.setPassword( Encryptation.encryptMD5( clientesEntity.getPassword() ) );
 		}
 		Retrofit retrofit = APIClient.getRetrofitClient();
 		ClientAPI clientsAPI = retrofit.create( ClientAPI.class );
-		Call<ResponseBody> call = clientsAPI.updateClient( userToken, Long.toString( clientData.getId() ), clientData );
+		Call<ResponseBody> call = clientsAPI.updateClient( userToken, Long.toString( clientesEntity.getId() ), clientesEntity );
 		call.enqueue( callback );
 	}
 }

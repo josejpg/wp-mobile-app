@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
+import com.iessanvincente.weddingplanning.helper.MappingHelper;
 import com.iessanvincente.weddingplanning.interfaces.ResponseClientCallbackInterface;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
 import com.iessanvincente.weddingplanning.service.ClientService;
@@ -35,6 +36,8 @@ import retrofit2.Response;
 public class SignupActivity extends AppCompatActivity {
 	private static final String TAG = "SignupActivity";
 
+	@BindView( R.id.input_dni )
+	EditText _dniText;
 	@BindView( R.id.input_name )
 	EditText _nameText;
 	@BindView( R.id.input_lastName )
@@ -60,7 +63,7 @@ public class SignupActivity extends AppCompatActivity {
 	 *
 	 * Set listener to buttons.
 	 *
-	 * @param savedInstanceState
+	 * @param savedInstanceState manage state of the instance
 	 */
 	@Override
 	public void onCreate( Bundle savedInstanceState ) {
@@ -107,6 +110,7 @@ public class SignupActivity extends AppCompatActivity {
 
 		ClientesEntity clientesEntity = new ClientesEntity();
 		clientesEntity.setNombre( _nameText.getText().toString() );
+		clientesEntity.setNombre( _nameText.getText().toString() );
 		clientesEntity.setApellidos( _lastNameText.getText().toString() );
 		clientesEntity.setEmail( _emailText.getText().toString() );
 		clientesEntity.setMovil( _mobileText.getText().toString() );
@@ -143,7 +147,7 @@ public class SignupActivity extends AppCompatActivity {
 		// Set next activity with Client
 		// Save token in SharedPreferences
 		Intent intent = new Intent( getApplicationContext(), MainActivity.class );
-		intent.putExtra( "client", responseClient.getClient() );
+		intent.putExtra( "client", MappingHelper.getClientDtoFromClientesEntity( responseClient.getClient() ) );
 		settings = getSharedPreferences( "PREF_CLI", 0 );
 		editor = settings.edit();
 		editor.putString( "token", responseClient.getToken() );
@@ -172,10 +176,18 @@ public class SignupActivity extends AppCompatActivity {
 	public boolean validateForm( ) {
 		boolean isOk = true;
 
+		String dni = _dniText.getText().toString();
 		String email = _emailText.getText().toString();
 		String password = _passwordText.getText().toString();
 		String reEnterPassword = _reEnterPasswordText.getText().toString();
 
+
+		if ( dni.isEmpty() || dni.length() != 9 ) {
+			_dniText.setError( getResources().getString( R.string.validation_dni ) );
+			isOk = false;
+		} else {
+			_dniText.setError( null );
+		}
 
 		if ( email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher( email ).matches() ) {
 			_emailText.setError( getResources().getString( R.string.validation_email ) );

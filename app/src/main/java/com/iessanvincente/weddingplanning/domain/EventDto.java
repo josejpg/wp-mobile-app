@@ -10,29 +10,29 @@ public class EventDto implements Serializable {
 
 	@SerializedName( "id" )
 	@Expose
-	private long id;
+	private Long id;
 
-	@SerializedName( "nombre" )
+	@SerializedName( "event" )
 	@Expose
 	private String event;
 
-	@SerializedName( "descripcion" )
+	@SerializedName( "description" )
 	@Expose
 	private String description;
 
-	@SerializedName( "fecha" )
+	@SerializedName( "date" )
 	@Expose
-	private Integer date;
+	private Long date;
 
-	@SerializedName( "activo" )
+	@SerializedName( "active" )
 	@Expose
 	private Boolean active;
 
-	@SerializedName( "proveedores" )
+	@SerializedName( "providers" )
 	@Expose
 	private Set<ProviderDto> providers;
 
-	@SerializedName( "clientes" )
+	@SerializedName( "clients" )
 	@Expose
 	private Set<ClientDto> clients;
 
@@ -41,7 +41,7 @@ public class EventDto implements Serializable {
 	 *
 	 * @return Long
 	 */
-	public long getId( ) {
+	public Long getId( ) {
 		return id;
 	}
 
@@ -50,7 +50,7 @@ public class EventDto implements Serializable {
 	 *
 	 * @param id event ID
 	 */
-	public void setId( long id ) {
+	public void setId( Long id ) {
 		this.id = id;
 	}
 
@@ -93,9 +93,9 @@ public class EventDto implements Serializable {
 	/**
 	 * Get the event date
 	 *
-	 * @return Integer
+	 * @return Long
 	 */
-	public Integer getDate( ) {
+	public Long getDate( ) {
 		return date;
 	}
 
@@ -104,7 +104,7 @@ public class EventDto implements Serializable {
 	 *
 	 * @param date event date
 	 */
-	public void setDate( Integer date ) {
+	public void setDate( Long date ) {
 		this.date = date;
 	}
 

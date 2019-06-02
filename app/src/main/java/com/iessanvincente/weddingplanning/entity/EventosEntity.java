@@ -1,14 +1,39 @@
 package com.iessanvincente.weddingplanning.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.Set;
 
-public class EventosEntity {
-    private long id;
+public class EventosEntity implements Serializable {
+
+    @SerializedName( "id" )
+    @Expose
+    private Long id;
+
+    @SerializedName( "nombre" )
+    @Expose
     private String nombre;
+
+    @SerializedName( "descripcion" )
+    @Expose
     private String descripcion;
-    private Integer fecha;
-    private Boolean activo;
+
+    @SerializedName( "fecha" )
+    @Expose
+    private Long fecha;
+
+    @SerializedName( "activo" )
+    @Expose
+    private Integer activo;
+
+    @SerializedName( "proveedores" )
+    @Expose
     private Set<ProveedoresEntity> proveedores;
+
+    @SerializedName( "clientes" )
+    @Expose
     private Set<ClientesEntity> clientes;
 
     /**
@@ -16,7 +41,7 @@ public class EventosEntity {
      *
      * @return Long
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -25,7 +50,7 @@ public class EventosEntity {
      *
      * @param id event ID
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -70,7 +95,7 @@ public class EventosEntity {
      *
      * @return Integer
      */
-    public Integer getFecha() {
+    public Long getFecha() {
         return fecha;
     }
 
@@ -79,7 +104,7 @@ public class EventosEntity {
      *
      * @param fecha event date
      */
-    public void setFecha(Integer fecha) {
+    public void setFecha(Long fecha) {
         this.fecha = fecha;
     }
 
@@ -88,7 +113,7 @@ public class EventosEntity {
      *
      * @return Boolean
      */
-    public Boolean getActivo() {
+    public Integer getActivo() {
         return activo;
     }
 
@@ -97,7 +122,7 @@ public class EventosEntity {
      *
      * @param activo status
      */
-    public void setActivo(Boolean activo) {
+    public void setActivo(Integer activo) {
         this.activo = activo;
     }
 
@@ -137,6 +162,7 @@ public class EventosEntity {
         this.clientes = clientes;
     }
 
+
     @Override
     public String toString() {
         return "EventosEntity{" +
@@ -149,4 +175,5 @@ public class EventosEntity {
                 ", clientes=" + clientes +
                 '}';
     }
+
 }

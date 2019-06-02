@@ -10,13 +10,13 @@ public class ProviderDto implements Serializable {
 
 	@SerializedName( "id" )
 	@Expose
-	private long id;
+	private Long id;
 
 	@SerializedName( "email" )
 	@Expose
 	private String email;
 
-	@SerializedName( "nombre" )
+	@SerializedName( "name" )
 	@Expose
 	private String name;
 
@@ -24,27 +24,27 @@ public class ProviderDto implements Serializable {
 	@Expose
 	private String cif;
 
-	@SerializedName( "telefono" )
+	@SerializedName( "phone" )
 	@Expose
 	private String phone;
 
-	@SerializedName( "movil" )
+	@SerializedName( "mobile" )
 	@Expose
 	private String mobile;
 
-	@SerializedName( "direccion" )
+	@SerializedName( "address" )
 	@Expose
 	private String address;
 
-	@SerializedName( "poblacion" )
+	@SerializedName( "town" )
 	@Expose
 	private String town;
 
-	@SerializedName( "provincia" )
+	@SerializedName( "province" )
 	@Expose
 	private String province;
 
-	@SerializedName( "cp" )
+	@SerializedName( "postalCode" )
 	@Expose
 	private String postalCode;
 
@@ -61,7 +61,7 @@ public class ProviderDto implements Serializable {
 	 *
 	 * @return Long
 	 */
-	public long getId( ) {
+	public Long getId( ) {
 		return id;
 	}
 
@@ -70,7 +70,7 @@ public class ProviderDto implements Serializable {
 	 *
 	 * @param id provider ID
 	 */
-	public void setId( long id ) {
+	public void setId( Long id ) {
 		this.id = id;
 	}
 

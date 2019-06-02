@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.iessanvincente.weddingplanning.R;
+import com.iessanvincente.weddingplanning.helper.MappingHelper;
 import com.iessanvincente.weddingplanning.interfaces.ResponseClientCallbackInterface;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
 import com.iessanvincente.weddingplanning.utils.APICalls;
@@ -48,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 	 * and autoloogin.
 	 * Set listener to buttons.
 	 *
-	 * @param savedInstanceState
+	 * @param savedInstanceState manage state of the instance
 	 */
 	@Override
 	public void onCreate( Bundle savedInstanceState ) {
@@ -60,21 +61,16 @@ public class LoginActivity extends AppCompatActivity {
 		// Set context for api calls
 		apiCalls.setContext( getApplicationContext() );
 
-		try {
-			settings = getSharedPreferences( "PREF_CLI", Context.MODE_PRIVATE );
-			userToken = settings.getString( "token", "" );
-		} catch (Exception e) {
-		}
-		if ( !userToken.isEmpty() ) {
+		settings = getSharedPreferences( "PREF_CLI", Context.MODE_PRIVATE );
+		userToken = settings.getString( "token", "" );
+
+		if ( userToken != null && !userToken.isEmpty() ) {
 			// Set token for api calls
 			apiCalls.setUserToken( userToken );
-
 			onTokenSaved();
-
 		}
 
-
-		// login button on click call to login method
+		// Login button on click call to login method
 		_loginButton.setOnClickListener( v -> login() );
 
 		// Signup button on click go to SignupActivity
@@ -189,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
 		// Set next activity with Client
 		// Save token in SharedPreferences
 		Intent intent = new Intent( getApplicationContext(), MainActivity.class );
-		intent.putExtra( "client", responseClient.getClient() );
+		intent.putExtra( "client", MappingHelper.getClientDtoFromClientesEntity( responseClient.getClient() ) );
 		settings = getSharedPreferences( "PREF_CLI", 0 );
 		editor = settings.edit();
 		editor.putString( "token", responseClient.getToken() );

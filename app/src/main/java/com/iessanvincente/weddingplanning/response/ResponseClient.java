@@ -2,9 +2,10 @@ package com.iessanvincente.weddingplanning.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.iessanvincente.weddingplanning.domain.ClientDto;
+import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class ResponseClient implements Serializable {
 	@SerializedName( "ok" )
@@ -23,9 +24,13 @@ public class ResponseClient implements Serializable {
 	@Expose
 	String token;
 
-	@SerializedName( "cliente" )
+	@SerializedName( "client" )
 	@Expose
-	ClientDto client;
+	ClientesEntity client;
+
+	@SerializedName( "clients" )
+	@Expose
+	Set<ClientesEntity> clients;
 
 	public Boolean getOk( ) {
 		return ok;
@@ -59,12 +64,20 @@ public class ResponseClient implements Serializable {
 		this.token = token;
 	}
 
-	public ClientDto getClient( ) {
+	public ClientesEntity getClient( ) {
 		return client;
 	}
 
-	public void setClient( ClientDto client ) {
+	public void setClient( ClientesEntity client ) {
 		this.client = client;
+	}
+
+	public void setClient( Set<ClientesEntity> clients ) {
+		this.clients = clients;
+	}
+
+	public Set<ClientesEntity> getClients( ) {
+		return clients;
 	}
 
 	@Override
@@ -74,6 +87,7 @@ public class ResponseClient implements Serializable {
 				", ko=" + ko +
 				", token='" + token + '\'' +
 				", client=" + client +
+				", clients=" + clients +
 				'}';
 	}
 }

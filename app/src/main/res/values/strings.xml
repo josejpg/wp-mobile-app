@@ -5,6 +5,7 @@
     <string name="activity_profile">Perfil</string>
 
     <!-- Forms -->
+    <string name="dni">DNI</string>
     <string name="name">Nombre</string>
     <string name="lastName">Apellidos</string>
     <string name="address">Direccion</string>
@@ -15,13 +16,15 @@
     <string name="mobile">Móvil</string>
     <string name="email">Email</string>
     <string name="birthDate">F. Nacimiento</string>
-    <string name="email_required">Email*</string>
     <string name="pws">Contraseña</string>
-    <string name="pws_required">Contraseña*</string>
     <string name="rePws">Repetir contraseña</string>
+    <string name="dni_required">DNI*</string>
+    <string name="email_required">Email*</string>
+    <string name="pws_required">Contraseña*</string>
     <string name="rePws_required">Repetir contraseña*</string>
 
     <!-- Forms Validation -->
+    <string name="validation_dni">Introducir un DNI válido</string>
     <string name="validation_email">Introducir un email válido</string>
     <string name="validation_password">Entre 4 y 10 caracteres alfanuméricos</string>
     <string name="validation_password_match">Las contraseñas no coinciden</string>
@@ -39,7 +42,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Wedding Planning</string>
-    <string name="action_settings">Ajustes</string>
+    <string name="list_next_events">Próximos eventos</string>
+    <string name="list_prev_events">Anteriores eventos</string>
+    <string name="list_no_events">Sin eventos</string>
 
     <!-- Menu -->
     <string name="menu_profile">Perfil</string>
@@ -57,5 +62,7 @@
     <string name="toast_client_signup_failed">"Falló al registrar cliente"</string>
     <string name="toast_client_update_successful">Los datos se han actualizado correcamente</string>
     <string name="toast_client_update_failed">No ha sido posible actualizar los datos</string>
+    <string name="toast_provider_find_failed">No ha sido posible encontrar ese proveedor</string>
+    <string name="toast_event_find_failed">No ha sido posible encontrar ese evento</string>
 
 </resources>
