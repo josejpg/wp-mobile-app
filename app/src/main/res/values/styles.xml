@@ -23,6 +23,8 @@
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/iron</item>
         <item name="colorButtonNormal">@color/primary_dark</item>
+
+        <item name="android:datePickerDialogTheme">@style/AppTheme.Light.Datepicker</item>
     </style>
 
     <style name="AppTheme.Light.NoActionBar" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
@@ -53,6 +55,16 @@
         <item name="android:colorBackgroundFloating">@android:color/transparent</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:colorBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.Light.Datepicker" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:headerBackground">@color/primary_dark</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:colorPrimary">@color/black</item>
+        <item name="colorAccent">@color/primary_dark</item>
+        <item name="android:colorAccent">@color/primary_dark</item>
+        <item name="background">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="AppBarOverlay" parent="AppTheme.Light.ActionBar" />

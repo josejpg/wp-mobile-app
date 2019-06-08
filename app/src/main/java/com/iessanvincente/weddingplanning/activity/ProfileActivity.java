@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
@@ -64,7 +63,6 @@ public class ProfileActivity extends AppCompatActivity {
 	@BindView( R.id.btn_update )
 	Button _updateButton;
 
-	private Gson gson = new Gson();
 	private Intent actualIntent;
 	private SharedPreferences settings;
 	private String userToken;
@@ -106,8 +104,10 @@ public class ProfileActivity extends AppCompatActivity {
 			}
 		} );
 
+		_birthdateText.setOnClickListener( v -> Utils.showDatePickerDialog( _birthdateText, getSupportFragmentManager(), _birthdateText.getText().toString() ) );
+
 		// Set on click action for button
-		_updateButton.setOnClickListener( v ->  updateClient() );
+		_updateButton.setOnClickListener( v -> updateClient() );
 
 		// Get data client
 		getInfoClient();

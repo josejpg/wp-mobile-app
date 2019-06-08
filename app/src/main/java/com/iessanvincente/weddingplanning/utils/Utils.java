@@ -1,5 +1,13 @@
 package com.iessanvincente.weddingplanning.utils;
 
+import android.widget.EditText;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.iessanvincente.weddingplanning.R;
+import com.iessanvincente.weddingplanning.fragment.DatePickerFragment;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -79,4 +87,29 @@ public class Utils {
 		}
 	}
 
+	/**
+	 * Show a dialog with a date picker
+	 *
+	 * @param editTextTarget  element target
+	 * @param fragmentManager context
+	 */
+	public static void showDatePickerDialog( EditText editTextTarget, FragmentManager fragmentManager, String defaultDate ) {
+		DatePickerFragment newFragment = DatePickerFragment.newInstance( ( datePicker, year, month, day ) -> {
+			// +1 because january is zero
+			final String selectedDate = padNumber( day ) + " / " + padNumber( month + 1 ) + " / " + year;
+			editTextTarget.setText( selectedDate );
+		} );
+		newFragment.setDate( defaultDate );
+		newFragment.show( fragmentManager, "datePicker" );
+	}
+
+	/**
+	 * Format number to 2 digist
+	 *
+	 * @param number to transform
+	 * @return string with format number
+	 */
+	private static String padNumber( Integer number ) {
+		return ( number <= 9 ) ? ( "0" + number ) : String.valueOf( number );
+	}
 }
