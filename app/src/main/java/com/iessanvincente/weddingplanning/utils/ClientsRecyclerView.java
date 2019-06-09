@@ -15,18 +15,22 @@ import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
 public class ClientsRecyclerView extends RecyclerView.Adapter<ClientsRecyclerView.ViewHolder> {
+	private final Calendar calendar = Calendar.getInstance();
 	private List<ClientDto> clientDtoSet;
+	private Long eventTime;
 	private LayoutInflater mInflater;
 	private ItemClickListener mClickListener;
 
 	// Data is passed into the constructor
-	public ClientsRecyclerView( Context context, Set<ClientDto> clientDtoSet ) {
+	public ClientsRecyclerView( Context context, Set<ClientDto> clientDtoSet, Long eventTime ) {
 		this.mInflater = LayoutInflater.from( context );
 		this.clientDtoSet = new ArrayList<>( clientDtoSet );
+		this.eventTime = eventTime;
 	}
 
 	// Inflates the row layout from xml when needed
@@ -42,6 +46,9 @@ public class ClientsRecyclerView extends RecyclerView.Adapter<ClientsRecyclerVie
 	public void onBindViewHolder( @NonNull ViewHolder holder, int position ) {
 		ClientDto clientDto = clientDtoSet.get( position );
 		holder.clientView.setText( clientDto.displayName() );
+		if ( eventTime <= calendar.getTimeInMillis() ) {
+			holder.deleteButtonView.setVisibility( View.GONE );
+		}
 	}
 
 	// Total number of rows

@@ -5,6 +5,7 @@
     <string name="activity_profile">Perfil</string>
     <string name="activity_events">Eventos</string>
     <string name="activity_event_info">Evento</string>
+    <string name="activity_event_info_new">Nuevo evento</string>
 
     <!-- Forms -->
     <string name="dni">DNI</string>
@@ -66,12 +67,15 @@
     <string name="menu_event">Eventos</string>
     <string name="menu_message">Mensajes</string>
     <string name="menu_logout">Logout</string>
+    <string name="menu_add">Añadir</string>
 
     <!-- ProgressDialog -->
     <string name="progressDialog_login">Iniciando sesión&#8230;</string>
     <string name="progressDialog_signup">Creando cuenta&#8230;</string>
     <string name="progressDialog_updating_profile">Actualizando perfil&#8230;</string>
     <string name="progressDialog_updating_event">Actualizando evento&#8230;</string>
+    <string name="progressDialog_creating_event">Creando evento&#8230;</string>
+    <string name="progressDialog_loading_events">Cargando eventos&#8230;</string>
 
     <!-- Toast -->
     <string name="toast_client_login_failed">Falló el inicio de sesión</string>
@@ -82,5 +86,7 @@
     <string name="toast_event_find_failed">No ha sido posible encontrar ese evento</string>
     <string name="toast_event_update_successful">Los datos se han actualizado correcamente</string>
     <string name="toast_event_update_failed">No ha sido posible actualizar los datos</string>
+    <string name="toast_event_create_successful">Los datos se ha podido crearel evento correctamente</string>
+    <string name="toast_event_create_failed">No ha sido posible crear el evento</string>
 
 </resources>

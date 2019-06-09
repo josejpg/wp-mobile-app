@@ -503,9 +503,72 @@ public class APICalls {
 				}
 		);
 	}
+
+	/**
+	 * Update data event
+	 *
+	 * @param eventosEntity event data
+	 * @param callback manage API response
+	 */
 	public void setUpdateEvent( EventosEntity eventosEntity, ResponseEventCallbackInterface callback ){
 		// Call to method in service
 		eventService.updateEvent(
+				userToken,
+				eventosEntity,
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseEvent responseEvent = gson.fromJson( response.body().string(), ResponseEvent.class );
+
+								// If the response is successful
+								if ( response.isSuccessful() ) {
+									// If response getOk
+									if ( responseEvent.getOk() ) {
+										callback.onSuccess( responseEvent );
+									}else{
+										callback.onError( responseEvent.getError() );
+									}
+								}
+							} catch (IOException e) {
+								callback.onError( e.getMessage() );
+							}
+						}
+					}
+
+					/**
+					 *  If API call failed.
+					 * @param call API call
+					 * @param t API error
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( t.getMessage() );
+					}
+				}
+		);
+	}
+
+	/**
+	 * Createv event
+	 *
+	 * @param eventosEntity event data
+	 * @param callback manage API response
+	 */
+	public void setNewEvent( EventosEntity eventosEntity, ResponseEventCallbackInterface callback ){
+		// Call to method in service
+		eventService.createEvent(
 				userToken,
 				eventosEntity,
 				new Callback<ResponseBody>() {

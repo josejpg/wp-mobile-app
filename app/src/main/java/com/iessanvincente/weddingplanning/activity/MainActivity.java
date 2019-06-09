@@ -50,66 +50,12 @@ public class MainActivity extends AppCompatActivity
 	private ClientDto clientDto;
 	private String userToken;
 
-	@BindView( R.id.listNextEvents )
-	RecyclerView recyclerViewNextEvents;
-	@BindView( R.id.listPrevEvents )
-	RecyclerView recyclerViewPrevEvents;
-	@BindView( R.id.titleNextEvents )
-	TextView titleNextEvents;
-	@BindView( R.id.titlePrevEvents )
-	TextView titlePrevEvents;
-	@BindView( R.id.titleNoEvents )
-	TextView titleNoEvents;
 
+	/**
+	 * Get info from intent and call to API for a events
+	 */
 	private void getClientInfo( ) {
 		clientDto = (ClientDto) actualIntent.getSerializableExtra( "client" );
-
-		apiCalls.getEvenetsByClient( clientDto, new ClientsDtoCallbackInterface() {
-			@Override
-			public void onSuccess( ClientDto _clientDto ) {
-				Log.d( TAG, "onSuccess getEvenetsByClient" );
-				clientDto = _clientDto;
-				Set<EventDto> nextEvents = new HashSet<>();
-				Set<EventDto> prevEvents = new HashSet<>();
-				for ( EventDto eventDto : clientDto.getEvents() ) {
-					if ( LocalDateTime.ofEpochSecond( eventDto.getDate(), 0, ZoneOffset.UTC ).isAfter( LocalDateTime.now() ) ) {
-						nextEvents.add( eventDto );
-					} else if ( LocalDateTime.ofEpochSecond( eventDto.getDate(), 0, ZoneOffset.UTC ).isBefore( LocalDateTime.now() ) ) {
-						prevEvents.add( eventDto );
-					} else {
-						prevEvents.add( eventDto );
-					}
-				}
-
-				if( nextEvents.size() > 0 ) {
-					setConfigRecyclerViewEvents( recyclerViewNextEvents, nextEvents );
-				}else{
-					recyclerViewNextEvents.setVisibility( View.GONE );
-					titleNextEvents.setVisibility( View.GONE );
-				}
-
-				if( prevEvents.size() > 0 ) {
-					setConfigRecyclerViewEvents( recyclerViewPrevEvents, prevEvents );
-				}else{
-					recyclerViewPrevEvents.setVisibility( View.GONE );
-					titlePrevEvents.setVisibility( View.GONE );
-				}
-
-				if( nextEvents.size() == 0 && prevEvents.size() == 0 ){
-					titleNoEvents.setVisibility( View.VISIBLE );
-				}
-			}
-
-			@Override
-			public void onError( String message ) {
-				Log.d( TAG + " onFailure getEvenetsByClient", message );
-				recyclerViewNextEvents.setVisibility( View.GONE );
-				titleNextEvents.setVisibility( View.GONE );
-				recyclerViewPrevEvents.setVisibility( View.GONE );
-				titlePrevEvents.setVisibility( View.GONE );
-				titleNoEvents.setVisibility( View.VISIBLE );
-			}
-		} );
 	}
 
 	@Override
@@ -189,30 +135,5 @@ public class MainActivity extends AppCompatActivity
 		DrawerLayout drawer = findViewById( R.id.drawer_layout );
 		drawer.closeDrawer( GravityCompat.START );
 		return true;
-	}
-
-	/**
-	 * Set up the RecyclerView configuration
-	 * @param recyclerView to config
-	 * @param eventDtoSet to push into recyclerView
-	 */
-	private void setConfigRecyclerViewEvents( RecyclerView recyclerView, Set<EventDto> eventDtoSet ){
-		List<EventDto> eventDtoList = new ArrayList<>( eventDtoSet );
-		LinearLayoutManager layoutManager
-				= new LinearLayoutManager( MainActivity.this, RecyclerView.VERTICAL, false );
-		layoutManager.setOrientation( RecyclerView.VERTICAL );
-		recyclerView.setLayoutManager( layoutManager );
-		recyclerView.addItemDecoration( new DividerItemDecoration( getApplicationContext(), DividerItemDecoration.VERTICAL ) );
-		EventsRecyclerView adapter = new EventsRecyclerView( getApplicationContext(), eventDtoSet );
-		adapter.setClickListener( ( view, position ) -> {
-			Log.d( TAG, "Go to EventsInfoActivity" );
-			Intent intent = new Intent( getApplicationContext(), EventInfoActivity.class );
-			intent.putExtra( "client", clientDto );
-			intent.putExtra( "event", eventDtoList.get( position ) );
-			startActivity( intent );
-			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
-			finish();
-		} );
-		recyclerView.setAdapter( adapter );
 	}
 }

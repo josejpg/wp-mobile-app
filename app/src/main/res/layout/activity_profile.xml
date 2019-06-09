@@ -196,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="date"
                     android:focusable="false"
-                    android:drawableEnd="@drawable/ic_event"/>
+                    android:drawableEnd="@drawable/ic_calendar"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout

@@ -5,13 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.ArraySet;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.domain.EventDto;
 import com.iessanvincente.weddingplanning.domain.ProviderDto;
+import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
 import com.iessanvincente.weddingplanning.helper.MappingHelper;
 import com.iessanvincente.weddingplanning.interfaces.ResponseEventCallbackInterface;
@@ -30,6 +32,7 @@ import com.iessanvincente.weddingplanning.utils.ProviderRecyclerView;
 import com.iessanvincente.weddingplanning.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +43,7 @@ import butterknife.ButterKnife;
 public class EventInfoActivity extends AppCompatActivity {
 
 	private static final String TAG = "EventInfoActivity";
-
+	private final Calendar calendar = Calendar.getInstance();
 	@BindView( R.id.listClientsEvent )
 	RecyclerView recyclerViewClientsEvent;
 	@BindView( R.id.listProvidersEvent )
@@ -61,6 +64,7 @@ public class EventInfoActivity extends AppCompatActivity {
 	private ClientDto clientDto = null;
 	private EventDto eventDto = null;
 	private String userToken;
+	private Boolean isUpdate = false;
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
@@ -78,23 +82,54 @@ public class EventInfoActivity extends AppCompatActivity {
 		// Save the intent intlo a private variable
 		actualIntent = getIntent();
 
-		_updateButton.setOnClickListener( v -> updateEvent() );
+		_updateButton.setOnClickListener( v -> {
+			if ( isUpdate ) {
+				updateEvent();
+			} else {
+				createEvent();
+			}
+		} );
 
 		getClientInfo();
 		getEventInfo();
-		if ( eventDto.getClients().size() > 0 ) {
+
+		// If is a past event cant be updated
+		if ( eventDto != null &&
+				eventDto.getDate() != null &&
+				eventDto.getDate() <= calendar.getTimeInMillis() ) {
+			_updateButton.setVisibility( View.GONE );
+			_activeCheck.setClickable( false );
+			_eventText.setFocusable( false );
+			_eventText.setClickable( false );
+			_descriptionText.setFocusable( false );
+			_descriptionText.setClickable( false );
+			_dateText.setFocusable( false );
+			_dateText.setClickable( false );
+		} else {
+			Calendar calendar = Calendar.getInstance();
+			_dateText.setOnClickListener( v -> Utils.showDatePickerDialog( _dateText, getSupportFragmentManager(), ( eventDto != null ) ? eventDto.getDate() : calendar.getTimeInMillis() / 1000, true ) );
+		}
+
+		// Set a list of clients
+		if ( eventDto != null &&
+				eventDto.getClients().size() > 0 ) {
 			setConfigRecyclerViewClientsEvents( recyclerViewClientsEvent, eventDto.getClients() );
 		}
-		if ( eventDto.getProviders().size() > 0 ) {
+
+		// Set a list of providers
+		if ( eventDto != null &&
+				eventDto.getProviders().size() > 0 ) {
 			setConfigRecyclerViewProvidersEvents( recyclerViewProvidersEvent, eventDto.getProviders() );
 		}
-		getSupportActionBar().setTitle( eventDto.getEvent() );
+
+		// Set a title
+		getSupportActionBar().setTitle( ( eventDto != null ) ? eventDto.getEvent() : getResources().getString( R.string.activity_event_info_new ) );
 	}
 
 	@Override
 	public boolean onSupportNavigateUp( ) {
-		Log.d( TAG, "Go to MainActivity" );
-		Intent intent = new Intent( getApplicationContext(), MainActivity.class );
+		Log.d( TAG, "Go to EventsActivity" );
+		Intent intent = new Intent( getApplicationContext(), EventsActivity.class );
 		intent.putExtra( "client", actualIntent.getSerializableExtra( "client" ) );
 		startActivity( intent );
 		overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
@@ -106,11 +141,11 @@ public class EventInfoActivity extends AppCompatActivity {
 	 * Set new data to event
 	 */
 	private void updateEvent( ) {
-		Log.d( TAG, "Update client" );
+		Log.d( TAG, "Update event" );
 
 		// Call to validate data form, if is false call to onLoginFailed.
 		if ( !validateForm() ) {
-			onFailedUpdate( getResources().getString( R.string.toast_client_login_failed ) );
+			onFailedUpdate( getResources().getString( R.string.toast_event_update_failed ) );
 			return;
 		}
 
@@ -145,6 +180,54 @@ public class EventInfoActivity extends AppCompatActivity {
 		} );
 	}
 
+
+	/**
+	 * Set new event
+	 */
+	private void createEvent( ) {
+		Log.d( TAG, "Create event" );
+
+		// Call to validate data form, if is false call to onLoginFailed.
+		if ( !validateForm() ) {
+			onFailedUpdate( getResources().getString( R.string.toast_event_create_failed ) );
+			return;
+		}
+
+		// Disable login button while is calling to API
+		_updateButton.setEnabled( false );
+
+		Set<ClientesEntity> clientesEntitySet = new ArraySet<>(  );
+		clientesEntitySet.add( MappingHelper.getClientesEntityFromClientDto( clientDto ) );
+
+		// Shows a progress dialog with a message
+		final ProgressDialog progressDialog = new ProgressDialog( EventInfoActivity.this,
+				R.style.AppTheme_Light_Dialog );
+		progressDialog.setIndeterminate( true );
+		progressDialog.setMessage( getResources().getString( R.string.progressDialog_creating_event ) );
+		progressDialog.show();
+
+		EventosEntity eventosEntity = new EventosEntity();
+		eventosEntity.setNombre( _eventText.getText().toString() );
+		eventosEntity.setDescripcion( _descriptionText.getText().toString() );
+		eventosEntity.setFecha( Utils.getTimeFromDateTime( _dateText.getText().toString() ) );
+		eventosEntity.setActivo( _activeCheck.isChecked() ? 1 : 0 );
+		eventosEntity.setClientes( clientesEntitySet );
+
+		apiCalls.setNewEvent( eventosEntity, new ResponseEventCallbackInterface() {
+			@Override
+			public void onSuccess( ResponseEvent responseEvent ) {
+				progressDialog.dismiss();
+				onSuccessCreate( responseEvent.getEvent() );
+			}
+
+			@Override
+			public void onError( String message ) {
+				progressDialog.dismiss();
+				onFailedCreate( message );
+			}
+		} );
+	}
+
 	/**
 	 * Get client data and set into clientDto
 	 */
@@ -157,11 +240,14 @@ public class EventInfoActivity extends AppCompatActivity {
 	 * Get event data and set into eventDto and form
 	 */
 	private void getEventInfo( ) {
-		eventDto = (EventDto) actualIntent.getSerializableExtra( "event" );
-		_eventText.setText( eventDto.getEvent() );
-		_descriptionText.setText( eventDto.getDescription() );
-		_dateText.setText( Utils.getDateTimeAsString( eventDto.getDate() ) );
-		_activeCheck.setChecked( eventDto.getActive() );
+		if ( actualIntent.getSerializableExtra( "event" ) != null ) {
+			eventDto = (EventDto) actualIntent.getSerializableExtra( "event" );
+			_eventText.setText( eventDto.getEvent() );
+			_descriptionText.setText( eventDto.getDescription() );
+			_dateText.setText( Utils.getDateTimeAsString( eventDto.getDate() ) );
+			_activeCheck.setChecked( eventDto.getActive() );
+			isUpdate = true;
+		}
 	}
 
 	private void onSuccessUpdate( EventosEntity eventosEntity ) {
@@ -171,6 +257,21 @@ public class EventInfoActivity extends AppCompatActivity {
 	}
 
 	private void onFailedUpdate( String message ) {
+		_updateButton.setEnabled( true );
+		Toast.makeText( getBaseContext(), message, Toast.LENGTH_LONG ).show();
+	}
+
+	private void onSuccessCreate( EventosEntity eventosEntity ) {
+		Toast.makeText( getBaseContext(), getResources().getString( R.string.toast_event_create_successful ), Toast.LENGTH_LONG ).show();
+		Log.d( TAG, "Go to EventsActivity" );
+		Intent intent = new Intent( getApplicationContext(), EventsActivity.class );
+		intent.putExtra( "client", actualIntent.getSerializableExtra( "client" ) );
+		startActivity( intent );
+		overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
+		finish();
+	}
+
+	private void onFailedCreate( String message ) {
 		_updateButton.setEnabled( true );
 		Toast.makeText( getBaseContext(), message, Toast.LENGTH_LONG ).show();
 	}
@@ -223,8 +324,7 @@ public class EventInfoActivity extends AppCompatActivity {
 		LinearLayoutManager layoutManager = new LinearLayoutManager( EventInfoActivity.this, RecyclerView.VERTICAL, false );
 		layoutManager.setOrientation( RecyclerView.VERTICAL );
 		recyclerView.setLayoutManager( layoutManager );
-		recyclerView.addItemDecoration( new DividerItemDecoration( getApplicationContext(), DividerItemDecoration.VERTICAL ) );
-		ClientsRecyclerView adapter = new ClientsRecyclerView( getApplicationContext(), clientDtoSet );
+		ClientsRecyclerView adapter = new ClientsRecyclerView( getApplicationContext(), clientDtoSet, eventDto.getDate() );
 		adapter.setClickListener( ( view, position ) -> {
 			Log.d( TAG, "Remove client" );
 			clientDtoList.remove( position );
@@ -246,8 +346,7 @@ public class EventInfoActivity extends AppCompatActivity {
 				= new LinearLayoutManager( EventInfoActivity.this, RecyclerView.VERTICAL, false );
 		layoutManager.setOrientation( RecyclerView.VERTICAL );
 		recyclerView.setLayoutManager( layoutManager );
-		recyclerView.addItemDecoration( new DividerItemDecoration( EventInfoActivity.this, DividerItemDecoration.VERTICAL ) );
-		ProviderRecyclerView adapter = new ProviderRecyclerView( EventInfoActivity.this, providerDtoSet );
+		ProviderRecyclerView adapter = new ProviderRecyclerView( EventInfoActivity.this, providerDtoSet, eventDto.getDate() );
 		adapter.setClickListener( ( view, position ) -> {
 			Log.d( TAG, "Remove provider" );
 			providerDtoList.remove( position );

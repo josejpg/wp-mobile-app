@@ -2,11 +2,10 @@ package com.iessanvincente.weddingplanning.utils;
 
 import android.widget.EditText;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.fragment.DatePickerFragment;
+import com.iessanvincente.weddingplanning.fragment.TimePickerFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -93,13 +92,36 @@ public class Utils {
 	 * @param editTextTarget  element target
 	 * @param fragmentManager context
 	 */
-	public static void showDatePickerDialog( EditText editTextTarget, FragmentManager fragmentManager, String defaultDate ) {
+	public static void showDatePickerDialog( EditText editTextTarget, FragmentManager fragmentManager, Long defaultDate, Boolean isDateTimePicker ) {
 		DatePickerFragment newFragment = DatePickerFragment.newInstance( ( datePicker, year, month, day ) -> {
+			final String selectedDate = padNumber( day ) + "/" + padNumber( month + 1 ) + "/" + year;
+
+			if ( !isDateTimePicker ) {
+				editTextTarget.setText( selectedDate );
+			} else {
+				showTimePickerDialog( editTextTarget, fragmentManager, defaultDate, selectedDate );
+			}
+		}, defaultDate );
+		newFragment.show( fragmentManager, "datePicker" );
+	}
+
+	/**
+	 * Show a dialog with a date picker
+	 *
+	 * @param editTextTarget  element target
+	 * @param fragmentManager context
+	 */
+	public static void showTimePickerDialog( EditText editTextTarget, FragmentManager fragmentManager, Long defaultDate, String selectedDate ) {
+		TimePickerFragment newFragment = TimePickerFragment.newInstance( ( datePicker, hour, minutes ) -> {
 			// +1 because january is zero
-			final String selectedDate = padNumber( day ) + " / " + padNumber( month + 1 ) + " / " + year;
-			editTextTarget.setText( selectedDate );
-		} );
-		newFragment.setDate( defaultDate );
+			final String selectedTime = padNumber( hour ) + ":" + padNumber( minutes );
+			if ( selectedDate == null || selectedDate.equals( "" ) ) {
+				editTextTarget.setText( selectedTime );
+			} else {
+				editTextTarget.setText( ( selectedDate + " " + selectedTime ) );
+			}
+
+		}, defaultDate );
 		newFragment.show( fragmentManager, "datePicker" );
 	}
 

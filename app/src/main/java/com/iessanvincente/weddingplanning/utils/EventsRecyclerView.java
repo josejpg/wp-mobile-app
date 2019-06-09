@@ -12,14 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.EventDto;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-import java.util.TimeZone;
 
 public class EventsRecyclerView extends RecyclerView.Adapter<EventsRecyclerView.ViewHolder> {
 	private List<EventDto> eventDtoSet;
@@ -45,7 +40,7 @@ public class EventsRecyclerView extends RecyclerView.Adapter<EventsRecyclerView.
 	public void onBindViewHolder( @NonNull ViewHolder holder, int position ) {
 		EventDto eventDto = eventDtoSet.get( position );
 		holder.titleView.setText( eventDto.getEvent() );
-		holder.descriptionView.setText( ( eventDto.getDescription().substring( 0, 40 ) + "..." ) );
+		holder.descriptionView.setText( ( eventDto.getDescription().length() > 43 ) ? ( eventDto.getDescription().substring( 0, 40 ) + "..." ) : eventDto.getDescription() );
 		holder.dateView.setText( Utils.getDateTimeAsString( eventDto.getDate() ) );
 	}
 

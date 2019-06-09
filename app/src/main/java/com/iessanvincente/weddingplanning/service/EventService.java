@@ -47,10 +47,25 @@ public class EventService {
 	}
 
 	/**
+	 * Create event
+	 *
+	 * @param userToken auth token
+	 * @param eventosEntity event data
+	 * @param callback manage API response
+	 */
+	public void createEvent( String userToken, EventosEntity eventosEntity, Callback<ResponseBody> callback ) {
+		Log.d( TAG, "createEvent" );
+		Retrofit retrofit = APIClient.getRetrofitClient();
+		EventAPI eventAPI = retrofit.create( EventAPI.class );
+		Call<ResponseBody> call = eventAPI.createEvent( userToken, eventosEntity );
+		call.enqueue( callback );
+	}
+
+	/**
 	 * Update data event
 	 *
 	 * @param userToken auth token
-	 * @param eventosEntity event id
+	 * @param eventosEntity event data
 	 * @param callback manage API response
 	 */
 	public void updateEvent( String userToken, EventosEntity eventosEntity, Callback<ResponseBody> callback ) {

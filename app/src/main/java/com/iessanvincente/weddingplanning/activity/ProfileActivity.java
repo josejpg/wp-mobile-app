@@ -104,7 +104,7 @@ public class ProfileActivity extends AppCompatActivity {
 			}
 		} );
 
-		_birthdateText.setOnClickListener( v -> Utils.showDatePickerDialog( _birthdateText, getSupportFragmentManager(), _birthdateText.getText().toString() ) );
+		_birthdateText.setOnClickListener( v -> Utils.showDatePickerDialog( _birthdateText, getSupportFragmentManager(), clientDto.getBirthDate(), false ) );
 
 		// Set on click action for button
 		_updateButton.setOnClickListener( v -> updateClient() );
