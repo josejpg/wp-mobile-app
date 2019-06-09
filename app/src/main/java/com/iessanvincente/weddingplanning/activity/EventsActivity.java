@@ -1,6 +1,5 @@
 package com.iessanvincente.weddingplanning.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.domain.EventDto;
-import com.iessanvincente.weddingplanning.interfaces.ClientsDtoCallbackInterface;
 import com.iessanvincente.weddingplanning.utils.APICalls;
 import com.iessanvincente.weddingplanning.utils.EventsRecyclerView;
 
@@ -73,6 +71,11 @@ public class EventsActivity extends AppCompatActivity {
 
 	}
 
+	/**
+	 * Set a menu on activity
+	 * @param menu
+	 * @return
+	 */
 	@Override
 	public boolean onCreateOptionsMenu( Menu menu ) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -80,6 +83,11 @@ public class EventsActivity extends AppCompatActivity {
 		return true;
 	}
 
+	/**
+	 * Manage item touched on menu
+	 * @param item item touched
+	 * @return
+	 */
 	@Override
 	public boolean onOptionsItemSelected( MenuItem item ) {
 		// Handle action bar item clicks here. The action bar will
@@ -100,6 +108,24 @@ public class EventsActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected( item );
 	}
 
+	/**
+	 * Back to MainActivity
+	 * @return
+	 */
+	@Override
+	public boolean onSupportNavigateUp( ) {
+		Log.d( TAG, "Go to MainActivity" );
+		Intent intent = new Intent( getApplicationContext(), MainActivity.class );
+		intent.putExtra( "client", actualIntent.getSerializableExtra( "client" ) );
+		startActivity( intent );
+		overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
+		finish();
+		return true;
+	}
+
+	/**
+	 * Set events on recyclerviews
+	 */
 	private void setEvents( ) {
 		Set<EventDto> nextEvents = new HashSet<>();
 		Set<EventDto> prevEvents = new HashSet<>();
@@ -136,32 +162,14 @@ public class EventsActivity extends AppCompatActivity {
 	 * Get info client from intent
 	 */
 	private void getClientInfo( ) {
-		// Shows a progress dialog with a message
-		final ProgressDialog progressDialog = new ProgressDialog( EventsActivity.this,
-				R.style.AppTheme_Light_Dialog );
-		progressDialog.setIndeterminate( true );
-		progressDialog.setMessage( getResources().getString( R.string.progressDialog_loading_events ) );
-		progressDialog.show();
 		clientDto = (ClientDto) actualIntent.getSerializableExtra( "client" );
-		apiCalls.getEvenetsByClient( clientDto, new ClientsDtoCallbackInterface() {
-			@Override
-			public void onSuccess( ClientDto _clientDto ) {
-				Log.d( TAG, "onSuccess getEvenetsByClient" );
-				clientDto = _clientDto;
-				manageRecyclerViews();
-				progressDialog.dismiss();
-			}
-
-			@Override
-			public void onError( String message ) {
-				Log.d( TAG + " onFailure getEvenetsByClient", message );
-				manageRecyclerViews();
-				progressDialog.dismiss();
-			}
-		} );
+		handledRecyclerViews();
 	}
 
-	private void manageRecyclerViews( ) {
+	/**
+	 * Handled RecyclerViews
+	 */
+	private void handledRecyclerViews( ) {
 		if ( clientDto.getEvents().size() == 0 ) {
 			recyclerViewNextEvents.setVisibility( View.GONE );
 			titleNextEvents.setVisibility( View.GONE );

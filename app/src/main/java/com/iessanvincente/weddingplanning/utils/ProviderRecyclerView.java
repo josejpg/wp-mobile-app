@@ -29,7 +29,7 @@ public class ProviderRecyclerView extends RecyclerView.Adapter<ProviderRecyclerV
 	public ProviderRecyclerView( Context context, Set<ProviderDto> providerDtoSet, Long eventTime ) {
 		this.mInflater = LayoutInflater.from( context );
 		this.providerDtoSet = new ArrayList<>( providerDtoSet );
-		this.eventTime = eventTime;
+		this.eventTime = eventTime * 1000;
 	}
 
 	// Inflates the row layout from xml when needed

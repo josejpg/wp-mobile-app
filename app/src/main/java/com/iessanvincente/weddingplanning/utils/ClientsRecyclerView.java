@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 
@@ -22,15 +21,17 @@ import java.util.Set;
 public class ClientsRecyclerView extends RecyclerView.Adapter<ClientsRecyclerView.ViewHolder> {
 	private final Calendar calendar = Calendar.getInstance();
 	private List<ClientDto> clientDtoSet;
+	private ClientDto clientDto;
 	private Long eventTime;
 	private LayoutInflater mInflater;
 	private ItemClickListener mClickListener;
 
 	// Data is passed into the constructor
-	public ClientsRecyclerView( Context context, Set<ClientDto> clientDtoSet, Long eventTime ) {
+	public ClientsRecyclerView( Context context, Set<ClientDto> clientDtoSet, ClientDto clientDto, Long eventTime ) {
 		this.mInflater = LayoutInflater.from( context );
 		this.clientDtoSet = new ArrayList<>( clientDtoSet );
-		this.eventTime = eventTime;
+		this.clientDto = clientDto;
+		this.eventTime = eventTime * 1000;
 	}
 
 	// Inflates the row layout from xml when needed
@@ -46,7 +47,7 @@ public class ClientsRecyclerView extends RecyclerView.Adapter<ClientsRecyclerVie
 	public void onBindViewHolder( @NonNull ViewHolder holder, int position ) {
 		ClientDto clientDto = clientDtoSet.get( position );
 		holder.clientView.setText( clientDto.displayName() );
-		if ( eventTime <= calendar.getTimeInMillis() ) {
+		if ( eventTime <= calendar.getTimeInMillis() || clientDto.getId().equals( this.clientDto.getId() )) {
 			holder.deleteButtonView.setVisibility( View.GONE );
 		}
 	}

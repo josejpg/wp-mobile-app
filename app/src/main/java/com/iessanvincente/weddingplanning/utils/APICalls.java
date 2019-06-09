@@ -428,7 +428,7 @@ public class APICalls {
 	 * @param clientDto client data
 	 * @param callback manage API response
 	 */
-	public void getEvenetsByClient( ClientDto clientDto, ClientsDtoCallbackInterface callback ) {
+	public void getEventsByClient( ClientDto clientDto, ClientsDtoCallbackInterface callback ) {
 		// Call to method in service
 		eventService.getEventsByClient(
 				userToken,
