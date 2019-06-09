@@ -53,9 +53,6 @@ public class ServiceDto implements Serializable {
 
     @Override
     public String toString() {
-        return "ServiceDto{" +
-                "id=" + id +
-                ", service='" + service + '\'' +
-                '}';
+        return service;
     }
 }

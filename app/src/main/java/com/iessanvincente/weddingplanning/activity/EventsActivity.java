@@ -67,12 +67,13 @@ public class EventsActivity extends AppCompatActivity {
 		actualIntent = getIntent();
 
 		getClientInfo();
-		getSupportActionBar().setTitle( "Eventos de " + clientDto.displayName() );
+		getSupportActionBar().setTitle( getResources().getString( R.string.activity_events, clientDto.displayName() ) );
 
 	}
 
 	/**
 	 * Set a menu on activity
+	 *
 	 * @param menu
 	 * @return
 	 */
@@ -85,6 +86,7 @@ public class EventsActivity extends AppCompatActivity {
 
 	/**
 	 * Manage item touched on menu
+	 *
 	 * @param item item touched
 	 * @return
 	 */
@@ -110,6 +112,7 @@ public class EventsActivity extends AppCompatActivity {
 
 	/**
 	 * Back to MainActivity
+	 *
 	 * @return
 	 */
 	@Override
@@ -188,7 +191,6 @@ public class EventsActivity extends AppCompatActivity {
 	 * @param eventDtoSet  to push into recyclerView
 	 */
 	private void setConfigRecyclerViewEvents( RecyclerView recyclerView, Set<EventDto> eventDtoSet ) {
-		List<EventDto> eventDtoList = new ArrayList<>( eventDtoSet );
 		LinearLayoutManager layoutManager
 				= new LinearLayoutManager( EventsActivity.this, RecyclerView.VERTICAL, false );
 		layoutManager.setOrientation( RecyclerView.VERTICAL );
@@ -199,7 +201,7 @@ public class EventsActivity extends AppCompatActivity {
 			Log.d( TAG, "Go to EventsInfoActivity" );
 			Intent intent = new Intent( getApplicationContext(), EventInfoActivity.class );
 			intent.putExtra( "client", clientDto );
-			intent.putExtra( "event", eventDtoList.get( position ) );
+			intent.putExtra( "event", adapter.getItem( position ) );
 			startActivity( intent );
 			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
 			finish();

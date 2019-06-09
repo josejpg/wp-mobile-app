@@ -32,4 +32,19 @@ public class ProviderService {
 		call.enqueue( callback );
 	}
 
+	/**
+	 * Find provider by Service ID
+	 *
+	 * @param userToken
+	 * @param serviceID
+	 * @param callback
+	 */
+	public void findByServiceId( String userToken, String serviceID, Callback<ResponseBody> callback ) {
+		Log.d( TAG, "findById" );
+		Retrofit retrofit = APIClient.getRetrofitClient();
+		ProviderAPI providerAPI = retrofit.create( ProviderAPI.class );
+		Call<ResponseBody> call = providerAPI.findByServiceId( userToken, serviceID );
+		call.enqueue( callback );
+	}
+
 }

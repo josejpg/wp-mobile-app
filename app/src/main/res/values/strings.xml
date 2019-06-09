@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Wedding Planning</string>
+    <string name="activity_main">Dashboard</string>
     <string name="activity_login">Login</string>
     <string name="activity_signup">Registro</string>
     <string name="activity_profile">Perfil</string>
-    <string name="activity_events">Eventos</string>
+    <string name="activity_events">Eventos de %1$s</string>
     <string name="activity_event_info">Evento</string>
     <string name="activity_event_info_new">Nuevo evento</string>
+    <string name="activity_services">Servicios</string>
 
     <!-- Forms -->
     <string name="dni">DNI</string>
@@ -27,6 +29,7 @@
     <string name="active">Activo</string>
     <string name="providers">Proveedores</string>
     <string name="clients">Clientes</string>
+    <string name="services">Servicios</string>
     <string name="dni_required">DNI*</string>
     <string name="email_required">Email*</string>
     <string name="pws_required">Contraseña*</string>
@@ -47,6 +50,7 @@
     <string name="btnShowPassword">Cambiar contraseña</string>
     <string name="btnHidePassword">No cambiar contraseñas</string>
     <string name="btnSave">Guardar</string>
+    <string name="btnSearch">Buscar</string>
     <string name="btnCreateAccount">¿Aún no tienes cuenta? Crea una nueva</string>
     <string name="btnGoLogin">¿Ya tienes cuenta? inicia sesión</string>
 
@@ -65,6 +69,7 @@
     <!-- Menu -->
     <string name="menu_profile">Perfil</string>
     <string name="menu_event">Eventos</string>
+    <string name="menu_services">Servicios</string>
     <string name="menu_message">Mensajes</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_add">Añadir</string>
@@ -76,6 +81,8 @@
     <string name="progressDialog_updating_event">Actualizando evento&#8230;</string>
     <string name="progressDialog_creating_event">Creando evento&#8230;</string>
     <string name="progressDialog_loading_events">Cargando eventos&#8230;</string>
+    <string name="progressDialog_loading_services">Cargando servicios&#8230;</string>
+    <string name="progressDialog_loading_providers">Cargando proveedores&#8230;</string>
 
     <!-- Toast -->
     <string name="toast_client_login_failed">Falló el inicio de sesión</string>
@@ -88,5 +95,9 @@
     <string name="toast_event_update_failed">No ha sido posible actualizar los datos</string>
     <string name="toast_event_create_successful">Los datos se ha podido crearel evento correctamente</string>
     <string name="toast_event_create_failed">No ha sido posible crear el evento</string>
+
+    <!-- List -->
+    <string-array name="service_list">
+    </string-array>
 
 </resources>

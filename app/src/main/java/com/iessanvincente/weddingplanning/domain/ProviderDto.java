@@ -272,6 +272,51 @@ public class ProviderDto implements Serializable {
 		this.events = events;
 	}
 
+	/**
+	 * Get name to display
+	 *
+	 * @return string with name
+	 */
+	public String displayName( ) {
+		StringBuilder displayName = new StringBuilder();
+		if ( cif != null &&
+				!cif.isEmpty() ) {
+			displayName.append( cif );
+		}
+		if ( name != null &&
+				!name.isEmpty() ) {
+			displayName.append( " - " );
+			displayName.append( name );
+		}
+		return displayName.toString().trim();
+	}
+
+	/**
+	 * Get phones to display
+	 *
+	 * @return string with phones
+	 */
+	public String displayPhone( ) {
+		StringBuilder displayPhone = new StringBuilder();
+		if ( phone != null &&
+				!phone.isEmpty() ) {
+			displayPhone.append( "Teléfono: " );
+			displayPhone.append( phone );
+		}
+		if ( phone != null &&
+				mobile != null &&
+				!phone.isEmpty() &&
+				!mobile.isEmpty() ) {
+			displayPhone.append( " / " );
+		}
+		if ( mobile != null &&
+				!mobile.isEmpty() ) {
+			displayPhone.append( "Móvil: " );
+			displayPhone.append( mobile );
+		}
+		return displayPhone.toString().trim();
+	}
+
 	@Override
 	public String toString( ) {
 		return "ProviderDto{" +

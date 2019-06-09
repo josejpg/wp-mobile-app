@@ -5,9 +5,11 @@ import android.util.Log;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.domain.EventDto;
 import com.iessanvincente.weddingplanning.domain.ProviderDto;
+import com.iessanvincente.weddingplanning.domain.ServiceDto;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
 import com.iessanvincente.weddingplanning.entity.ProveedoresEntity;
+import com.iessanvincente.weddingplanning.entity.ServiciosEntity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -174,5 +176,33 @@ public class MappingHelper {
 		eventosEntity.setProveedores( proveedoresEntitySet );
 
 		return eventosEntity;
+	}
+
+	/**
+	 * Map from ServiciosEntity to ServiceDto
+	 *
+	 * @param serviciosEntity data
+	 * @return ServiceDto
+	 */
+	public static ServiceDto geServiceDtoFromServiciosEntity( ServiciosEntity serviciosEntity ) {
+		Log.println( Log.INFO, "Mapper", "geServiceDtoFromServiciosEntity" );
+		ServiceDto serviceDto = new ServiceDto();
+		serviceDto.setId( serviciosEntity.getId() );
+		serviceDto.setService( serviciosEntity.getNombre() );
+		return serviceDto;
+	}
+
+	/**
+	 * Map from ServiceDto to ServiciosEntity
+	 *
+	 * @param serviceDto data
+	 * @return ServiciosEntity
+	 */
+	public static ServiciosEntity getServiciosEntityFromServiceDto( ServiceDto serviceDto ) {
+		Log.println( Log.INFO, "Mapper", "getServiciosEntityFromServiceDto" );
+		ServiciosEntity serviciosEntity = new ServiciosEntity();
+		serviciosEntity.setId( serviceDto.getId() );
+		serviciosEntity.setNombre( serviceDto.getService() );
+		return serviciosEntity;
 	}
 }

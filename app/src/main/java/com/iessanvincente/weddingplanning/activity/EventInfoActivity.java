@@ -344,15 +344,13 @@ public class EventInfoActivity extends AppCompatActivity {
 	 * @param clientDtoSet to push into recyclerView
 	 */
 	private void setConfigRecyclerViewClientsEvents( RecyclerView recyclerView, Set<ClientDto> clientDtoSet ) {
-		List<ClientDto> clientDtoList = new ArrayList<>( clientDtoSet );
 		LinearLayoutManager layoutManager = new LinearLayoutManager( EventInfoActivity.this, RecyclerView.VERTICAL, false );
 		layoutManager.setOrientation( RecyclerView.VERTICAL );
 		recyclerView.setLayoutManager( layoutManager );
 		ClientsRecyclerView adapter = new ClientsRecyclerView( getApplicationContext(), clientDtoSet, clientDto, eventDto.getDate() );
 		adapter.setClickListener( ( view, position ) -> {
 			Log.d( TAG, "Remove client" );
-			clientDtoList.remove( position );
-			eventDto.setClients( new HashSet<>( clientDtoList ) );
+			eventDto.getClients().remove( adapter.getItem( position ) );
 			setConfigRecyclerViewClientsEvents( recyclerView, eventDto.getClients() );
 		} );
 		recyclerView.setAdapter( adapter );
@@ -365,7 +363,6 @@ public class EventInfoActivity extends AppCompatActivity {
 	 * @param providerDtoSet to push into recyclerView
 	 */
 	private void setConfigRecyclerViewProvidersEvents( RecyclerView recyclerView, Set<ProviderDto> providerDtoSet ) {
-		List<ProviderDto> providerDtoList = new ArrayList<>( providerDtoSet );
 		LinearLayoutManager layoutManager
 				= new LinearLayoutManager( EventInfoActivity.this, RecyclerView.VERTICAL, false );
 		layoutManager.setOrientation( RecyclerView.VERTICAL );
@@ -373,8 +370,7 @@ public class EventInfoActivity extends AppCompatActivity {
 		ProviderRecyclerView adapter = new ProviderRecyclerView( EventInfoActivity.this, providerDtoSet, eventDto.getDate() );
 		adapter.setClickListener( ( view, position ) -> {
 			Log.d( TAG, "Remove provider" );
-			providerDtoList.remove( position );
-			eventDto.setProviders( new HashSet<>( providerDtoList ) );
+			eventDto.getProviders().remove( adapter.getItem( position ) );
 			setConfigRecyclerViewProvidersEvents( recyclerView, eventDto.getProviders() );
 		} );
 		recyclerView.setAdapter( adapter );

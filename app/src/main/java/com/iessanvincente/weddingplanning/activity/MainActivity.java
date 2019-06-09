@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
 			@Override
 			public void onSuccess( ClientDto _clientDto ) {
 				Log.d( TAG, "onSuccess getEventsByClient" );
-				clientDto = _clientDto;
+				clientDto.setEvents( _clientDto.getEvents() );
 				progressDialog.dismiss();
 			}
 
@@ -120,6 +120,13 @@ public class MainActivity extends AppCompatActivity
 		} else if ( id == R.id.nav_event ) {
 			Log.d( TAG, "Go to EventsActivity" );
 			Intent intent = new Intent( getApplicationContext(), EventsActivity.class );
+			intent.putExtra( "client", actualIntent.getSerializableExtra( "client" ) );
+			startActivity( intent );
+			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
+			finish();
+		} else if ( id == R.id.nav_services ) {
+			Log.d( TAG, "Go to ServicesActivity" );
+			Intent intent = new Intent( getApplicationContext(), ServicesActivity.class );
 			intent.putExtra( "client", actualIntent.getSerializableExtra( "client" ) );
 			startActivity( intent );
 			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );

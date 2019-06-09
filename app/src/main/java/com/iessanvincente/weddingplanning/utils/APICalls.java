@@ -13,12 +13,15 @@ import com.iessanvincente.weddingplanning.interfaces.ClientsDtoCallbackInterface
 import com.iessanvincente.weddingplanning.interfaces.ResponseClientCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseEventCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseProviderCallbackInterface;
+import com.iessanvincente.weddingplanning.interfaces.ResponseServiceCallbackInterface;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
 import com.iessanvincente.weddingplanning.response.ResponseEvent;
 import com.iessanvincente.weddingplanning.response.ResponseProvider;
+import com.iessanvincente.weddingplanning.response.ResponseService;
 import com.iessanvincente.weddingplanning.service.ClientService;
 import com.iessanvincente.weddingplanning.service.EventService;
 import com.iessanvincente.weddingplanning.service.ProviderService;
+import com.iessanvincente.weddingplanning.service.ServiceService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +38,7 @@ public class APICalls {
 	private ClientService clientService = new ClientService();
 	private ProviderService providerService = new ProviderService();
 	private EventService eventService = new EventService();
+	private ServiceService serviceService = new ServiceService();
 	private String userToken;
 	private Context context;
 
@@ -45,6 +49,8 @@ public class APICalls {
 	public void setUserToken( String userToken ) {
 		this.userToken = userToken;
 	}
+
+	// Clients
 
 	/**
 	 * Geet client login by email and password
@@ -297,6 +303,7 @@ public class APICalls {
 		);
 	}
 
+	// Providers
 
 	/**
 	 * Get provider by ID
@@ -359,6 +366,70 @@ public class APICalls {
 				}
 		);
 	}
+
+	/**
+	 * Get provider by ID
+	 *
+	 * @param callback manage API response
+	 */
+	public void getProviderByServiceId( String serviceId, ResponseProviderCallbackInterface callback ) {
+
+		// Call to method in service
+		providerService.findByServiceId(
+				userToken,
+				serviceId,
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call
+					 * @param response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseProvider responseProvider = gson.fromJson( response.body().string(), ResponseProvider.class );
+
+								// If the response isn't successful call to onError
+								if ( response.isSuccessful() ) {
+									// If response getOk is true call to onSuccess
+									// else call to onError
+									if ( responseProvider.getOk() ) {
+										callback.onSuccess( responseProvider );
+									} else {
+										callback.onError( responseProvider.getError() );
+									}
+								} else {
+									callback.onError( responseProvider.getError() );
+								}
+							} catch (IOException e) {
+								callback.onError( context.getResources().getString( R.string.toast_provider_find_failed ) );
+								e.printStackTrace();
+							}
+						} else {
+							callback.onError( context.getResources().getString( R.string.toast_provider_find_failed ) );
+						}
+					}
+
+					/**
+					 *  IF API call failed this method call to onError and stop the progress dialog.
+					 * @param call
+					 * @param t
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( context.getResources().getString( R.string.toast_provider_find_failed ) );
+					}
+				}
+		);
+	}
+
+	// Events
 
 	/**
 	 * Get event by ID
@@ -561,7 +632,7 @@ public class APICalls {
 	}
 
 	/**
-	 * Createv event
+	 * Create new event
 	 *
 	 * @param eventosEntity event data
 	 * @param callback manage API response
@@ -615,4 +686,62 @@ public class APICalls {
 				}
 		);
 	}
+
+
+	// Services
+
+	/**
+	 * Get all services
+	 *
+	 * @param callback manage API response
+	 */
+	public void getServices( ResponseServiceCallbackInterface callback ){
+		// Call to method in service
+		serviceService.getServices(
+				userToken,
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseService responseService = gson.fromJson( response.body().string(), ResponseService.class );
+
+								// If the response is successful
+								if ( response.isSuccessful() ) {
+									// If response getOk
+									if ( responseService.getOk() ) {
+										callback.onSuccess( responseService );
+									}else{
+										callback.onError( responseService.getError() );
+									}
+								}
+							} catch (IOException e) {
+								callback.onError( e.getMessage() );
+							}
+						}
+					}
+
+					/**
+					 *  If API call failed.
+					 * @param call API call
+					 * @param t API error
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( t.getMessage() );
+					}
+				}
+		);
+	}
+
 }

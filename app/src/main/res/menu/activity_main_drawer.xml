@@ -12,6 +12,10 @@
         android:icon="@drawable/ic_calendar"
         android:title="@string/menu_event" />
     <item
+        android:id="@+id/nav_services"
+        android:icon="@drawable/ic_group_add"
+        android:title="@string/menu_services" />
+    <item
         android:id="@+id/nav_message"
         android:icon="@drawable/ic_message"
         android:title="@string/menu_message" />
