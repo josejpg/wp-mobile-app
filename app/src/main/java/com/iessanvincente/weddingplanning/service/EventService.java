@@ -3,7 +3,6 @@ package com.iessanvincente.weddingplanning.service;
 
 import android.util.Log;
 
-import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
 import com.iessanvincente.weddingplanning.interfaces.EventAPI;
 import com.iessanvincente.weddingplanning.utils.APIClient;
@@ -13,6 +12,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class EventService {
 	private final String TAG = "EventsService";
 
@@ -20,8 +22,8 @@ public class EventService {
 	 * Get events by client ID
 	 *
 	 * @param userToken auth token
-	 * @param clientID client id
-	 * @param callback manage API response
+	 * @param clientID  client id
+	 * @param callback  handled API response
 	 */
 	public void getEventsByClient( String userToken, Long clientID, Callback<ResponseBody> callback ) {
 		Log.d( TAG, "getEventsByClient" );
@@ -35,8 +37,8 @@ public class EventService {
 	 * Get event by ID
 	 *
 	 * @param userToken auth token
-	 * @param eventID event id
-	 * @param callback manage API response
+	 * @param eventID   event id
+	 * @param callback  handled API response
 	 */
 	public void getEventById( String userToken, Long eventID, Callback<ResponseBody> callback ) {
 		Log.d( TAG, "getEventById" );
@@ -49,9 +51,9 @@ public class EventService {
 	/**
 	 * Create event
 	 *
-	 * @param userToken auth token
+	 * @param userToken     auth token
 	 * @param eventosEntity event data
-	 * @param callback manage API response
+	 * @param callback      handled API response
 	 */
 	public void createEvent( String userToken, EventosEntity eventosEntity, Callback<ResponseBody> callback ) {
 		Log.d( TAG, "createEvent" );
@@ -64,9 +66,9 @@ public class EventService {
 	/**
 	 * Update data event
 	 *
-	 * @param userToken auth token
+	 * @param userToken     auth token
 	 * @param eventosEntity event data
-	 * @param callback manage API response
+	 * @param callback      handled API response
 	 */
 	public void updateEvent( String userToken, EventosEntity eventosEntity, Callback<ResponseBody> callback ) {
 		Log.d( TAG, "updateEvent" );

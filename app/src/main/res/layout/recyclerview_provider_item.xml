@@ -14,7 +14,7 @@
             android:layout_height="match_parent" >
 
             <TextView
-                android:id="@+id/clientTextView"
+                android:id="@+id/providerEventTextView"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"

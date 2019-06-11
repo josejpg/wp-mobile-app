@@ -7,6 +7,9 @@ import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ResponseClient implements Serializable {
 	@SerializedName( "ok" )
 	@Expose

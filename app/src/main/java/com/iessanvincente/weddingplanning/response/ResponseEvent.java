@@ -3,11 +3,13 @@ package com.iessanvincente.weddingplanning.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
-import com.iessanvincente.weddingplanning.entity.ProveedoresEntity;
 
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ResponseEvent implements Serializable {
 	@SerializedName( "ok" )
 	@Expose

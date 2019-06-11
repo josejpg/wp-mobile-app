@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class EventsRecyclerView extends RecyclerView.Adapter<EventsRecyclerView.ViewHolder> {
 	private List<EventDto> eventDtoSet;
 	private LayoutInflater mInflater;

@@ -34,6 +34,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class APICalls {
 	private ClientService clientService = new ClientService();
 	private ProviderService providerService = new ProviderService();
@@ -55,9 +58,9 @@ public class APICalls {
 	/**
 	 * Geet client login by email and password
 	 *
-	 * @param email client email
+	 * @param email    client email
 	 * @param password client password
-	 * @param callback manage API response
+	 * @param callback handled API response
 	 */
 	public void getLoginClient( String email, String password, ResponseClientCallbackInterface callback ) {
 
@@ -120,7 +123,7 @@ public class APICalls {
 	/**
 	 * Get client login by token
 	 *
-	 * @param callback manage API response
+	 * @param callback handled API response
 	 */
 	public void getLoginClientByToken( ResponseClientCallbackInterface callback ) {
 
@@ -182,7 +185,7 @@ public class APICalls {
 	 * Signup new client
 	 *
 	 * @param clientesEntity client data
-	 * @param callback manage API response
+	 * @param callback       handled API response
 	 */
 	public void setNewClient( ClientesEntity clientesEntity, ResponseClientCallbackInterface callback ) {
 
@@ -244,7 +247,7 @@ public class APICalls {
 	 * Update client
 	 *
 	 * @param clientesEntity client data
-	 * @param callback manage API response
+	 * @param callback       handled API response
 	 */
 	public void setUpdateClient( ClientesEntity clientesEntity, ResponseClientCallbackInterface callback ) {
 
@@ -308,7 +311,7 @@ public class APICalls {
 	/**
 	 * Get provider by ID
 	 *
-	 * @param callback manage API response
+	 * @param callback handled API response
 	 */
 	public void getProviderById( String providerId, ResponseProviderCallbackInterface callback ) {
 
@@ -370,7 +373,7 @@ public class APICalls {
 	/**
 	 * Get provider by ID
 	 *
-	 * @param callback manage API response
+	 * @param callback handled API response
 	 */
 	public void getProviderByServiceId( String serviceId, ResponseProviderCallbackInterface callback ) {
 
@@ -434,7 +437,7 @@ public class APICalls {
 	/**
 	 * Get event by ID
 	 *
-	 * @param callback manage API response
+	 * @param callback handled API response
 	 */
 	public void getEventById( Long eventId, ResponseEventCallbackInterface callback ) {
 
@@ -497,7 +500,7 @@ public class APICalls {
 	 * Get events by client
 	 *
 	 * @param clientDto client data
-	 * @param callback manage API response
+	 * @param callback  handled API response
 	 */
 	public void getEventsByClient( ClientDto clientDto, ClientsDtoCallbackInterface callback ) {
 		// Call to method in service
@@ -528,7 +531,7 @@ public class APICalls {
 										Set<EventDto> events = new HashSet<>();
 										Set<EventosEntity> eventosEntitySet = responseEvent.getEvents();
 										List<EventosEntity> eventosEntityList = new ArrayList<>( eventosEntitySet );
-										if( eventosEntitySet.size() > 0 ) {
+										if ( eventosEntitySet.size() > 0 ) {
 											for ( EventosEntity evento : eventosEntitySet ) {
 												getEventById(
 														evento.getId(),
@@ -549,10 +552,10 @@ public class APICalls {
 														}
 												);
 											}
-										}else{
+										} else {
 											callback.onError( responseEvent.getError() );
 										}
-									}else{
+									} else {
 										callback.onError( responseEvent.getError() );
 									}
 								}
@@ -579,9 +582,9 @@ public class APICalls {
 	 * Update data event
 	 *
 	 * @param eventosEntity event data
-	 * @param callback manage API response
+	 * @param callback      handled API response
 	 */
-	public void setUpdateEvent( EventosEntity eventosEntity, ResponseEventCallbackInterface callback ){
+	public void setUpdateEvent( EventosEntity eventosEntity, ResponseEventCallbackInterface callback ) {
 		// Call to method in service
 		eventService.updateEvent(
 				userToken,
@@ -608,7 +611,7 @@ public class APICalls {
 									// If response getOk
 									if ( responseEvent.getOk() ) {
 										callback.onSuccess( responseEvent );
-									}else{
+									} else {
 										callback.onError( responseEvent.getError() );
 									}
 								}
@@ -635,9 +638,9 @@ public class APICalls {
 	 * Create new event
 	 *
 	 * @param eventosEntity event data
-	 * @param callback manage API response
+	 * @param callback      handled API response
 	 */
-	public void setNewEvent( EventosEntity eventosEntity, ResponseEventCallbackInterface callback ){
+	public void setNewEvent( EventosEntity eventosEntity, ResponseEventCallbackInterface callback ) {
 		// Call to method in service
 		eventService.createEvent(
 				userToken,
@@ -664,7 +667,7 @@ public class APICalls {
 									// If response getOk
 									if ( responseEvent.getOk() ) {
 										callback.onSuccess( responseEvent );
-									}else{
+									} else {
 										callback.onError( responseEvent.getError() );
 									}
 								}
@@ -693,9 +696,9 @@ public class APICalls {
 	/**
 	 * Get all services
 	 *
-	 * @param callback manage API response
+	 * @param callback handled API response
 	 */
-	public void getServices( ResponseServiceCallbackInterface callback ){
+	public void getServices( ResponseServiceCallbackInterface callback ) {
 		// Call to method in service
 		serviceService.getServices(
 				userToken,
@@ -721,7 +724,7 @@ public class APICalls {
 									// If response getOk
 									if ( responseService.getOk() ) {
 										callback.onSuccess( responseService );
-									}else{
+									} else {
 										callback.onError( responseService.getError() );
 									}
 								}

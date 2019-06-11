@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ClientDto implements Serializable {
 
 	@SerializedName( "id" )

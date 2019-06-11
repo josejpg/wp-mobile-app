@@ -23,14 +23,15 @@ import com.iessanvincente.weddingplanning.utils.EventsRecyclerView;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class EventsActivity extends AppCompatActivity {
 	private static final String TAG = "EventsActivity";
 	@BindView( R.id.listNextEvents )

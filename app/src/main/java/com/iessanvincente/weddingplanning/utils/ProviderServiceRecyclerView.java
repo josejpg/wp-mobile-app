@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ProviderServiceRecyclerView extends RecyclerView.Adapter<ProviderServiceRecyclerView.ViewHolder> {
 	private List<ProviderDto> providerDtoSet;
 	private LayoutInflater mInflater;
@@ -41,7 +44,7 @@ public class ProviderServiceRecyclerView extends RecyclerView.Adapter<ProviderSe
 	public void onBindViewHolder( @NonNull ViewHolder holder, int position ) {
 		ProviderDto providerDto = providerDtoSet.get( position );
 		holder.providerView.setText( providerDto.displayName() );
-		holder.phoneView.setText( providerDto.displayPhone()  );
+		holder.phoneView.setText( providerDto.displayPhone() );
 		holder.emailView.setText( providerDto.getEmail() );
 	}
 

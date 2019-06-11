@@ -3,16 +3,14 @@ package com.iessanvincente.weddingplanning.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class APIClient {
 	private static final String BASE_URL = "https://tfg-weddingplanning-node.herokuapp.com/api/v1/";
 	private static Retrofit retrofit;
@@ -25,7 +23,7 @@ public class APIClient {
 	 *
 	 * @return Retrofit
 	 */
-	public static Retrofit getRetrofitClient() {
+	public static Retrofit getRetrofitClient( ) {
 		// Set log interceptor
 		logging.setLevel( HttpLoggingInterceptor.Level.BODY );
 		httpClient.addInterceptor( logging );

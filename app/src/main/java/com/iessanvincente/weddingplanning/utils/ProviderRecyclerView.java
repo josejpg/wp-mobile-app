@@ -18,6 +18,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ProviderRecyclerView extends RecyclerView.Adapter<ProviderRecyclerView.ViewHolder> {
 	private final Calendar calendar = Calendar.getInstance();
 	private List<ProviderDto> providerDtoSet;
@@ -44,7 +47,7 @@ public class ProviderRecyclerView extends RecyclerView.Adapter<ProviderRecyclerV
 	@Override
 	public void onBindViewHolder( @NonNull ViewHolder holder, int position ) {
 		ProviderDto providerDto = providerDtoSet.get( position );
-		holder.clientView.setText( ( providerDto.getName() != null ) ? providerDto.getName() : providerDto.getCif() );
+		holder.providerView.setText( ( providerDto.getName() != null ) ? providerDto.getName() : providerDto.getCif() );
 		if ( eventTime <= calendar.getTimeInMillis() ) {
 			holder.deleteButtonView.setVisibility( View.GONE );
 		}
@@ -73,13 +76,14 @@ public class ProviderRecyclerView extends RecyclerView.Adapter<ProviderRecyclerV
 
 	// Stores and recycles views as they are scrolled off screen
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		TextView clientView;
+		TextView providerView;
 		ImageView deleteButtonView;
 
 		ViewHolder( View itemView ) {
 			super( itemView );
-			clientView = itemView.findViewById( R.id.clientTextView );
+			providerView = itemView.findViewById( R.id.providerEventTextView );
 			deleteButtonView = itemView.findViewById( R.id.btnDelentEventClient );
+			providerView.setOnClickListener( this );
 			deleteButtonView.setOnClickListener( this );
 		}
 

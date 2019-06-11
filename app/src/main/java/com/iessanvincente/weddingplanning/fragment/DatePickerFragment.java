@@ -12,10 +12,13 @@ import com.iessanvincente.weddingplanning.R;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class DatePickerFragment extends DialogFragment {
 
-	private DatePickerDialog.OnDateSetListener listener;
 	private static Long defaultDatetime;
+	private DatePickerDialog.OnDateSetListener listener;
 
 	public static DatePickerFragment newInstance( DatePickerDialog.OnDateSetListener listener, Long defaultDatetime ) {
 
@@ -25,7 +28,7 @@ public class DatePickerFragment extends DialogFragment {
 		return fragment;
 	}
 
-	private static void setDefaultDatetime( Long datetime ){
+	private static void setDefaultDatetime( Long datetime ) {
 		defaultDatetime = datetime;
 	}
 
@@ -36,7 +39,7 @@ public class DatePickerFragment extends DialogFragment {
 	@Override
 	@NonNull
 	public Dialog onCreateDialog( Bundle savedInstanceState ) {
-		Locale.setDefault(  new Locale("es", "ES") );
+		Locale.setDefault( new Locale( "es", "ES" ) );
 		// Use the current date as the default date in the picker
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis( defaultDatetime * 1000 );

@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ProviderDto implements Serializable {
 
 	@SerializedName( "id" )

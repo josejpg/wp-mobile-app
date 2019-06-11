@@ -4,8 +4,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Set;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class EventDto implements Serializable {
 
 	@SerializedName( "id" )
@@ -160,6 +164,11 @@ public class EventDto implements Serializable {
 	 */
 	public void setClients( Set<ClientDto> clients ) {
 		this.clients = clients;
+	}
+
+	public Boolean isPastEvent(){
+		Calendar calendar = Calendar.getInstance();
+		return ( date * 1000 ) <= calendar.getTimeInMillis();
 	}
 
 	@Override

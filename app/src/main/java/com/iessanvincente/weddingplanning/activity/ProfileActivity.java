@@ -26,6 +26,9 @@ import com.iessanvincente.weddingplanning.utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ProfileActivity extends AppCompatActivity {
 
 	private static final String TAG = "ProfileActivity";

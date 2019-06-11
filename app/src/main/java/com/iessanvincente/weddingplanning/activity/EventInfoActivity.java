@@ -1,5 +1,6 @@
 package com.iessanvincente.weddingplanning.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -33,15 +34,15 @@ import com.iessanvincente.weddingplanning.utils.ClientsRecyclerView;
 import com.iessanvincente.weddingplanning.utils.ProviderRecyclerView;
 import com.iessanvincente.weddingplanning.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class EventInfoActivity extends AppCompatActivity {
 
 	private static final String TAG = "EventInfoActivity";
@@ -224,7 +225,7 @@ public class EventInfoActivity extends AppCompatActivity {
 			if ( eventDto.getClients().size() > 0 ) {
 				setConfigRecyclerViewClientsEvents( recyclerViewClientsEvent, eventDto.getClients() );
 			}
-			if( eventDto.getProviders().size() > 0 ) {
+			if ( eventDto.getProviders().size() > 0 ) {
 				setConfigRecyclerViewProvidersEvents( recyclerViewProvidersEvent, eventDto.getProviders() );
 			}
 			isUpdate = true;
@@ -369,14 +370,27 @@ public class EventInfoActivity extends AppCompatActivity {
 		recyclerView.setLayoutManager( layoutManager );
 		ProviderRecyclerView adapter = new ProviderRecyclerView( EventInfoActivity.this, providerDtoSet, eventDto.getDate() );
 		adapter.setClickListener( ( view, position ) -> {
-			Log.d( TAG, "Remove provider" );
-			eventDto.getProviders().remove( adapter.getItem( position ) );
-			setConfigRecyclerViewProvidersEvents( recyclerView, eventDto.getProviders() );
+			if ( view.getId() == R.id.btnDelentEventClient ) {
+				showConfirmDialog( recyclerView, adapter, position );
+			} else if ( view.getId() == R.id.providerEventTextView ) {
+				Log.d( TAG, "Go to ProviderInfoActivity" );
+				Intent intent = new Intent( getApplicationContext(), ProviderInfoActivity.class );
+				intent.putExtra( "client", clientDto );
+				intent.putExtra( "event", eventDto );
+				intent.putExtra( "provider", adapter.getItem( position ) );
+				intent.putExtra( "back", "event" );
+				startActivity( intent );
+				overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
+				finish();
+			}
 		} );
 		recyclerView.setAdapter( adapter );
 	}
 
-	private void handledInfoEvent(){
+	/**
+	 * Handled info event
+	 */
+	private void handledInfoEvent( ) {
 		// If is a past event cant be updated
 		if ( eventDto != null &&
 				eventDto.getDate() != null &&
@@ -409,5 +423,23 @@ public class EventInfoActivity extends AppCompatActivity {
 			recyclerViewProvidersEventTitle.setVisibility( View.VISIBLE );
 			recyclerViewProvidersEvent.setVisibility( View.VISIBLE );
 		}
+	}
+
+	/**
+	 * Show confirm dialog
+	 */
+	private void showConfirmDialog( RecyclerView recyclerView, ProviderRecyclerView adapter, Integer position ) {
+		AlertDialog.Builder builder = new AlertDialog.Builder( this );
+		builder.setMessage( getResources().getString( R.string.dialog_confirm_remove_provider ) );
+		builder.setNegativeButton( R.string.dialog_confirm_no, ( dialog, which ) -> {
+			dialog.dismiss();
+		} );
+		builder.setPositiveButton( R.string.dialog_confirm_yes, ( dialog, which ) -> {
+			Log.d( TAG, "Remove provider" );
+			eventDto.getProviders().remove( adapter.getItem( position ) );
+			setConfigRecyclerViewProvidersEvents( recyclerView, eventDto.getProviders() );
+		} );
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 }

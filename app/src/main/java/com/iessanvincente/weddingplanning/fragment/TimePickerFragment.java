@@ -12,10 +12,13 @@ import com.iessanvincente.weddingplanning.R;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class TimePickerFragment extends DialogFragment {
 
-	private TimePickerDialog.OnTimeSetListener listener;
 	private static Long defaultDatetime;
+	private TimePickerDialog.OnTimeSetListener listener;
 
 	public static TimePickerFragment newInstance( TimePickerDialog.OnTimeSetListener listener, Long defaultDatetime ) {
 
@@ -25,7 +28,7 @@ public class TimePickerFragment extends DialogFragment {
 		return fragment;
 	}
 
-	private static void setDefaultDatetime( Long datetime ){
+	private static void setDefaultDatetime( Long datetime ) {
 		defaultDatetime = datetime;
 	}
 

@@ -7,6 +7,9 @@ import com.iessanvincente.weddingplanning.entity.ProveedoresEntity;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ResponseProvider implements Serializable {
 	@SerializedName( "ok" )
 	@Expose

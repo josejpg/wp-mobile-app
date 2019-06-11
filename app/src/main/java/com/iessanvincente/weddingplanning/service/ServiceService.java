@@ -3,8 +3,6 @@ package com.iessanvincente.weddingplanning.service;
 
 import android.util.Log;
 
-import com.iessanvincente.weddingplanning.entity.EventosEntity;
-import com.iessanvincente.weddingplanning.interfaces.EventAPI;
 import com.iessanvincente.weddingplanning.interfaces.ServiceAPI;
 import com.iessanvincente.weddingplanning.utils.APIClient;
 
@@ -13,6 +11,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ServiceService {
 	private final String TAG = "ServicesService";
 
@@ -20,7 +21,7 @@ public class ServiceService {
 	 * Get events by client ID
 	 *
 	 * @param userToken auth token
-	 * @param callback manage API response
+	 * @param callback  handled API response
 	 */
 	public void getServices( String userToken, Callback<ResponseBody> callback ) {
 		Log.d( TAG, "getEventsByClient" );

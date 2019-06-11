@@ -9,10 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TableRow;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
-import com.iessanvincente.weddingplanning.domain.EventDto;
 import com.iessanvincente.weddingplanning.domain.ProviderDto;
 import com.iessanvincente.weddingplanning.domain.ServiceDto;
 import com.iessanvincente.weddingplanning.entity.ProveedoresEntity;
@@ -34,7 +31,6 @@ import com.iessanvincente.weddingplanning.interfaces.ResponseServiceCallbackInte
 import com.iessanvincente.weddingplanning.response.ResponseProvider;
 import com.iessanvincente.weddingplanning.response.ResponseService;
 import com.iessanvincente.weddingplanning.utils.APICalls;
-import com.iessanvincente.weddingplanning.utils.EventsRecyclerView;
 import com.iessanvincente.weddingplanning.utils.ProviderServiceRecyclerView;
 
 import java.util.ArrayList;
@@ -45,6 +41,9 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ServicesActivity extends AppCompatActivity {
 	private static final String TAG = "ServicesActivity";
 	@BindView( R.id.listServices )
@@ -59,8 +58,8 @@ public class ServicesActivity extends AppCompatActivity {
 	private SharedPreferences settings;
 	private APICalls apiCalls = new APICalls();
 	private ClientDto clientDto = new ClientDto();
-	private Set<ProviderDto> providerDtoSet = new HashSet<>(  );
-	private Set<ServiceDto> serviceDtoSet = new HashSet<>(  );
+	private Set<ProviderDto> providerDtoSet = new HashSet<>();
+	private Set<ServiceDto> serviceDtoSet = new HashSet<>();
 	private ServiceDto serviceSelected = new ServiceDto();
 	private String userToken = "";
 	private ProgressDialog progressDialog;
@@ -86,6 +85,7 @@ public class ServicesActivity extends AppCompatActivity {
 		_btnSearch.setEnabled( false );
 
 		getClientInfo();
+		getServiceSelected();
 		getServices();
 		setListeners();
 		getSupportActionBar().setTitle( getResources().getString( R.string.activity_services ) );
@@ -112,6 +112,15 @@ public class ServicesActivity extends AppCompatActivity {
 	 */
 	private void getClientInfo( ) {
 		clientDto = (ClientDto) actualIntent.getSerializableExtra( "client" );
+	}
+
+	/**
+	 * Get selected option from intent
+	 */
+	private void getServiceSelected( ) {
+		if ( actualIntent.getSerializableExtra( "serviceSelected" ) != null ) {
+			serviceSelected = (ServiceDto) actualIntent.getSerializableExtra( "serviceSelected" );
+		}
 	}
 
 	/**
@@ -214,6 +223,9 @@ public class ServicesActivity extends AppCompatActivity {
 		serviceDtoArrayList.add( 0, new ServiceDto() );
 		ArrayAdapter<ServiceDto> adapter = new ArrayAdapter<>( this, android.R.layout.simple_spinner_dropdown_item, serviceDtoArrayList );
 		adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+		if ( serviceSelected.getId() != null && serviceSelected.getId() > 0 ) {
+			_listServices.setSelection( adapter.getPosition( serviceSelected ) );
+		}
 		_listServices.setAdapter( adapter );
 	}
 
@@ -225,13 +237,13 @@ public class ServicesActivity extends AppCompatActivity {
 			@Override
 			public void onItemSelected( AdapterView<?> parent, View view, int position, long id ) {
 				List<ServiceDto> serviceDtoList = new ArrayList<>( serviceDtoSet );
-				if( position > 0 ) {
-					serviceSelected = serviceDtoList.get( position );
+				if ( position > 0 ) {
+					serviceSelected = serviceDtoList.get( position - 1 );
 				}
 				providerDtoSet.clear();
-				if( serviceSelected.getId() != null && serviceSelected.getId() > 0 ){
+				if ( serviceSelected.getId() != null && serviceSelected.getId() > 0 ) {
 					_btnSearch.setEnabled( true );
-				}else{
+				} else {
 					_btnSearch.setEnabled( false );
 				}
 				_linearProviderService.setVisibility( View.GONE );
@@ -253,8 +265,8 @@ public class ServicesActivity extends AppCompatActivity {
 	/**
 	 * Set up the RecyclerView configuration
 	 *
-	 * @param recyclerView to config
-	 * @param providerDtoSet  to push into recyclerView
+	 * @param recyclerView   to config
+	 * @param providerDtoSet to push into recyclerView
 	 */
 	private void setConfigRecyclerViewProviders( RecyclerView recyclerView, Set<ProviderDto> providerDtoSet ) {
 		LinearLayoutManager layoutManager
@@ -264,7 +276,15 @@ public class ServicesActivity extends AppCompatActivity {
 		recyclerView.addItemDecoration( new DividerItemDecoration( getApplicationContext(), DividerItemDecoration.VERTICAL ) );
 		ProviderServiceRecyclerView adapter = new ProviderServiceRecyclerView( getApplicationContext(), providerDtoSet );
 		adapter.setClickListener( ( view, position ) -> {
-			Log.d( TAG, adapter.getItem( position ).toString() );
+			Log.d( TAG, "Go to ProviderInfoActivity" );
+			Intent intent = new Intent( getApplicationContext(), ProviderInfoActivity.class );
+			intent.putExtra( "client", clientDto );
+			intent.putExtra( "serviceSelected", serviceSelected );
+			intent.putExtra( "provider", adapter.getItem( position ) );
+			intent.putExtra( "back", "services" );
+			startActivity( intent );
+			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
+			finish();
 		} );
 		recyclerView.setAdapter( adapter );
 		_linearProviderService.setVisibility( View.VISIBLE );

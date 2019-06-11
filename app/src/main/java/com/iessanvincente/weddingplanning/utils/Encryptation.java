@@ -4,9 +4,10 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class Encryptation {
-
-	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
 	/**
 	 * Encrypt a plain text into MD5
@@ -26,12 +27,9 @@ public class Encryptation {
 			byte[] bytes = md.digest( text.getBytes() );
 			BigInteger number = new BigInteger( 1, bytes );
 			generatedPassword = number.toString( 16 );
-			System.out.println( text );
-			System.out.println( generatedPassword );
 			while ( generatedPassword.length() < 32 ) {
 				generatedPassword = "0" + generatedPassword;
 			}
-			System.out.println( generatedPassword );
 		} catch (NoSuchAlgorithmException e) {
 			// never happens
 			e.printStackTrace();

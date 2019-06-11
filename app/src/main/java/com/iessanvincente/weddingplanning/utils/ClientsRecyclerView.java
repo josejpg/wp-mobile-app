@@ -18,6 +18,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Jose J. Pardines
+ */
 public class ClientsRecyclerView extends RecyclerView.Adapter<ClientsRecyclerView.ViewHolder> {
 	private final Calendar calendar = Calendar.getInstance();
 	private List<ClientDto> clientDtoSet;
@@ -47,7 +50,7 @@ public class ClientsRecyclerView extends RecyclerView.Adapter<ClientsRecyclerVie
 	public void onBindViewHolder( @NonNull ViewHolder holder, int position ) {
 		ClientDto clientDto = clientDtoSet.get( position );
 		holder.clientView.setText( clientDto.displayName() );
-		if ( eventTime <= calendar.getTimeInMillis() || clientDto.getId().equals( this.clientDto.getId() )) {
+		if ( eventTime <= calendar.getTimeInMillis() || clientDto.getId().equals( this.clientDto.getId() ) ) {
 			holder.deleteButtonView.setVisibility( View.GONE );
 		}
 	}

@@ -14,7 +14,9 @@ import com.iessanvincente.weddingplanning.entity.ServiciosEntity;
 import java.util.HashSet;
 import java.util.Set;
 
-
+/**
+ * @author Jose J. Pardines
+ */
 public class MappingHelper {
 
 	/**

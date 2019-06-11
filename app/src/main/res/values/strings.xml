@@ -8,9 +8,11 @@
     <string name="activity_event_info">Evento</string>
     <string name="activity_event_info_new">Nuevo evento</string>
     <string name="activity_services">Servicios</string>
+    <string name="activity_provider_info">Proveedor</string>
 
     <!-- Forms -->
     <string name="dni">DNI</string>
+    <string name="cif">CIF</string>
     <string name="name">Nombre</string>
     <string name="lastName">Apellidos</string>
     <string name="address">Direccion</string>
@@ -51,6 +53,7 @@
     <string name="btnHidePassword">No cambiar contraseñas</string>
     <string name="btnSave">Guardar</string>
     <string name="btnSearch">Buscar</string>
+    <string name="btnLink2Event">Vincular a evento</string>
     <string name="btnCreateAccount">¿Aún no tienes cuenta? Crea una nueva</string>
     <string name="btnGoLogin">¿Ya tienes cuenta? inicia sesión</string>
 
@@ -96,8 +99,12 @@
     <string name="toast_event_create_successful">Los datos se ha podido crearel evento correctamente</string>
     <string name="toast_event_create_failed">No ha sido posible crear el evento</string>
 
-    <!-- List -->
-    <string-array name="service_list">
-    </string-array>
+    <!-- Dialog -->
+    <string name="dialog_choose_event">Selecciona un evento</string>
+    <string name="dialog_confirm_choose_event">¿Seguro que deseas vincular este proveedor a este evento?</string>
+    <string name="dialog_confirm_remove_provider">¿Seguro que deseas eliminar este proveedor?</string>
+    <string name="dialog_confirm_yes">Sí</string>
+    <string name="dialog_confirm_no">No</string>
+
 
 </resources>
