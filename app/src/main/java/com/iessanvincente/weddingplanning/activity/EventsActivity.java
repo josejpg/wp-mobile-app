@@ -63,6 +63,7 @@ public class EventsActivity extends AppCompatActivity {
 
 		// Set token for calls
 		apiCalls.setUserToken( userToken );
+		apiCalls.setContext( getApplicationContext() );
 
 		// Save the intent intlo a private variable
 		actualIntent = getIntent();

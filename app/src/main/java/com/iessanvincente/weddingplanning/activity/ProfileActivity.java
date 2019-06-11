@@ -90,6 +90,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 		// Set token for api calls
 		apiCalls.setUserToken( userToken );
+		apiCalls.setContext( getApplicationContext() );
 
 		// Get data client
 		clientDto = (ClientDto) actualIntent.getSerializableExtra( "client" );

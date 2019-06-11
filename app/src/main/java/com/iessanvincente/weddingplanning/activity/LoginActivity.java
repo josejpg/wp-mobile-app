@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 		if ( userToken != null && !userToken.isEmpty() ) {
 			// Set token for api calls
 			apiCalls.setUserToken( userToken );
+			apiCalls.setContext( getApplicationContext() );
 			onTokenSaved();
 		}
 

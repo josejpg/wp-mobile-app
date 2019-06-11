@@ -24,7 +24,7 @@ public class ServiceService {
 	 * @param callback  handled API response
 	 */
 	public void getServices( String userToken, Callback<ResponseBody> callback ) {
-		Log.d( TAG, "getEventsByClient" );
+		Log.d( TAG, "getServices" );
 		Retrofit retrofit = APIClient.getRetrofitClient();
 		ServiceAPI serviceAPI = retrofit.create( ServiceAPI.class );
 		Call<ResponseBody> call = serviceAPI.getAll( userToken );

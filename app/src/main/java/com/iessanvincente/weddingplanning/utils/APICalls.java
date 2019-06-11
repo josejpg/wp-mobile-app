@@ -10,14 +10,17 @@ import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
 import com.iessanvincente.weddingplanning.helper.MappingHelper;
 import com.iessanvincente.weddingplanning.interfaces.ClientsDtoCallbackInterface;
+import com.iessanvincente.weddingplanning.interfaces.ResponseChatCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseClientCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseEventCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseProviderCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseServiceCallbackInterface;
+import com.iessanvincente.weddingplanning.response.ResponseChat;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
 import com.iessanvincente.weddingplanning.response.ResponseEvent;
 import com.iessanvincente.weddingplanning.response.ResponseProvider;
 import com.iessanvincente.weddingplanning.response.ResponseService;
+import com.iessanvincente.weddingplanning.service.ChatService;
 import com.iessanvincente.weddingplanning.service.ClientService;
 import com.iessanvincente.weddingplanning.service.EventService;
 import com.iessanvincente.weddingplanning.service.ProviderService;
@@ -42,6 +45,7 @@ public class APICalls {
 	private ProviderService providerService = new ProviderService();
 	private EventService eventService = new EventService();
 	private ServiceService serviceService = new ServiceService();
+	private ChatService chatService = new ChatService();
 	private String userToken;
 	private Context context;
 
@@ -747,4 +751,61 @@ public class APICalls {
 		);
 	}
 
+	// Chats
+
+	/**
+	 * Get all chats for a client
+	 *
+	 * @param clientDto client data
+	 * @param callback handled API response
+	 */
+	public void getChats( ClientDto clientDto, ResponseChatCallbackInterface callback ) {
+		// Call to method in service
+		chatService.getChats(
+				userToken,
+				clientDto.getId().toString(),
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in ResponseClient model
+								Gson gson = new Gson();
+								ResponseChat responseChat = gson.fromJson( response.body().string(), ResponseChat.class );
+
+								// If the response is successful
+								if ( response.isSuccessful() ) {
+									// If response getOk
+									if ( responseChat.getOk() ) {
+										callback.onSuccess( responseChat );
+									} else {
+										callback.onError( responseChat.getError() );
+									}
+								}
+							} catch (IOException e) {
+								callback.onError( e.getMessage() );
+							}
+						}
+					}
+
+					/**
+					 *  If API call failed.
+					 * @param call API call
+					 * @param t API error
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( t.getMessage() );
+					}
+				}
+		);
+	}
 }

@@ -9,6 +9,7 @@
     <string name="activity_event_info_new">Nuevo evento</string>
     <string name="activity_services">Servicios</string>
     <string name="activity_provider_info">Proveedor</string>
+    <string name="activity_chat">Conversaciones</string>
 
     <!-- Forms -->
     <string name="dni">DNI</string>
@@ -86,6 +87,7 @@
     <string name="progressDialog_loading_events">Cargando eventos&#8230;</string>
     <string name="progressDialog_loading_services">Cargando servicios&#8230;</string>
     <string name="progressDialog_loading_providers">Cargando proveedores&#8230;</string>
+    <string name="progressDialog_loading_chats">Cargando conversaciones&#8230;</string>
 
     <!-- Toast -->
     <string name="toast_client_login_failed">Falló el inicio de sesión</string>

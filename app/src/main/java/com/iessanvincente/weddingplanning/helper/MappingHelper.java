@@ -2,10 +2,14 @@ package com.iessanvincente.weddingplanning.helper;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.iessanvincente.weddingplanning.domain.ChatDto;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.domain.EventDto;
 import com.iessanvincente.weddingplanning.domain.ProviderDto;
 import com.iessanvincente.weddingplanning.domain.ServiceDto;
+import com.iessanvincente.weddingplanning.entity.ChatsEntity;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
 import com.iessanvincente.weddingplanning.entity.ProveedoresEntity;
@@ -25,7 +29,7 @@ public class MappingHelper {
 	 * @param clientesEntity data
 	 * @return ClientDto
 	 */
-	public static ClientDto getClientDtoFromClientesEntity( ClientesEntity clientesEntity ) {
+	public static ClientDto getClientDtoFromClientesEntity( @NonNull ClientesEntity clientesEntity ) {
 		Log.println( Log.INFO, "Mapper", "getClientDtoFromClientesEntity" );
 		ClientDto clientDto = new ClientDto();
 		clientDto.setId( clientesEntity.getId() );
@@ -49,7 +53,7 @@ public class MappingHelper {
 	 * @param clientDto data
 	 * @return ClientesEntity
 	 */
-	public static ClientesEntity getClientesEntityFromClientDto( ClientDto clientDto ) {
+	public static ClientesEntity getClientesEntityFromClientDto( @NonNull ClientDto clientDto ) {
 		Log.println( Log.INFO, "Mapper", "getClientesEntityFromClientDto" );
 		ClientesEntity clientesEntity = new ClientesEntity();
 		clientesEntity.setId( clientDto.getId() );
@@ -73,7 +77,7 @@ public class MappingHelper {
 	 * @param proveedoresEntity data
 	 * @return ProviderDto
 	 */
-	public static ProviderDto getProviderDtoFromProveedoresEntity( ProveedoresEntity proveedoresEntity ) {
+	public static ProviderDto getProviderDtoFromProveedoresEntity( @NonNull ProveedoresEntity proveedoresEntity ) {
 		Log.println( Log.INFO, "Mapper", "getClientDtoFromClientesEntity" );
 		ProviderDto providerDto = new ProviderDto();
 		providerDto.setId( proveedoresEntity.getId() );
@@ -94,7 +98,7 @@ public class MappingHelper {
 	 * @param providerDto data
 	 * @return ProveedoresEntity
 	 */
-	public static ProveedoresEntity getProveedoresEntityFromProviderDto( ProviderDto providerDto ) {
+	public static ProveedoresEntity getProveedoresEntityFromProviderDto( @NonNull ProviderDto providerDto ) {
 		Log.println( Log.INFO, "Mapper", "getProveedoresEntityFromProviderDto" );
 		ProveedoresEntity proveedoresEntity = new ProveedoresEntity();
 		proveedoresEntity.setId( providerDto.getId() );
@@ -115,7 +119,7 @@ public class MappingHelper {
 	 * @param eventosEntity data
 	 * @return EventDto
 	 */
-	public static EventDto getEventDtoFromEventosEntity( EventosEntity eventosEntity ) {
+	public static EventDto getEventDtoFromEventosEntity( @NonNull EventosEntity eventosEntity ) {
 		Log.println( Log.INFO, "Mapper", "getEventDtoFromEventosEntity" );
 		Set<ClientDto> clientDtoSet = new HashSet<>();
 		Set<ProviderDto> providerDtoSet = new HashSet<>();
@@ -150,7 +154,7 @@ public class MappingHelper {
 	 * @param eventDto data
 	 * @return EventosEntity
 	 */
-	public static EventosEntity getEventosEntityFromEventDto( EventDto eventDto ) {
+	public static EventosEntity getEventosEntityFromEventDto( @NonNull EventDto eventDto ) {
 		Log.println( Log.INFO, "Mapper", "getEventosEntityFromEventDto" );
 		System.out.println( eventDto );
 		Set<ClientesEntity> clientesEntitySet = new HashSet<>();
@@ -186,7 +190,7 @@ public class MappingHelper {
 	 * @param serviciosEntity data
 	 * @return ServiceDto
 	 */
-	public static ServiceDto geServiceDtoFromServiciosEntity( ServiciosEntity serviciosEntity ) {
+	public static ServiceDto geServiceDtoFromServiciosEntity( @NonNull ServiciosEntity serviciosEntity ) {
 		Log.println( Log.INFO, "Mapper", "geServiceDtoFromServiciosEntity" );
 		ServiceDto serviceDto = new ServiceDto();
 		serviceDto.setId( serviciosEntity.getId() );
@@ -200,11 +204,41 @@ public class MappingHelper {
 	 * @param serviceDto data
 	 * @return ServiciosEntity
 	 */
-	public static ServiciosEntity getServiciosEntityFromServiceDto( ServiceDto serviceDto ) {
+	public static ServiciosEntity getServiciosEntityFromServiceDto( @NonNull ServiceDto serviceDto ) {
 		Log.println( Log.INFO, "Mapper", "getServiciosEntityFromServiceDto" );
 		ServiciosEntity serviciosEntity = new ServiciosEntity();
 		serviciosEntity.setId( serviceDto.getId() );
 		serviciosEntity.setNombre( serviceDto.getService() );
 		return serviciosEntity;
+	}
+
+	/**
+	 * Map from ChatsEntity to ChatDto
+	 *
+	 * @param chatsEntity data
+	 * @return ChatDto
+	 */
+	public static ChatDto getChatDtoFromChatsEntity( @NonNull ChatsEntity chatsEntity ) {
+		Log.println( Log.INFO, "Mapper", "geServiceDtoFromServiciosEntity" );
+		ChatDto chatDto = new ChatDto();
+		chatDto.setId( chatsEntity.getId() );
+		chatDto.setEvent( getEventDtoFromEventosEntity( chatsEntity.getEvento() ) );
+		chatDto.setProvider( getProviderDtoFromProveedoresEntity( chatsEntity.getProveedor() ) );
+		return chatDto;
+	}
+
+	/**
+	 * Map from ChatDto to ChatsEntity
+	 *
+	 * @param chatDto data
+	 * @return ChatsEntity
+	 */
+	public static ChatsEntity getChatsEntityFromChatDto( @NonNull ChatDto chatDto ) {
+		Log.println( Log.INFO, "Mapper", "getChatsEntityFromChatDto" );
+		ChatsEntity chatsEntity = new ChatsEntity();
+		chatsEntity.setId( chatDto.getId() );
+		chatsEntity.setEvento( getEventosEntityFromEventDto( chatDto.getEvent() ) );
+		chatsEntity.setProveedor( getProveedoresEntityFromProviderDto( chatDto.getProvider() ) );
+		return chatsEntity;
 	}
 }

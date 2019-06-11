@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity
 
 		// Set token for calls
 		apiCalls.setUserToken( userToken );
+		apiCalls.setContext( getApplicationContext() );
 
 		// Save the intent intlo a private variable
 		actualIntent = getIntent();
@@ -132,7 +133,12 @@ public class MainActivity extends AppCompatActivity
 			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
 			finish();
 		} else if ( id == R.id.nav_message ) {
-
+			Log.d( TAG, "Go to ChatsActivity" );
+			Intent intent = new Intent( getApplicationContext(), ChatsActivity.class );
+			intent.putExtra( "client", actualIntent.getSerializableExtra( "client" ) );
+			startActivity( intent );
+			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
+			finish();
 		} else if ( id == R.id.nav_logout ) { // Remove token an data user and go to LoginActivity
 			Log.d( TAG, "Logout and go to LoginActivity" );
 			editor = settings.edit();
