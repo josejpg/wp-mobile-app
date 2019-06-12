@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foregroundGravity="fill_horizontal"
+    android:orientation="vertical">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_message" />
+
+        <TextView
+            android:id="@+id/titleEventChatTextView"
+            android:layout_width="191dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/dateEventChatTextView"
+            android:layout_width="184dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textSize="16sp" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="319dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/providerEventChatTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="60dp"
+            android:layout_span="3"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="15dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="14sp" />
+    </TableRow>
+
+</TableLayout>
