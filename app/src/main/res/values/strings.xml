@@ -10,6 +10,7 @@
     <string name="activity_services">Servicios</string>
     <string name="activity_provider_info">Proveedor</string>
     <string name="activity_chat">Conversaciones</string>
+    <string name="activity_message">Mensajes</string>
 
     <!-- Forms -->
     <string name="dni">DNI</string>

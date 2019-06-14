@@ -7,11 +7,13 @@ import androidx.annotation.NonNull;
 import com.iessanvincente.weddingplanning.domain.ChatDto;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.domain.EventDto;
+import com.iessanvincente.weddingplanning.domain.MessageDto;
 import com.iessanvincente.weddingplanning.domain.ProviderDto;
 import com.iessanvincente.weddingplanning.domain.ServiceDto;
 import com.iessanvincente.weddingplanning.entity.ChatsEntity;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
+import com.iessanvincente.weddingplanning.entity.MensajesEntity;
 import com.iessanvincente.weddingplanning.entity.ProveedoresEntity;
 import com.iessanvincente.weddingplanning.entity.ServiciosEntity;
 
@@ -240,5 +242,65 @@ public class MappingHelper {
 		chatsEntity.setEvento( getEventosEntityFromEventDto( chatDto.getEvent() ) );
 		chatsEntity.setProveedor( getProveedoresEntityFromProviderDto( chatDto.getProvider() ) );
 		return chatsEntity;
+	}
+
+	/**
+	 * Map from MensajesEntity to MessageDto
+	 *
+	 * @param mensajesEntity data
+	 * @return MessageDto
+	 */
+	public static MessageDto getMessageDtoFromMensajesEntity( @NonNull MensajesEntity mensajesEntity ) {
+		Log.println( Log.INFO, "Mapper", "getMessageDtoFromMensajesEntity" );
+		MessageDto messageDto = new MessageDto();
+		messageDto.setId( mensajesEntity.getId() );
+		messageDto.setMessage( mensajesEntity.getMensaje() );
+		messageDto.setDate( mensajesEntity.getFecha() );
+		messageDto.setOwner( mensajesEntity.getPropietario() );
+		if ( mensajesEntity.getCliente() != null ) {
+			messageDto.setClient( getClientDtoFromClientesEntity( mensajesEntity.getCliente() ) );
+		}
+		if ( mensajesEntity.getProveedor() != null ) {
+			messageDto.setProvider( getProviderDtoFromProveedoresEntity( mensajesEntity.getProveedor() ) );
+		}
+		return messageDto;
+	}
+
+	/**
+	 * Map from Set<MensajesEntity> to Set<MessageDto>
+	 *
+	 * @param mensajesEntitySet data
+	 * @return Set<MessageDto>
+	 */
+	public static Set<MessageDto> getSetMessageDtoFromSetMensajesEntity( @NonNull Set<MensajesEntity> mensajesEntitySet ) {
+		Log.println( Log.INFO, "Mapper", "getSetMessageDtoFromSetMensajesEntity" );
+		Set<MessageDto> messageDtoSet = new HashSet<>();
+		for ( MensajesEntity mensajesEntity : mensajesEntitySet ) {
+			messageDtoSet.add( getMessageDtoFromMensajesEntity( mensajesEntity ) );
+		}
+		return messageDtoSet;
+	}
+
+	/**
+	 * Map from MessageDto to MensajesEntity
+	 *
+	 * @param messageDto data
+	 * @return MensajesEntity
+	 */
+	public static MensajesEntity getMensajesEntityFromMessageDto( @NonNull MessageDto messageDto ) {
+		Log.println( Log.INFO, "Mapper", "getMensajesEntityFromMessageDto" );
+		MensajesEntity mensajesEntity = new MensajesEntity();
+		mensajesEntity.setId( messageDto.getId() );
+		mensajesEntity.setMensaje( messageDto.getMessage() );
+		mensajesEntity.setFecha( messageDto.getDate() );
+		mensajesEntity.setPropietario( messageDto.getOwner() );
+		mensajesEntity.setEvento( getEventosEntityFromEventDto( messageDto.getEvent() ) );
+		if ( messageDto.getClient() != null ) {
+			mensajesEntity.setCliente( getClientesEntityFromClientDto( messageDto.getClient() ) );
+		}
+		if ( messageDto.getProvider() != null ) {
+			mensajesEntity.setProveedor( getProveedoresEntityFromProviderDto( messageDto.getProvider() ) );
+		}
+		return mensajesEntity;
 	}
 }

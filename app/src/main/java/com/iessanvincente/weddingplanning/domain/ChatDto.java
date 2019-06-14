@@ -4,12 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author Jose J. Pardines
  */
-public class ChatDto implements Serializable {
+public class ChatDto implements Serializable, Comparable<ChatDto> {
 
 	@SerializedName( "event" )
 	@Expose
@@ -84,5 +83,10 @@ public class ChatDto implements Serializable {
 				", event=" + event +
 				", provider=" + provider +
 				'}';
+	}
+
+	@Override
+	public int compareTo( ChatDto o ) {
+		return (int) ( o.getEvent().getDate() - this.event.getDate() );
 	}
 }

@@ -4,12 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author Jose J. Pardines
  */
-public class MessageDto implements Serializable {
+public class MessageDto implements Serializable, Comparable<MessageDto> {
 
 	@SerializedName( "event" )
 	@Expose
@@ -31,13 +30,13 @@ public class MessageDto implements Serializable {
 	@Expose
 	private EventDto event;
 
-	@SerializedName( "providers" )
+	@SerializedName( "provider" )
 	@Expose
-	private List<ProviderDto> providers;
+	private ProviderDto provider;
 
-	@SerializedName( "clients" )
+	@SerializedName( "client" )
 	@Expose
-	private List<ClientDto> clients;
+	private ClientDto client;
 
 	/**
 	 * Get the ID
@@ -130,39 +129,39 @@ public class MessageDto implements Serializable {
 	}
 
 	/**
-	 * Get the list providers
+	 * Get the provider
 	 *
-	 * @return List<ProviderDto>
+	 * @return ProviderDto
 	 */
-	public List<ProviderDto> getProviders( ) {
-		return providers;
+	public ProviderDto getProvider( ) {
+		return provider;
 	}
 
 	/**
-	 * Set the providers list
+	 * Set the providers
 	 *
-	 * @param providers
+	 * @param provider
 	 */
-	public void setProviders( List<ProviderDto> providers ) {
-		this.providers = providers;
+	public void setProvider( ProviderDto provider ) {
+		this.provider = provider;
 	}
 
 	/**
-	 * Get the list clients
+	 * Get the clients
 	 *
-	 * @return List<ClientDto>
+	 * @return ClientDto
 	 */
-	public List<ClientDto> getClients( ) {
-		return clients;
+	public ClientDto getClient( ) {
+		return client;
 	}
 
 	/**
-	 * Set the clients list
+	 * Set the clients
 	 *
-	 * @param clients
+	 * @param client
 	 */
-	public void setClients( List<ClientDto> clients ) {
-		this.clients = clients;
+	public void setClient( ClientDto client ) {
+		this.client = client;
 	}
 
 	@Override
@@ -173,8 +172,13 @@ public class MessageDto implements Serializable {
 				", date=" + date +
 				", owner=" + owner +
 				", event=" + event +
-				", providers=" + providers +
-				", clients=" + clients +
+				", provider=" + provider +
+				", client=" + client +
 				'}';
+	}
+
+	@Override
+	public int compareTo( MessageDto o ) {
+		return (int) ( this.date - o.getDate() );
 	}
 }

@@ -23,4 +23,8 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
+    <color name="baseChat">#F2F2F2</color>
+    <color name="messageAuto">@color/base</color>
+    <color name="messageOwn">#9AD6D2</color>
+    <color name="message">@color/white</color>
 </resources>

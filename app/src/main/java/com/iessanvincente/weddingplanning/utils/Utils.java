@@ -30,7 +30,7 @@ public class Utils {
 			time = Instant.now().getEpochSecond();
 		}
 		TimeZone tz = TimeZone.getDefault();//get your local time zone.
-		SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy hh:mm", Locale.ENGLISH );
+		SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy HH:mm", Locale.ENGLISH );
 		sdf.setTimeZone( tz );//set time zone.
 		return sdf.format( time * 1000 );
 	}
@@ -62,7 +62,7 @@ public class Utils {
 			return null;
 		}
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy hh:mm" );
+			SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy HH:mm", Locale.ENGLISH );
 			Date date = sdf.parse( timestamp );
 			return ( date.getTime() / 1000 );
 		} catch (ParseException e) {
@@ -81,7 +81,7 @@ public class Utils {
 			return null;
 		}
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
+			SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy", Locale.ENGLISH );
 			Date date = sdf.parse( timestamp );
 			return ( date.getTime() / 1000 );
 		} catch (ParseException e) {

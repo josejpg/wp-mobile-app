@@ -19,7 +19,7 @@ public class ChatService {
 	private final String TAG = "ChatService";
 
 	/**
-	 * Get events by client ID
+	 * Get chats by client ID
 	 *
 	 * @param userToken auth token
 	 * @param callback  handled API response

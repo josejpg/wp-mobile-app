@@ -24,6 +24,8 @@ import com.iessanvincente.weddingplanning.utils.ChatRecyclerView;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,7 +106,10 @@ public class ChatsActivity extends AppCompatActivity {
 				for ( ChatsEntity chatsEntity : responseChat.getChats() ) {
 					chatDtoSet.add( MappingHelper.getChatDtoFromChatsEntity( chatsEntity ) );
 				}
-				setConfigRecyclerViewEvents( recyclerViewChats, chatDtoSet );
+				SortedSet<ChatDto> chatDtoSortedSet = new TreeSet<>();
+				chatDtoSortedSet.addAll( chatDtoSet );
+				chatDtoSortedSet.comparator();
+				setConfigRecyclerViewEvents( recyclerViewChats, chatDtoSortedSet );
 				progressDialog.dismiss();
 			}
 
@@ -130,13 +135,13 @@ public class ChatsActivity extends AppCompatActivity {
 		recyclerView.addItemDecoration( new DividerItemDecoration( getApplicationContext(), DividerItemDecoration.VERTICAL ) );
 		ChatRecyclerView adapter = new ChatRecyclerView( getApplicationContext(), chatDtoSet );
 		adapter.setClickListener( ( view, position ) -> {
-			Log.d( TAG, "Go to MessagesActivity" );
-			/*Intent intent = new Intent( getApplicationContext(), EventInfoActivity.class );
+			Log.d( TAG, "Go to MessageActivity" );
+			Intent intent = new Intent( getApplicationContext(), MessageActivity.class );
 			intent.putExtra( "client", clientDto );
-			intent.putExtra( "event", adapter.getItem( position ) );
+			intent.putExtra( "chat", adapter.getItem( position ) );
 			startActivity( intent );
 			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
-			finish();*/
+			finish();
 		} );
 		recyclerView.setAdapter( adapter );
 	}

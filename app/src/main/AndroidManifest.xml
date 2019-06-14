@@ -16,7 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.ChatsActivity"
+        <activity android:name=".activity.MessageActivity"
+            android:label="@string/activity_message"
+            android:theme="@style/AppTheme.Light">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ChatsActivity" />
+        </activity>
+        <activity
+            android:name=".activity.ChatsActivity"
             android:label="@string/activity_chat"
             android:theme="@style/AppTheme.Light">
             <meta-data

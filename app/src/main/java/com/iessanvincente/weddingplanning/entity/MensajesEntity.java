@@ -21,7 +21,7 @@ public class MensajesEntity implements Serializable {
 
 	@SerializedName( "fecha" )
 	@Expose
-	private Integer fecha;
+	private Long fecha;
 
 	@SerializedName( "propietario" )
 	@Expose
@@ -31,13 +31,13 @@ public class MensajesEntity implements Serializable {
 	@Expose
 	private EventosEntity evento;
 
-	@SerializedName( "proveedores" )
+	@SerializedName( "proveedor" )
 	@Expose
-	private Set<ProveedoresEntity> proveedores;
+	private ProveedoresEntity proveedor;
 
-	@SerializedName( "clientes" )
+	@SerializedName( "cliente" )
 	@Expose
-	private Set<ClientesEntity> clientes;
+	private ClientesEntity cliente;
 
 	/**
 	 * Get the ID
@@ -80,7 +80,7 @@ public class MensajesEntity implements Serializable {
 	 *
 	 * @return Date
 	 */
-	public Integer getFecha( ) {
+	public Long getFecha( ) {
 		return fecha;
 	}
 
@@ -89,7 +89,7 @@ public class MensajesEntity implements Serializable {
 	 *
 	 * @param fecha from message
 	 */
-	public void setFecha( Integer fecha ) {
+	public void setFecha( Long fecha ) {
 		this.fecha = fecha;
 	}
 
@@ -130,39 +130,40 @@ public class MensajesEntity implements Serializable {
 	}
 
 	/**
-	 * Get the list providers
+	 * Get the provider
 	 *
-	 * @return List<ProveedoresEntity>
+	 * @return ProveedoresEntity
+	 *
 	 */
-	public Set<ProveedoresEntity> getProveedores( ) {
-		return proveedores;
+	public ProveedoresEntity getProveedor( ) {
+		return proveedor;
 	}
 
 	/**
-	 * Set the providers list
+	 * Set the providers
 	 *
-	 * @param proveedores providers list
+	 * @param proveedor provider
 	 */
-	public void setProveedores( Set<ProveedoresEntity> proveedores ) {
-		this.proveedores = proveedores;
+	public void setProveedor( ProveedoresEntity proveedor ) {
+		this.proveedor = proveedor;
 	}
 
 	/**
-	 * Get the list clients
+	 * Get the client
 	 *
-	 * @return List<ClientesEntity>
+	 * @return ClientesEntity
 	 */
-	public Set<ClientesEntity> getClientes( ) {
-		return clientes;
+	public ClientesEntity getCliente( ) {
+		return cliente;
 	}
 
 	/**
-	 * Set the clients list
+	 * Set the client
 	 *
-	 * @param clientes clients list
+	 * @param cliente clients list
 	 */
-	public void setClientes( Set<ClientesEntity> clientes ) {
-		this.clientes = clientes;
+	public void setCliente( ClientesEntity cliente ) {
+		this.cliente = cliente;
 	}
 
 	@Override
@@ -173,8 +174,8 @@ public class MensajesEntity implements Serializable {
 				", fecha=" + fecha +
 				", propietario=" + propietario +
 				", evento=" + evento +
-				", proveedores=" + proveedores +
-				", clientes=" + clientes +
+				", proveedores=" + proveedor +
+				", clientes=" + cliente +
 				'}';
 	}
 }

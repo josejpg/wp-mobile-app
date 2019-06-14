@@ -4,25 +4,30 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.iessanvincente.weddingplanning.R;
+import com.iessanvincente.weddingplanning.domain.ChatDto;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.domain.EventDto;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
+import com.iessanvincente.weddingplanning.entity.MensajesEntity;
 import com.iessanvincente.weddingplanning.helper.MappingHelper;
 import com.iessanvincente.weddingplanning.interfaces.ClientsDtoCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseChatCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseClientCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseEventCallbackInterface;
+import com.iessanvincente.weddingplanning.interfaces.ResponseMessageCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseProviderCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseServiceCallbackInterface;
 import com.iessanvincente.weddingplanning.response.ResponseChat;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
 import com.iessanvincente.weddingplanning.response.ResponseEvent;
+import com.iessanvincente.weddingplanning.response.ResponseMessage;
 import com.iessanvincente.weddingplanning.response.ResponseProvider;
 import com.iessanvincente.weddingplanning.response.ResponseService;
 import com.iessanvincente.weddingplanning.service.ChatService;
 import com.iessanvincente.weddingplanning.service.ClientService;
 import com.iessanvincente.weddingplanning.service.EventService;
+import com.iessanvincente.weddingplanning.service.MessageService;
 import com.iessanvincente.weddingplanning.service.ProviderService;
 import com.iessanvincente.weddingplanning.service.ServiceService;
 
@@ -46,6 +51,7 @@ public class APICalls {
 	private EventService eventService = new EventService();
 	private ServiceService serviceService = new ServiceService();
 	private ChatService chatService = new ChatService();
+	private MessageService messageService = new MessageService();
 	private String userToken;
 	private Context context;
 
@@ -85,7 +91,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseClient responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
 
@@ -147,7 +153,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseClient responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
 
@@ -209,7 +215,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseClient responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
 
@@ -272,7 +278,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseClient responseClient = gson.fromJson( response.body().string(), ResponseClient.class );
 
@@ -336,7 +342,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseProvider responseProvider = gson.fromJson( response.body().string(), ResponseProvider.class );
 
@@ -398,7 +404,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseProvider responseProvider = gson.fromJson( response.body().string(), ResponseProvider.class );
 
@@ -462,7 +468,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseEvent responseEvent = gson.fromJson( response.body().string(), ResponseEvent.class );
 
@@ -524,7 +530,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseEvent responseEvent = gson.fromJson( response.body().string(), ResponseEvent.class );
 
@@ -606,7 +612,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseEvent responseEvent = gson.fromJson( response.body().string(), ResponseEvent.class );
 
@@ -662,7 +668,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseEvent responseEvent = gson.fromJson( response.body().string(), ResponseEvent.class );
 
@@ -719,7 +725,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseService responseService = gson.fromJson( response.body().string(), ResponseService.class );
 
@@ -777,7 +783,7 @@ public class APICalls {
 						// else get body and check it
 						if ( response.body() != null ) {
 							try {
-								// Parse body in ResponseClient model
+								// Parse body in Response model
 								Gson gson = new Gson();
 								ResponseChat responseChat = gson.fromJson( response.body().string(), ResponseChat.class );
 
@@ -788,6 +794,118 @@ public class APICalls {
 										callback.onSuccess( responseChat );
 									} else {
 										callback.onError( responseChat.getError() );
+									}
+								}
+							} catch (IOException e) {
+								callback.onError( e.getMessage() );
+							}
+						}
+					}
+
+					/**
+					 *  If API call failed.
+					 * @param call API call
+					 * @param t API error
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( t.getMessage() );
+					}
+				}
+		);
+	}
+
+	/**
+	 * Get all messages for a chat
+	 *
+	 * @param chatDto event data
+	 * @param callback handled API response
+	 */
+	public void getMessages( ChatDto chatDto, ResponseMessageCallbackInterface callback ) {
+		// Call to method in service
+		messageService.getMessages(
+				userToken,
+				chatDto.getEvent().getId().toString(),
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in Response model
+								Gson gson = new Gson();
+								ResponseMessage responseMessage = gson.fromJson( response.body().string(), ResponseMessage.class );
+
+								// If the response is successful
+								if ( response.isSuccessful() ) {
+									// If response getOk
+									if ( responseMessage.getOk() ) {
+										callback.onSuccess( responseMessage );
+									} else {
+										callback.onError( responseMessage.getError() );
+									}
+								}
+							} catch (IOException e) {
+								callback.onError( e.getMessage() );
+							}
+						}
+					}
+
+					/**
+					 *  If API call failed.
+					 * @param call API call
+					 * @param t API error
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( t.getMessage() );
+					}
+				}
+		);
+	}
+
+	/**
+	 * Send a new message
+	 *
+	 * @param mensajesEntity message data
+	 * @param callback handled API response
+	 */
+	public void sendMessage( MensajesEntity mensajesEntity, ResponseMessageCallbackInterface callback ) {
+		// Call to method in service
+		messageService.sendMessage(
+				userToken,
+				mensajesEntity,
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in Response model
+								Gson gson = new Gson();
+								ResponseMessage responseMessage = gson.fromJson( response.body().string(), ResponseMessage.class );
+
+								// If the response is successful
+								if ( response.isSuccessful() ) {
+									// If response getOk
+									if ( responseMessage.getOk() ) {
+										callback.onSuccess( responseMessage );
+									} else {
+										callback.onError( responseMessage.getError() );
 									}
 								}
 							} catch (IOException e) {
