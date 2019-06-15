@@ -102,7 +102,7 @@
     <string name="toast_event_find_failed">No ha sido posible encontrar ese evento</string>
     <string name="toast_event_update_successful">Los datos se han actualizado correcamente</string>
     <string name="toast_event_update_failed">No ha sido posible actualizar los datos</string>
-    <string name="toast_event_create_successful">Los datos se ha podido crearel evento correctamente</string>
+    <string name="toast_event_create_successful">El evento se ha creado correctamente</string>
     <string name="toast_event_create_failed">No ha sido posible crear el evento</string>
 
     <!-- Dialog -->
