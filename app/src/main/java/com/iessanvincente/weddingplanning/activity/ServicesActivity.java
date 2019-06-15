@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -198,6 +200,7 @@ public class ServicesActivity extends AppCompatActivity {
 	 * @param proveedoresEntitySet list of providers
 	 */
 	private void onSuccessGetProviders( Set<ProveedoresEntity> proveedoresEntitySet ) {
+		providerDtoSet = new HashSet<>(  );
 		for ( ProveedoresEntity proveedoresEntity : proveedoresEntitySet ) {
 			providerDtoSet.add( MappingHelper.getProviderDtoFromProveedoresEntity( proveedoresEntity ) );
 		}
@@ -219,7 +222,9 @@ public class ServicesActivity extends AppCompatActivity {
 	 * Set service list on spiner
 	 */
 	public void setServicesOnSpinner( ) {
-		ArrayList<ServiceDto> serviceDtoArrayList = new ArrayList<>( serviceDtoSet );
+		SortedSet<ServiceDto> serviceDtoSortedSet = new TreeSet<>( serviceDtoSet );
+		serviceDtoSortedSet.comparator();
+		ArrayList<ServiceDto> serviceDtoArrayList = new ArrayList<>( serviceDtoSortedSet );
 		serviceDtoArrayList.add( 0, new ServiceDto() );
 		ArrayAdapter<ServiceDto> adapter = new ArrayAdapter<>( this, android.R.layout.simple_spinner_dropdown_item, serviceDtoArrayList );
 		adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
@@ -240,7 +245,7 @@ public class ServicesActivity extends AppCompatActivity {
 				if ( position > 0 ) {
 					serviceSelected = serviceDtoList.get( position - 1 );
 				}
-				providerDtoSet.clear();
+				providerDtoSet = new HashSet<>(  );
 				if ( serviceSelected.getId() != null && serviceSelected.getId() > 0 ) {
 					_btnSearch.setEnabled( true );
 				} else {
@@ -253,7 +258,7 @@ public class ServicesActivity extends AppCompatActivity {
 			public void onNothingSelected( AdapterView<?> parent ) {
 				_btnSearch.setEnabled( false );
 				_linearProviderService.setVisibility( View.GONE );
-				providerDtoSet.clear();
+				providerDtoSet = new HashSet<>(  );
 			}
 		} );
 

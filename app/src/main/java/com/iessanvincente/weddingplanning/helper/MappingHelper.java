@@ -158,7 +158,6 @@ public class MappingHelper {
 	 */
 	public static EventosEntity getEventosEntityFromEventDto( @NonNull EventDto eventDto ) {
 		Log.println( Log.INFO, "Mapper", "getEventosEntityFromEventDto" );
-		System.out.println( eventDto );
 		Set<ClientesEntity> clientesEntitySet = new HashSet<>();
 		Set<ProveedoresEntity> proveedoresEntitySet = new HashSet<>();
 		EventosEntity eventosEntity = new EventosEntity();

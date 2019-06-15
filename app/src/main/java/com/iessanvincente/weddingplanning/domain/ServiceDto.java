@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @author Jose J. Pardines
  */
-public class ServiceDto implements Serializable {
+public class ServiceDto implements Serializable, Comparable<ServiceDto> {
 
 	@SerializedName( "id" )
 	@Expose
@@ -57,5 +57,10 @@ public class ServiceDto implements Serializable {
 	@Override
 	public String toString( ) {
 		return service;
+	}
+
+	@Override
+	public int compareTo( ServiceDto o ) {
+		return this.service.compareToIgnoreCase( o.getService() );
 	}
 }

@@ -1,4 +1,5 @@
 <resources>
+    <!-- Activity -->
     <string name="app_name">Wedding Planning</string>
     <string name="activity_main">Dashboard</string>
     <string name="activity_login">Login</string>
@@ -34,6 +35,7 @@
     <string name="providers">Proveedores</string>
     <string name="clients">Clientes</string>
     <string name="services">Servicios</string>
+    <string name="message">Escribe&#8230;</string>
     <string name="dni_required">DNI*</string>
     <string name="email_required">Email*</string>
     <string name="pws_required">Contraseña*</string>
@@ -42,7 +44,7 @@
     <!-- Forms Validation -->
     <string name="validation_dni">Introducir un DNI válido</string>
     <string name="validation_email">Introducir un email válido</string>
-    <string name="validation_password">Entre 4 y 10 caracteres alfanuméricos</string>
+    <string name="validation_password">Mínimo 6 caracteres alfanuméricos</string>
     <string name="validation_password_match">Las contraseñas no coinciden</string>
     <string name="validation_event">Introducir un nombre</string>
     <string name="validation_description">Introducir una descripción</string>
@@ -58,6 +60,7 @@
     <string name="btnLink2Event">Vincular a evento</string>
     <string name="btnCreateAccount">¿Aún no tienes cuenta? Crea una nueva</string>
     <string name="btnGoLogin">¿Ya tienes cuenta? inicia sesión</string>
+    <string name="btnSend">Enviar</string>
 
     <!-- Main -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -109,5 +112,6 @@
     <string name="dialog_confirm_yes">Sí</string>
     <string name="dialog_confirm_no">No</string>
 
-
+    <!-- Message -->
+    <string name="message_linked">%1$s ha añadido a %2$s</string>
 </resources>

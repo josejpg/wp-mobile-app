@@ -224,7 +224,7 @@ public class LoginActivity extends AppCompatActivity {
 			_emailText.setError( null );
 		}
 
-		if ( password.isEmpty() || password.length() < 4 || password.length() > 10 ) {
+		if ( password.isEmpty() || password.length() < 6 ) {
 			_passwordText.setError( getResources().getString( R.string.validation_password ) );
 			isOK = false;
 		} else {

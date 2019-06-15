@@ -175,7 +175,7 @@ public class EventsActivity extends AppCompatActivity {
 	 * Handled RecyclerViews
 	 */
 	private void handledRecyclerViews( ) {
-		if ( clientDto.getEvents().size() == 0 ) {
+		if ( clientDto.getEvents() == null || clientDto.getEvents().size() == 0 ) {
 			recyclerViewNextEvents.setVisibility( View.GONE );
 			titleNextEvents.setVisibility( View.GONE );
 			recyclerViewPrevEvents.setVisibility( View.GONE );

@@ -42,7 +42,9 @@ public class DatePickerFragment extends DialogFragment {
 		Locale.setDefault( new Locale( "es", "ES" ) );
 		// Use the current date as the default date in the picker
 		final Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis( defaultDatetime * 1000 );
+		if(defaultDatetime != null ) {
+			calendar.setTimeInMillis( defaultDatetime * 1000 );
+		}
 		int year = calendar.get( Calendar.YEAR );
 		int month = calendar.get( Calendar.MONTH );
 		int day = calendar.get( Calendar.DAY_OF_MONTH );

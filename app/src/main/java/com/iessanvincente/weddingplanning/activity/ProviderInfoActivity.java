@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -17,12 +18,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.domain.EventDto;
+import com.iessanvincente.weddingplanning.domain.MessageDto;
 import com.iessanvincente.weddingplanning.domain.ProviderDto;
 import com.iessanvincente.weddingplanning.domain.ServiceDto;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
 import com.iessanvincente.weddingplanning.helper.MappingHelper;
 import com.iessanvincente.weddingplanning.interfaces.ResponseEventCallbackInterface;
+import com.iessanvincente.weddingplanning.interfaces.ResponseMessageCallbackInterface;
 import com.iessanvincente.weddingplanning.response.ResponseEvent;
+import com.iessanvincente.weddingplanning.response.ResponseMessage;
 import com.iessanvincente.weddingplanning.utils.APICalls;
 
 import java.util.Set;
@@ -100,7 +104,7 @@ public class ProviderInfoActivity extends AppCompatActivity {
 	@Override
 	public boolean onSupportNavigateUp( ) {
 		Intent intent;
-		switch ( actualIntent.getStringExtra( "back" ) ){
+		switch ( actualIntent.getStringExtra( "back" ) ) {
 			case "services":
 				Log.d( TAG, "Go to ServicesActivity" );
 				intent = new Intent( getApplicationContext(), ServicesActivity.class );
@@ -191,16 +195,15 @@ public class ProviderInfoActivity extends AppCompatActivity {
 			dialog.dismiss();
 		} );
 		builder.setPositiveButton( R.string.dialog_confirm_yes, ( dialog, which ) -> {
-			System.out.println( eventDto );
 			Set<ProviderDto> providerDtoSet = eventDto.getProviders();
 			providerDtoSet.add( providerDto );
 			eventDto.setProviders( providerDtoSet );
-			System.out.println( eventDto );
 			EventosEntity eventosEntity = MappingHelper.getEventosEntityFromEventDto( eventDto );
 			apiCalls.setUpdateEvent( eventosEntity, new ResponseEventCallbackInterface() {
 				@Override
 				public void onSuccess( ResponseEvent responseEvent ) {
 					onSuccessUpdate();
+					registerMessageLinked( eventDto );
 					alertDialog.dismiss();
 					dialog.dismiss();
 				}
@@ -213,6 +216,25 @@ public class ProviderInfoActivity extends AppCompatActivity {
 		} );
 		AlertDialog alert = builder.create();
 		alert.show();
+	}
+
+	private void registerMessageLinked( EventDto eventDto ) {
+		Resources res = getResources();
+		String message = String.format( res.getString( R.string.message_linked ), clientDto.displayName(), providerDto.displayName() );
+
+		MessageDto messageDto = new MessageDto();
+		messageDto.setEvent( eventDto );
+		messageDto.setMessage( message );
+		apiCalls.sendMessage( MappingHelper.getMensajesEntityFromMessageDto( messageDto ), new ResponseMessageCallbackInterface() {
+			@Override
+			public void onSuccess( ResponseMessage responseMessage ) {
+			}
+
+			@Override
+			public void onError( String message ) {
+				onFailedUpdate( message );
+			}
+		} );
 	}
 
 	/**
