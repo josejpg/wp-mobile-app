@@ -67,6 +67,10 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Wedding Planning</string>
+    <string name="text_welcome">Bienvenid@ a Wedding Planning</string>
+    <string name="text_description">Agradecemos que deposites tu confianza en nosotros para la organización de eventos.</string>
+
+    <!-- Events -->
     <string name="list_next_events">Próximos eventos</string>
     <string name="list_prev_events">Anteriores eventos</string>
     <string name="list_no_events">Sin eventos</string>
