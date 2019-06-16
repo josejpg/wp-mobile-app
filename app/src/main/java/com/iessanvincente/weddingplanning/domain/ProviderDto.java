@@ -283,12 +283,14 @@ public class ProviderDto implements Serializable {
 	public String displayName( ) {
 		StringBuilder displayName = new StringBuilder();
 		if ( cif != null &&
-				!cif.isEmpty() ) {
+				!cif.isEmpty() &&
+				( name == null ||
+						name.isEmpty() )
+		) {
 			displayName.append( cif );
 		}
 		if ( name != null &&
 				!name.isEmpty() ) {
-			displayName.append( " - " );
 			displayName.append( name );
 		}
 		return displayName.toString().trim();
