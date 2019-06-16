@@ -1,13 +1,10 @@
 package com.iessanvincente.weddingplanning.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,7 +40,7 @@ public class MessageActivity extends AppCompatActivity {
 	EditText _message;
 	@BindView( R.id.btn_send_message )
 	Button _btnSendMessage;
-	private ProgressDialog progressDialog;
+
 	private Intent actualIntent;
 	private SharedPreferences settings;
 	private APICalls apiCalls = new APICalls();
@@ -78,29 +75,7 @@ public class MessageActivity extends AppCompatActivity {
 		// Save the intent intlo a private variable
 		actualIntent = getIntent();
 
-		// Init progressDialog
-		progressDialog = new ProgressDialog( MessageActivity.this, R.style.AppTheme_Light_Dialog );
-		//_btnSendMessage.setEnabled( false );
 		_btnSendMessage.setOnClickListener( v -> sendMessage() );
-		_btnSendMessage.addTextChangedListener( new TextWatcher() {
-
-			// Before EditText text change.
-			@Override
-			public void beforeTextChanged( CharSequence charSequence, int i, int i1, int i2 ) {
-
-			}
-
-			@Override
-			public void onTextChanged( CharSequence charSequence, int i, int i1, int i2 ) {
-				_btnSendMessage.setEnabled( charSequence.length() == 0 );
-			}
-
-			// This method is invoked after user input text in EditText.
-			@Override
-			public void afterTextChanged( Editable editable ) {
-				_btnSendMessage.setEnabled( editable.length() == 0 );
-			}
-		} );
 
 		getClientInfo();
 		getChatInfo();
@@ -179,6 +154,7 @@ public class MessageActivity extends AppCompatActivity {
 			@Override
 			public void onSuccess( ResponseMessage responseMessage ) {
 				Log.d( TAG, "onSuccess sendMessage" );
+				_message.setText( "" );
 				getMessages();
 			}
 

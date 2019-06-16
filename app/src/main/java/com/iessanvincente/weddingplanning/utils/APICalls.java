@@ -7,6 +7,7 @@ import com.iessanvincente.weddingplanning.R;
 import com.iessanvincente.weddingplanning.domain.ChatDto;
 import com.iessanvincente.weddingplanning.domain.ClientDto;
 import com.iessanvincente.weddingplanning.domain.EventDto;
+import com.iessanvincente.weddingplanning.domain.TodoDto;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
 import com.iessanvincente.weddingplanning.entity.MensajesEntity;
@@ -18,18 +19,21 @@ import com.iessanvincente.weddingplanning.interfaces.ResponseEventCallbackInterf
 import com.iessanvincente.weddingplanning.interfaces.ResponseMessageCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseProviderCallbackInterface;
 import com.iessanvincente.weddingplanning.interfaces.ResponseServiceCallbackInterface;
+import com.iessanvincente.weddingplanning.interfaces.ResponseTodoCallbackInterface;
 import com.iessanvincente.weddingplanning.response.ResponseChat;
 import com.iessanvincente.weddingplanning.response.ResponseClient;
 import com.iessanvincente.weddingplanning.response.ResponseEvent;
 import com.iessanvincente.weddingplanning.response.ResponseMessage;
 import com.iessanvincente.weddingplanning.response.ResponseProvider;
 import com.iessanvincente.weddingplanning.response.ResponseService;
+import com.iessanvincente.weddingplanning.response.ResponseTodo;
 import com.iessanvincente.weddingplanning.service.ChatService;
 import com.iessanvincente.weddingplanning.service.ClientService;
 import com.iessanvincente.weddingplanning.service.EventService;
 import com.iessanvincente.weddingplanning.service.MessageService;
 import com.iessanvincente.weddingplanning.service.ProviderService;
 import com.iessanvincente.weddingplanning.service.ServiceService;
+import com.iessanvincente.weddingplanning.service.TodoService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +56,7 @@ public class APICalls {
 	private ServiceService serviceService = new ServiceService();
 	private ChatService chatService = new ChatService();
 	private MessageService messageService = new MessageService();
+	private TodoService todoService = new TodoService();
 	private String userToken;
 	private Context context;
 
@@ -818,7 +823,7 @@ public class APICalls {
 	/**
 	 * Get all messages for a chat
 	 *
-	 * @param chatDto event data
+	 * @param chatDto chat data
 	 * @param callback handled API response
 	 */
 	public void getMessages( ChatDto chatDto, ResponseMessageCallbackInterface callback ) {
@@ -906,6 +911,229 @@ public class APICalls {
 										callback.onSuccess( responseMessage );
 									} else {
 										callback.onError( responseMessage.getError() );
+									}
+								}
+							} catch (IOException e) {
+								callback.onError( e.getMessage() );
+							}
+						}
+					}
+
+					/**
+					 *  If API call failed.
+					 * @param call API call
+					 * @param t API error
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( t.getMessage() );
+					}
+				}
+		);
+	}
+
+	/**
+	 * Get todo list for a event
+	 *
+	 * @param eventDto event data
+	 * @param callback handled API response
+	 */
+	public void getTodoListByEvent( EventDto eventDto, ResponseTodoCallbackInterface callback ) {
+		// Call to method in service
+		todoService.getTodoListByEvent(
+				userToken,
+				eventDto.getId().toString(),
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in Response model
+								Gson gson = new Gson();
+								ResponseTodo responseTodo = gson.fromJson( response.body().string(), ResponseTodo.class );
+
+								// If the response is successful
+								if ( response.isSuccessful() ) {
+									// If response getOk
+									if ( responseTodo.getOk() ) {
+										callback.onSuccess( responseTodo );
+									} else {
+										callback.onError( responseTodo.getError() );
+									}
+								}
+							} catch (IOException e) {
+								callback.onError( e.getMessage() );
+							}
+						}
+					}
+
+					/**
+					 *  If API call failed.
+					 * @param call API call
+					 * @param t API error
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( t.getMessage() );
+					}
+				}
+		);
+	}
+
+	/**
+	 * Update todo data
+	 *
+	 * @param todoDto todo data
+	 * @param callback handled API response
+	 */
+	public void updateTodo( TodoDto todoDto, ResponseTodoCallbackInterface callback ) {
+		// Call to method in service
+		todoService.updateTodo(
+				userToken,
+				MappingHelper.getTodoEntityFromTodoDto( todoDto ),
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in Response model
+								Gson gson = new Gson();
+								ResponseTodo responseTodo = gson.fromJson( response.body().string(), ResponseTodo.class );
+
+								// If the response is successful
+								if ( response.isSuccessful() ) {
+									// If response getOk
+									if ( responseTodo.getOk() ) {
+										callback.onSuccess( responseTodo );
+									} else {
+										callback.onError( responseTodo.getError() );
+									}
+								}
+							} catch (IOException e) {
+								callback.onError( e.getMessage() );
+							}
+						}
+					}
+
+					/**
+					 *  If API call failed.
+					 * @param call API call
+					 * @param t API error
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( t.getMessage() );
+					}
+				}
+		);
+	}
+	/**
+	 * Update todo data
+	 *
+	 * @param todoDto todo data
+	 * @param callback handled API response
+	 */
+	public void createTodo( TodoDto todoDto, ResponseTodoCallbackInterface callback ) {
+		// Call to method in service
+		todoService.createTodo(
+				userToken,
+				MappingHelper.getTodoEntityFromTodoDto( todoDto ),
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in Response model
+								Gson gson = new Gson();
+								ResponseTodo responseTodo = gson.fromJson( response.body().string(), ResponseTodo.class );
+
+								// If the response is successful
+								if ( response.isSuccessful() ) {
+									// If response getOk
+									if ( responseTodo.getOk() ) {
+										callback.onSuccess( responseTodo );
+									} else {
+										callback.onError( responseTodo.getError() );
+									}
+								}
+							} catch (IOException e) {
+								callback.onError( e.getMessage() );
+							}
+						}
+					}
+
+					/**
+					 *  If API call failed.
+					 * @param call API call
+					 * @param t API error
+					 */
+					@Override
+					public void onFailure( Call call, Throwable t ) {
+						callback.onError( t.getMessage() );
+					}
+				}
+		);
+	}
+
+	/**
+	 * Remove todo
+	 *
+	 * @param todoDto todo data
+	 * @param callback handled API response
+	 */
+	public void removeTodo( TodoDto todoDto, ResponseTodoCallbackInterface callback ) {
+		// Call to method in service
+		todoService.deleteTodo(
+				userToken,
+				todoDto.getId().toString(),
+				new Callback<ResponseBody>() {
+					/**
+					 * If API response OK this method check data.
+					 * @param call API call
+					 * @param response API response
+					 */
+					@Override
+					public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response ) {
+
+						// If isn't body in response call to onError
+						// else get body and check it
+						if ( response.body() != null ) {
+							try {
+								// Parse body in Response model
+								Gson gson = new Gson();
+								ResponseTodo responseTodo = gson.fromJson( response.body().string(), ResponseTodo.class );
+
+								// If the response is successful
+								if ( response.isSuccessful() ) {
+									// If response getOk
+									if ( responseTodo.getOk() ) {
+										callback.onSuccess( responseTodo );
+									} else {
+										callback.onError( responseTodo.getError() );
 									}
 								}
 							} catch (IOException e) {

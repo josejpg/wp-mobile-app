@@ -12,6 +12,7 @@
     <string name="activity_provider_info">Proveedor</string>
     <string name="activity_chat">Conversaciones</string>
     <string name="activity_message">Mensajes</string>
+    <string name="activity_todo">Tareas</string>
 
     <!-- Forms -->
     <string name="dni">DNI</string>
@@ -81,6 +82,7 @@
     <string name="menu_message">Mensajes</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_add">Añadir</string>
+    <string name="menu_todo">Tareas</string>
 
     <!-- ProgressDialog -->
     <string name="progressDialog_login">Iniciando sesión&#8230;</string>

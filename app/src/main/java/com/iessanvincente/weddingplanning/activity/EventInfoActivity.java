@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.ArraySet;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -104,6 +106,48 @@ public class EventInfoActivity extends AppCompatActivity {
 
 		// Set a title
 		getSupportActionBar().setTitle( ( eventDto != null ) ? eventDto.getEvent() : getResources().getString( R.string.activity_event_info_new ) );
+	}
+
+	/**
+	 * Set a menu on activity
+	 *
+	 * @param menu
+	 * @return
+	 */
+	@Override
+	public boolean onCreateOptionsMenu( Menu menu ) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		if(isUpdate) {
+			getMenuInflater().inflate( R.menu.menu_event_info, menu );
+		}
+		return true;
+	}
+
+	/**
+	 * Manage item touched on menu
+	 *
+	 * @param item item touched
+	 * @return
+	 */
+	@Override
+	public boolean onOptionsItemSelected( MenuItem item ) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+
+		//noinspection SimplifiableIfStatement
+		if ( id == R.id.todolist ) {
+			Intent intent = new Intent( getApplicationContext(), ToDoActivity.class );
+			intent.putExtra( "client", clientDto );
+			intent.putExtra( "event", eventDto );
+			startActivity( intent );
+			overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
+			finish();
+			return true;
+		}
+
+		return super.onOptionsItemSelected( item );
 	}
 
 	/**

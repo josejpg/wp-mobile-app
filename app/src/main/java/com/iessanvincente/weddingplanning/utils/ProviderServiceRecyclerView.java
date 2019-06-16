@@ -1,6 +1,7 @@
 package com.iessanvincente.weddingplanning.utils;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class ProviderServiceRecyclerView extends RecyclerView.Adapter<ProviderSe
 	@Override
 	public void onBindViewHolder( @NonNull ViewHolder holder, int position ) {
 		ProviderDto providerDto = providerDtoSet.get( position );
+		holder.providerView.setPaintFlags( holder.providerView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG );
 		holder.providerView.setText( providerDto.displayName() );
 		holder.phoneView.setText( providerDto.displayPhone() );
 		holder.emailView.setText( providerDto.getEmail() );
@@ -81,8 +83,7 @@ public class ProviderServiceRecyclerView extends RecyclerView.Adapter<ProviderSe
 			providerView = itemView.findViewById( R.id.providerTextView );
 			phoneView = itemView.findViewById( R.id.phoneTextView );
 			emailView = itemView.findViewById( R.id.emailTextView );
-			favButtonView = itemView.findViewById( R.id.btnFavProvider );
-			favButtonView.setOnClickListener( this );
+			providerView.setOnClickListener( this );
 		}
 
 		@Override

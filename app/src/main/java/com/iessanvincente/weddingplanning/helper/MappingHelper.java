@@ -10,12 +10,14 @@ import com.iessanvincente.weddingplanning.domain.EventDto;
 import com.iessanvincente.weddingplanning.domain.MessageDto;
 import com.iessanvincente.weddingplanning.domain.ProviderDto;
 import com.iessanvincente.weddingplanning.domain.ServiceDto;
+import com.iessanvincente.weddingplanning.domain.TodoDto;
 import com.iessanvincente.weddingplanning.entity.ChatsEntity;
 import com.iessanvincente.weddingplanning.entity.ClientesEntity;
 import com.iessanvincente.weddingplanning.entity.EventosEntity;
 import com.iessanvincente.weddingplanning.entity.MensajesEntity;
 import com.iessanvincente.weddingplanning.entity.ProveedoresEntity;
 import com.iessanvincente.weddingplanning.entity.ServiciosEntity;
+import com.iessanvincente.weddingplanning.entity.TodoEntity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -84,6 +86,7 @@ public class MappingHelper {
 		ProviderDto providerDto = new ProviderDto();
 		providerDto.setId( proveedoresEntity.getId() );
 		providerDto.setCif( proveedoresEntity.getCif() );
+		providerDto.setName( proveedoresEntity.getNombre() );
 		providerDto.setEmail( proveedoresEntity.getEmail() );
 		providerDto.setAddress( proveedoresEntity.getDireccion() );
 		providerDto.setTown( proveedoresEntity.getPoblacion() );
@@ -105,6 +108,7 @@ public class MappingHelper {
 		ProveedoresEntity proveedoresEntity = new ProveedoresEntity();
 		proveedoresEntity.setId( providerDto.getId() );
 		proveedoresEntity.setCif( providerDto.getCif() );
+		proveedoresEntity.setNombre( providerDto.getName() );
 		proveedoresEntity.setEmail( providerDto.getEmail() );
 		proveedoresEntity.setDireccion( providerDto.getAddress() );
 		proveedoresEntity.setPoblacion( providerDto.getTown() );
@@ -301,5 +305,38 @@ public class MappingHelper {
 			mensajesEntity.setProveedor( getProveedoresEntityFromProviderDto( messageDto.getProvider() ) );
 		}
 		return mensajesEntity;
+	}
+
+	/**
+	 * Map from TodoEntity to TodoDto
+	 *
+	 * @param todoEntity data
+	 * @return TodoDto
+	 */
+	public static TodoDto getTodoDtoFromTodoEntity( @NonNull TodoEntity todoEntity ) {
+		Log.println( Log.INFO, "Mapper", "getTodoDtoFromTodoEntity" );
+		TodoDto todoDto = new TodoDto();
+		todoDto.setId( todoEntity.getId() );
+		todoDto.setTodo( todoEntity.getNombre() );
+		todoDto.setDate( todoEntity.getFecha() );
+		todoDto.setDone( todoEntity.getRealizada() == 1 );
+		return todoDto;
+	}
+
+	/**
+	 * Map from TodoDto to TodoEntity
+	 *
+	 * @param todoDto data
+	 * @return ChatsEntity
+	 */
+	public static TodoEntity getTodoEntityFromTodoDto( @NonNull TodoDto todoDto ) {
+		Log.println( Log.INFO, "Mapper", "getTodoEntityFromTodoDto" );
+		TodoEntity todoEntity = new TodoEntity();
+		todoEntity.setId( todoDto.getId() );
+		todoEntity.setNombre( todoDto.getTodo() );
+		todoEntity.setFecha( todoDto.getDate() );
+		todoEntity.setRealizada( todoDto.getDone() ? 1 : 0 );
+		todoEntity.setEvento( getEventosEntityFromEventDto( todoDto.getEvent() ) );
+		return todoEntity;
 	}
 }
